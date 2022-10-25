@@ -1,3 +1,4 @@
+import { Text } from 'konva/lib/shapes/Text';
 import React from 'react';
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
@@ -73,40 +74,62 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange }) => {
 const initialImages = [
 ];
 const imageUrls = [
-  { alt: "Door", url: "https://i.ibb.co/9WdStrv/door-symbol.png" },
-  { alt: "Lion", url: "https://konvajs.org/assets/lion.png" }
+  {
+    alt: "Door",
+    url: "https://svgshare.com/i/nfP.svg",
+    width: 100,
+    height: 100
+  },
+  {
+    alt: "Wall",
+    url: "https://svgshare.com/i/nfn.svg",
+    width: 16,
+    height: 100
+  },
+  {
+    alt: "Window",
+    url: "https://svgshare.com/i/nf7.svg",
+    width: 16,
+    height: 100
+  }
+
+  
 
 ]
 export const Sketcher = () => {
   const [ImageObjects, setImageObjects] = React.useState(initialImages);
   const [newId, setNewId] = React.useState('1');
+  const [selectedObj, selectObj] = React.useState(null);
 
   const [selectedId, selectShape] = React.useState(null);
   const dragUrl = React.useRef();
   const stageRef = React.useRef();
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
-    const clickedOnEmpty = e.target === e.target.getStage();
+    const clickedOnEmpty = e.target === e.target.getStage();  
     if (clickedOnEmpty) {
-      selectShape(null);
+      selectShape(null);  
     }
   };
 
   return (
 
     <div>
-      {imageUrls.map((img, i) => {
+      {imageUrls.map((img1, i) => {
         return (
+
           <img
 
-            style={{ width: 100, height: 100 }}
-            alt={img.alt}
-            src={img.url}
+            style={{ width: '100px',height: '100px' }}
+            alt={img1.alt}
+            src={img1.url}
             draggable="true"
             onDragStart={(e) => {
               dragUrl.current = e.target.src;
+              selectObj(img1)
             }}
           />
+
         );
       })}
 
@@ -123,11 +146,12 @@ export const Sketcher = () => {
           setImageObjects(
             ImageObjects.concat([
               {
+                
                 url: dragUrl.current,
                 x: stageRef.current.getPointerPosition().x,
                 y: stageRef.current.getPointerPosition().y,
-                width: 100,
-                height: 100,
+                width: selectedObj.width,
+                height: selectedObj.height,
                 id: newId,
               },
             ])
