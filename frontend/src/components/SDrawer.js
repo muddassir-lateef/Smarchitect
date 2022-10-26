@@ -13,6 +13,7 @@ import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import DoorSymbol from "../assets/door_symbol.svg";
 import WallSymbol from "../assets/wall_symbol.svg";
 import WindowSymbol from "../assets/window_symbol.svg";
+import RectangleSymbol from "../assets/Rectangle.svg"
 import { AuthContext } from "../context/AuthContext";
 import { Grid } from "@mui/material";
 const drawerWidth = 240;
@@ -24,13 +25,19 @@ const initial_menuItems = [
     enteries: [{
       alt: "Door",
       url: DoorSymbol,
-      width: 100,
+      width: 7,
       height: 100
     },
     {
       alt: "Wall",
       url: WallSymbol,
       width: 16,
+      height: 100
+    },
+    {
+      alt: "Rectangle",
+      url: RectangleSymbol,
+      width: 100,
       height: 100
     },
     {
@@ -62,6 +69,7 @@ const SDrawer = (props) => {
   const { handleDrawerToggle } = props;
 
   const handleSideBarClick = (path) => {
+    console.log("open")
     if (mobileOpen) handleDrawerToggle();
     navigate(path, { replace: true });
   }

@@ -5,6 +5,7 @@ import useImage from 'use-image';
 import DoorSymbol from "../assets/door_symbol.svg";
 import WallSymbol from "../assets/wall_symbol.svg";
 import WindowSymbol from "../assets/window_symbol.svg";
+import RectangleSymbol from "../assets/Rectangle.svg";
 import { Grid } from '@mui/material';
 
 const ImageObject = ({ shapeProps, isSelected, onSelect, onChange }) => {
@@ -44,7 +45,8 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange }) => {
           const node = shapeRef.current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
-
+          console.log("Displaying the X of laptop")
+          console.log(node.x())
           // we will reset it back
           node.scaleX(1);
           node.scaleY(1);
@@ -90,9 +92,15 @@ const imageUrls = [
     height: 100
   },
   {
+    alt: "Rectangle",
+    url: RectangleSymbol,
+    width: 100,
+    height: 100
+  },
+  {
     alt: "Window",
     url: WindowSymbol,
-    width: 16,
+    width: 12,
     height: 100
   }
 
@@ -117,7 +125,6 @@ export const Sketcher = () => {
   };
 
   return (
-
     <div> 
       <div
 
