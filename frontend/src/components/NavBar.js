@@ -7,7 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SchoolIcon from "@mui/icons-material/School";
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import React from "react";
 //import { useContext } from "react";
 import { theme } from "../Themes/Default-theme";
@@ -57,7 +57,7 @@ const NavBar = (props) => {
             <MenuIcon />
           </IconButton>
           <Icons>
-            <SchoolIcon />
+            <ApartmentIcon />
             <Typography variant="h6">Smarchitect</Typography>
           </Icons>
 

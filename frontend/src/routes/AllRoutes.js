@@ -6,7 +6,6 @@ export const LoggedOutRoutes = () => {
   
   routes = (
     <Routes>
-      <Route path="/" element={<Sketcher />} />
     </Routes>
   );
 
