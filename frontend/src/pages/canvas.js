@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
@@ -6,8 +6,12 @@ import DoorSymbol from "../assets/door_symbol.svg";
 import WallSymbol from "../assets/wall_symbol.svg";
 import WindowSymbol from "../assets/window_symbol.svg";
 import RectangleSymbol from "../assets/Rectangle.svg";
-import { Button, Grid } from '@mui/material';
+import { Button, getNativeSelectUtilityClasses, Grid } from '@mui/material';
 import { CSVLink } from "react-csv";
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import Papa from "papaparse";
+
+const allowedExtensions = ["csv"];
 
 
 
@@ -126,7 +130,9 @@ const headers = [
   { label: "Width", key: "width" },
   { label: "Height", key: "height" },
   { label: "x", key: "x" },
-  { label: "y", key: "y" }
+  { label: "y", key: "y" },
+  { label: "id", key: "id" },
+  { label: "url", key: "url" }
 ];
 
 export const Sketcher = () => {
@@ -137,7 +143,27 @@ export const Sketcher = () => {
   const [selectedId, selectShape] = React.useState(null);
   const stageRef = React.useRef();
   const [exportData, setExportData] = React.useState([]);
+  const [parsedInputData, setParsedInputData] = useState("");
 
+  React.useEffect(()=>{
+    if (parsedInputData !== null){
+      var tempList = [];
+     // console.log("LENGTH: ", parsedInputData.length)
+      for (let i=1; i<parsedInputData.length; i++){
+        tempList.push({
+          url: parsedInputData[i][6],
+          x: parseFloat(parsedInputData[i][3]),
+          y: parseFloat(parsedInputData[i][4]),
+          width: parseFloat(parsedInputData[i][1]),
+          height: parseFloat(parsedInputData[i][2]),
+          id: parsedInputData[i][5]
+        })
+      }
+
+      setImageObjects(tempList.slice())
+      console.log("TEMP LIST: ", tempList)
+    }
+  }, [parsedInputData])
 
   React.useEffect(() => {
     // eslint-disable-next-line
@@ -158,8 +184,29 @@ export const Sketcher = () => {
 
   }
 
+  
+
+
   return (
     <div>
+     <Button variant="contained" component="label" color="primary">
+        {" "}
+        <PostAddIcon/> Upload a file
+        <input type="file" hidden accept=".csv,.xlsx,.xls" onChange={(e) => {
+          const files = e.target.files;
+          console.log(files);
+          if (files) {
+            console.log(files[0]);
+            Papa.parse(files[0], {
+              complete: function(results) {
+                console.log("Finished:", results.data);
+                setParsedInputData(results.data);
+              }}
+            )
+          }
+        }}  />
+      </Button>
+
       <div
 
 
@@ -184,18 +231,18 @@ export const Sketcher = () => {
           );
           setExportData(
             exportData.concat({
-              id: newId,
               type: auth.selectedAsset.alt,
               width: auth.selectedAsset.width,
               height: auth.selectedAsset.height,
               x: stageRef.current.getPointerPosition().x,
-              y: stageRef.current.getPointerPosition().y
+              y: stageRef.current.getPointerPosition().y,  
+              id: newId,    
+              url: auth.selectedAsset.url
             })
           )
         }}
         onDragOver={(e) => e.preventDefault()}
       >
-        <div>x: {selectedItemCoordinates.x.toFixed(2)}, y: {selectedItemCoordinates.y.toFixed(2)}</div>
 
         <Stage
           style={{
