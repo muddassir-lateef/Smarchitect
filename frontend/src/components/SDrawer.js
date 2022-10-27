@@ -6,6 +6,7 @@ import React, { useState, useContext } from "react";
 import DoorSymbol from "../assets/door_symbol.svg";
 import WallSymbol from "../assets/wall_symbol.svg";
 import WindowSymbol from "../assets/window_symbol.svg";
+import StairsSymbol from "../assets/stairs_symbol.svg";
 import RectangleSymbol from "../assets/Rectangle.svg"
 import { AuthContext } from "../context/AuthContext";
 import { Grid } from "@mui/material";
@@ -38,7 +39,13 @@ const initial_menuItems = [
       url: WindowSymbol,
       width: 16,
       height: 100
-    }
+    },
+    {
+      alt: "Stairs",
+      url: StairsSymbol,
+      width: 31,
+      height: 100
+    },
     ]
   }
 

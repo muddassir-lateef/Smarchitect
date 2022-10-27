@@ -145,11 +145,11 @@ export const Sketcher = () => {
   const [exportData, setExportData] = React.useState([]);
   const [parsedInputData, setParsedInputData] = useState("");
 
-  React.useEffect(()=>{
-    if (parsedInputData !== null){
+  React.useEffect(() => {
+    if (parsedInputData !== null) {
       var tempList = [];
-     // console.log("LENGTH: ", parsedInputData.length)
-      for (let i=1; i<parsedInputData.length; i++){
+      // console.log("LENGTH: ", parsedInputData.length)
+      for (let i = 1; i < parsedInputData.length; i++) {
         tempList.push({
           url: parsedInputData[i][6],
           x: parseFloat(parsedInputData[i][3]),
@@ -184,27 +184,28 @@ export const Sketcher = () => {
 
   }
 
-  
+
 
 
   return (
     <div>
-     <Button variant="contained" component="label" color="primary">
+      <Button variant="contained" component="label" color="primary">
         {" "}
-        <PostAddIcon/> Upload a file
+        <PostAddIcon /> Upload a file
         <input type="file" hidden accept=".csv,.xlsx,.xls" onChange={(e) => {
           const files = e.target.files;
           console.log(files);
           if (files) {
             console.log(files[0]);
             Papa.parse(files[0], {
-              complete: function(results) {
+              complete: function (results) {
                 console.log("Finished:", results.data);
                 setParsedInputData(results.data);
-              }}
+              }
+            }
             )
           }
-        }}  />
+        }} />
       </Button>
 
       <div
@@ -235,8 +236,8 @@ export const Sketcher = () => {
               width: auth.selectedAsset.width,
               height: auth.selectedAsset.height,
               x: stageRef.current.getPointerPosition().x,
-              y: stageRef.current.getPointerPosition().y,  
-              id: newId,    
+              y: stageRef.current.getPointerPosition().y,
+              id: newId,
               url: auth.selectedAsset.url
             })
           )
