@@ -1,15 +1,8 @@
-import { Drawer, List, ListItem, ListItemIcon, ListItemButton, ListItemText, Toolbar, Collapse } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Drawer, List, ListItemButton, ListItemText, Toolbar, Collapse } from "@mui/material";
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import React, { useState, useContext } from "react";
-import ClassIcon from '@mui/icons-material/Class';
-import Face6Icon from '@mui/icons-material/Face6';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AddIcon from '@mui/icons-material/Add';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+
 import DoorSymbol from "../assets/door_symbol.svg";
 import WallSymbol from "../assets/wall_symbol.svg";
 import WindowSymbol from "../assets/window_symbol.svg";
@@ -21,11 +14,11 @@ const initial_menuItems = [
   {
     
     menuTitle: "Assets",
-    visible: false,
+    visible: true,
     enteries: [{
       alt: "Door",
       url: DoorSymbol,
-      width: 7,
+      width: 140,
       height: 100
     },
     {
@@ -56,7 +49,6 @@ const initial_menuItems = [
 
 const SDrawer = (props) => {
   const auth = useContext(AuthContext);
-  const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState(initial_menuItems);
 
   const updateMenuItemsVisibility = (index) => {
@@ -68,11 +60,6 @@ const SDrawer = (props) => {
   const { mobileOpen } = props;
   const { handleDrawerToggle } = props;
 
-  const handleSideBarClick = (path) => {
-    console.log("open")
-    if (mobileOpen) handleDrawerToggle();
-    navigate(path, { replace: true });
-  }
   const [studentMenuOpen, setStudentMenuOpen] = React.useState(true);
 
   const handleStudentMenuClick = (index) => {
@@ -160,8 +147,8 @@ const SDrawer = (props) => {
                 <List component="div" disablePadding>
 
                 {menu.enteries.map((img1, i) => (
-                  <Grid container spacing={1} width="100%">
-                    <Grid item xs={6}>
+                  <Grid key={i} container spacing={1} width='100%' alignItems={'center'}>
+                    <Grid item xs={6} justifyItems='center' sx={{ mb:2, display: "flex", justifyContent: "space-around" }}>
                     <img
                       key={i}
                       style={{ width: '50px',height: '50px' }}
@@ -175,6 +162,10 @@ const SDrawer = (props) => {
                         //selectObj(img1)
                       }}
                     />
+                    </Grid>
+                    <Grid item xs={6}>
+                    <label>{img1.alt}</label>
+                    
                     </Grid>
                     </Grid>
 

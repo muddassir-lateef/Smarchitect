@@ -83,25 +83,33 @@ const imageUrls = [
     alt: "Door",
     url: DoorSymbol,
     width: 100,
-    height: 100
+    height: 100,
+    x: 0,
+    y: 0
   },
   {
     alt: "Wall",
     url: WallSymbol,
     width: 16,
-    height: 100
+    height: 100,
+    x: 0,
+    y: 0
   },
   {
     alt: "Rectangle",
     url: RectangleSymbol,
     width: 100,
-    height: 100
+    height: 100,
+    x: 0,
+    y: 0
   },
   {
     alt: "Window",
     url: WindowSymbol,
     width: 12,
-    height: 100
+    height: 100,
+    x: 0,
+    y: 0
   }
 
   
@@ -112,10 +120,17 @@ export const Sketcher = () => {
   const [ImageObjects, setImageObjects] = React.useState(initialImages);
   const [newId, setNewId] = React.useState('1');
   const [selectedObj, selectObj] = React.useState(null);
-
+  const [selectedItemCoordinates, setSelectedItemCoordinates] = React.useState({x:0, y:0})
   const [selectedId, selectShape] = React.useState(null);
   const dragUrl = React.useRef();
   const stageRef = React.useRef();
+
+  React.useEffect(()=>{
+    const tempObj = ImageObjects.find(item=>item.id == selectedId)
+    if (tempObj !== null && typeof tempObj === 'object')
+    setSelectedItemCoordinates({x: tempObj.x, y: tempObj.y})
+  }, [selectedId])
+  
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();  
@@ -138,7 +153,6 @@ export const Sketcher = () => {
           setImageObjects(
             ImageObjects.concat([
               {
-                
                 url: auth.selectedSource,
                 x: stageRef.current.getPointerPosition().x,
                 y: stageRef.current.getPointerPosition().y,
@@ -151,6 +165,7 @@ export const Sketcher = () => {
         }}
         onDragOver={(e) => e.preventDefault()}
       >
+        <div>x: {selectedItemCoordinates.x.toFixed(2)}, y: {selectedItemCoordinates.y.toFixed(2)}</div>
 
         <Stage
               style={{
@@ -165,19 +180,25 @@ export const Sketcher = () => {
           <Layer>
             {ImageObjects.map((rect, i) => {
               return (
+                <div onDragMove={() => {
+                  selectShape(rect.id);
+                  console.log("Set through drag")
+                }}>
                 <ImageObject
                   key={i}
                   shapeProps={rect}
                   isSelected={rect.id === selectedId}
                   onSelect={() => {
                     selectShape(rect.id);
+                    console.log("Set through select")
                   }}
+                         
                   onChange={(newAttrs) => {
                     const rects = ImageObjects.slice();
                     rects[i] = newAttrs;
                     setImageObjects(rects);
                   }}
-                />
+                /></div>
               );
             })}
           </Layer>
