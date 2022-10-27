@@ -25,7 +25,7 @@ const initial_menuItems = [
     {
       alt: "Wall",
       url: WallSymbol,
-      width: 16,
+      width: 6,
       height: 100
     },
     {
