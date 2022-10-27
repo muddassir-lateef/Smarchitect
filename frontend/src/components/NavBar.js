@@ -7,12 +7,12 @@ import {
   Button,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ApartmentIcon from '@mui/icons-material/Apartment';
 import React from "react";
 //import { useContext } from "react";
 import { theme } from "../Themes/Default-theme";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
+import SmarchitectIcon from "../assets/Smarchitect.png";
 //import { AuthContext } from '../../src/context/AuthContext';
 const StyledToolbar = styled(Toolbar)({
   backgroundColor: theme.palette.primary.main,
@@ -57,7 +57,7 @@ const NavBar = (props) => {
             <MenuIcon />
           </IconButton>
           <Icons>
-            <ApartmentIcon />
+            <img height='40px' width='40px' src={SmarchitectIcon} alt={"Smarchitect Icon"}/>
             <Typography variant="h6">Smarchitect</Typography>
           </Icons>
 

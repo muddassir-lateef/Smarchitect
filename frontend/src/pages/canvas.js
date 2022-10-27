@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
@@ -6,9 +6,12 @@ import DoorSymbol from "../assets/door_symbol.svg";
 import WallSymbol from "../assets/wall_symbol.svg";
 import WindowSymbol from "../assets/window_symbol.svg";
 import RectangleSymbol from "../assets/Rectangle.svg";
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
+import { CSVLink } from "react-csv";
 
-const ImageObject = ({ shapeProps, isSelected, onSelect, onChange }) => {
+
+
+const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, onDragMove }) => {
   const shapeRef = React.useRef();
   const trRef = React.useRef();
   const [img] = useImage(shapeProps.url);
@@ -24,8 +27,9 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange }) => {
     <React.Fragment>
       <Image
         image={img}
-
+        onDragMove={onDragMove}
         onClick={onSelect}
+        //onDragMove={onSelect}
         onTap={onSelect}
         ref={shapeRef}
         {...shapeProps}
@@ -112,38 +116,53 @@ const imageUrls = [
     y: 0
   }
 
-  
+
 
 ]
+
+
+const headers = [
+  { label: "Type", key: "type" },
+  { label: "Width", key: "width" },
+  { label: "Height", key: "height" },
+  { label: "x", key: "x" },
+  { label: "y", key: "y" }
+];
+
 export const Sketcher = () => {
   const auth = useContext(AuthContext);
   const [ImageObjects, setImageObjects] = React.useState(initialImages);
   const [newId, setNewId] = React.useState('1');
-  const [selectedObj, selectObj] = React.useState(null);
-  const [selectedItemCoordinates, setSelectedItemCoordinates] = React.useState({x:0, y:0})
+  const [selectedItemCoordinates, setSelectedItemCoordinates] = React.useState({ x: 0, y: 0 })
   const [selectedId, selectShape] = React.useState(null);
-  const dragUrl = React.useRef();
   const stageRef = React.useRef();
+  const [exportData, setExportData] = React.useState([]);
 
-  React.useEffect(()=>{
-    const tempObj = ImageObjects.find(item=>item.id == selectedId)
+
+  React.useEffect(() => {
+    // eslint-disable-next-line
+    const tempObj = ImageObjects.find(item => item.id == selectedId)
     if (tempObj !== null && typeof tempObj === 'object')
-    setSelectedItemCoordinates({x: tempObj.x, y: tempObj.y})
+      setSelectedItemCoordinates({ x: tempObj.x, y: tempObj.y })
   }, [selectedId])
-  
+
   const checkDeselect = (e) => {
     // deselect when clicked on empty area
-    const clickedOnEmpty = e.target === e.target.getStage();  
+    const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      selectShape(null);  
+      selectShape(null);
     }
   };
 
+  const handleExportClick = () => {
+
+  }
+
   return (
-    <div> 
+    <div>
       <div
 
-        
+
         onDrop={(e) => {
           e.preventDefault();
           // register event position
@@ -160,17 +179,29 @@ export const Sketcher = () => {
                 height: auth.selectedAsset.height,
                 id: newId,
               },
-            ])
+            ]),
+
           );
+          setExportData(
+            exportData.concat({
+              id: newId,
+              type: auth.selectedAsset.alt,
+              width: auth.selectedAsset.width,
+              height: auth.selectedAsset.height,
+              x: stageRef.current.getPointerPosition().x,
+              y: stageRef.current.getPointerPosition().y
+            })
+          )
         }}
         onDragOver={(e) => e.preventDefault()}
       >
         <div>x: {selectedItemCoordinates.x.toFixed(2)}, y: {selectedItemCoordinates.y.toFixed(2)}</div>
 
         <Stage
-              style={{
-                border: '2px solid',
-              }}
+          style={{
+            border: '2px solid',
+            marginTop: '2px',
+          }}
           width={950}
           height={window.innerHeight}
           onMouseDown={checkDeselect}
@@ -180,10 +211,7 @@ export const Sketcher = () => {
           <Layer>
             {ImageObjects.map((rect, i) => {
               return (
-                <div onDragMove={() => {
-                  selectShape(rect.id);
-                  console.log("Set through drag")
-                }}>
+
                 <ImageObject
                   key={i}
                   shapeProps={rect}
@@ -192,20 +220,43 @@ export const Sketcher = () => {
                     selectShape(rect.id);
                     console.log("Set through select")
                   }}
-                         
+                  onDragMove={() => {
+                    selectShape(rect.id);
+                    console.log("Set through drag")
+                  }}
+
                   onChange={(newAttrs) => {
                     const rects = ImageObjects.slice();
                     rects[i] = newAttrs;
                     setImageObjects(rects);
+                    selectShape(rect.id);
+                    console.log("NEW", newAttrs)
+                    for (let i = 0; i < exportData.length; i++) {
+                      if (exportData[i].id == rect.id) {
+                        exportData[i].x = newAttrs.x;
+                        exportData[i].y = newAttrs.y;
+                        exportData[i].width = newAttrs.width;
+                        exportData[i].height = newAttrs.height;
+                      }
+                    }
                   }}
-                /></div>
+                />
               );
             })}
           </Layer>
         </Stage>
       </div>
-      
-      </div>
+
+      <Grid container spacing={2} sx={{ mt: 1 }}>
+        <Grid item xs={12} textAlign="right">
+          <Button sx={{ mt: 1 }} variant="contained" onClick={handleExportClick}>
+            <CSVLink style={{ textDecoration: 'none' }} data={exportData} headers={headers}>
+              Export Map Data
+            </CSVLink>
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
   );
 };
 
