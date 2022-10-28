@@ -250,8 +250,8 @@ export const Sketcher = () => {
             border: '2px solid',
             marginTop: '2px',
           }}
-          width={950}
-          height={window.innerHeight}
+          width={1200}
+          height={800}
           onMouseDown={checkDeselect}
           onTouchStart={checkDeselect}
           ref={stageRef}
@@ -298,7 +298,7 @@ export const Sketcher = () => {
       <Grid container spacing={2} sx={{ mt: 1 }}>
         <Grid item xs={12} textAlign="right">
           <Button sx={{ mt: 1 }} variant="contained" onClick={handleExportClick}>
-            <CSVLink style={{ textDecoration: 'none' }} data={exportData} headers={headers}>
+            <CSVLink style={{ textDecoration: 'none',color:'white' }} data={exportData} headers={headers}>
               Export Map Data
             </CSVLink>
           </Button>
