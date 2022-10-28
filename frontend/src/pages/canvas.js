@@ -298,7 +298,7 @@ export const Sketcher = () => {
       <Grid container spacing={2} sx={{ mt: 1 }}>
         <Grid item xs={12} textAlign="right">
           <Button sx={{ mt: 1 }} variant="contained" onClick={handleExportClick}>
-            <CSVLink style={{ textDecoration: 'none',color:'white' }} data={exportData} headers={headers}>
+            <CSVLink style={{ textDecoration: 'none', color: 'white' }} data={exportData} headers={headers}>
               Export Map Data
             </CSVLink>
           </Button>
