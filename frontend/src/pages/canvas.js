@@ -250,7 +250,7 @@ export const Sketcher = () => {
             border: '2px solid',
             marginTop: '2px',
           }}
-          width={1200}
+          width={900}
           height={800}
           onMouseDown={checkDeselect}
           onTouchStart={checkDeselect}
