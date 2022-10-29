@@ -151,6 +151,7 @@ export const Sketcher = () => {
       // console.log("LENGTH: ", parsedInputData.length)
       for (let i = 1; i < parsedInputData.length; i++) {
         tempList.push({
+          alt: parsedInputData[i][0],
           url: parsedInputData[i][6],
           x: parseFloat(parsedInputData[i][3]),
           y: parseFloat(parsedInputData[i][4]),
@@ -162,6 +163,20 @@ export const Sketcher = () => {
 
       setImageObjects(tempList.slice())
       console.log("TEMP LIST: ", tempList)
+
+      const tempExp = []
+      for (let i=1; i<tempList.length; i++){
+        tempExp.push({
+          type: parsedInputData[i][0],
+          width: parseFloat(parsedInputData[i][1]),
+          height: parseFloat(parsedInputData[i][2]),
+          x: parseFloat(parsedInputData[i][3]),
+          y: parseFloat(parsedInputData[i][4]),
+          id: parsedInputData[i][5],
+          url: parsedInputData[i][6]
+        })
+      }
+      setExportData(tempExp.slice());
     }
   }, [parsedInputData])
 
@@ -190,7 +205,7 @@ export const Sketcher = () => {
   return (
     <div>
       <Button variant="contained" component="label" color="primary">
-        {" "}
+
         <PostAddIcon /> Upload a file
         <input type="file" hidden accept=".csv,.xlsx,.xls" onChange={(e) => {
           const files = e.target.files;
