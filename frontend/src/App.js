@@ -54,7 +54,7 @@ function App() {
             </Box>
           )}
           {!loggedIn && (
-            <Box component="main" sx={{  }}>
+            <Box component="main" sx={{}}>
               {routes}
             </Box>
           )}
