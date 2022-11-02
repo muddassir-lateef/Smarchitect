@@ -2,10 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
-import DoorSymbol from "../assets/door_symbol.svg";
-import WallSymbol from "../assets/wall_symbol.svg";
-import WindowSymbol from "../assets/window_symbol.svg";
-import RectangleSymbol from "../assets/Rectangle.svg";
+
 import { Button, getNativeSelectUtilityClasses, Grid } from '@mui/material';
 import { CSVLink } from "react-csv";
 import PostAddIcon from '@mui/icons-material/PostAdd';
@@ -62,11 +59,13 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, onDragMove })
             ...shapeProps,
             x: node.x(),
             y: node.y(),
+            rotation:node.rotation(),
             // set minimal value
             width: Math.max(5, node.width() * scaleX),
             height: Math.max(node.height() * scaleY),
           });
         }}
+
       />
       {isSelected && (
         <Transformer
@@ -78,6 +77,7 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, onDragMove })
             }
             return newBox;
           }}
+          rotationSnaps={[0,90,180,270]}
         />
       )}
     </React.Fragment>
@@ -86,43 +86,6 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, onDragMove })
 
 const initialImages = [
 ];
-const imageUrls = [
-  {
-    alt: "Door",
-    url: DoorSymbol,
-    width: 100,
-    height: 100,
-    x: 0,
-    y: 0
-  },
-  {
-    alt: "Wall",
-    url: WallSymbol,
-    width: 16,
-    height: 100,
-    x: 0,
-    y: 0
-  },
-  {
-    alt: "Rectangle",
-    url: RectangleSymbol,
-    width: 100,
-    height: 100,
-    x: 0,
-    y: 0
-  },
-  {
-    alt: "Window",
-    url: WindowSymbol,
-    width: 12,
-    height: 100,
-    x: 0,
-    y: 0
-  }
-
-
-
-]
 
 
 const headers = [
@@ -132,7 +95,9 @@ const headers = [
   { label: "x", key: "x" },
   { label: "y", key: "y" },
   { label: "id", key: "id" },
-  { label: "url", key: "url" }
+  { label: "url", key: "url" },
+  { label: "rotation", key: "rotation" },
+
 ];
 
 export const Sketcher = () => {
@@ -157,7 +122,9 @@ export const Sketcher = () => {
           y: parseFloat(parsedInputData[i][4]),
           width: parseFloat(parsedInputData[i][1]),
           height: parseFloat(parsedInputData[i][2]),
-          id: parsedInputData[i][5]
+          id: parsedInputData[i][5],
+          rotation: parseFloat(parsedInputData[i][7]),
+
         })
       }
 
@@ -173,7 +140,8 @@ export const Sketcher = () => {
           x: parseFloat(parsedInputData[i][3]),
           y: parseFloat(parsedInputData[i][4]),
           id: parsedInputData[i][5],
-          url: parsedInputData[i][6]
+          url: parsedInputData[i][6],
+          rotation: parseFloat(parsedInputData[i][7]),
         })
       }
       setExportData(tempExp.slice());
@@ -241,6 +209,7 @@ export const Sketcher = () => {
                 width: auth.selectedAsset.width,
                 height: auth.selectedAsset.height,
                 id: newId,
+                rotation:auth.selectedAsset.rotation,
               },
             ]),
 
@@ -253,7 +222,9 @@ export const Sketcher = () => {
               x: stageRef.current.getPointerPosition().x,
               y: stageRef.current.getPointerPosition().y,
               id: newId,
-              url: auth.selectedAsset.url
+              url: auth.selectedAsset.url,
+              rotation:auth.selectedAsset.rotation,
+
             })
           )
         }}
@@ -300,7 +271,10 @@ export const Sketcher = () => {
                         exportData[i].y = newAttrs.y;
                         exportData[i].width = newAttrs.width;
                         exportData[i].height = newAttrs.height;
+                        exportData[i].rotation = newAttrs.rotation;
+                        
                       }
+                      
                     }
                   }}
                 />

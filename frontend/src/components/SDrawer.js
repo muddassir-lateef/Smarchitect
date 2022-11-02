@@ -20,31 +20,36 @@ const initial_menuItems = [
       alt: "Door",
       url: DoorSymbol,
       width: 140,
-      height: 100
+      height: 100,
+      rotation:0
     },
     {
       alt: "Wall",
       url: WallSymbol,
       width: 6,
-      height: 100
+      height: 100,
+      rotation:0
     },
     {
       alt: "Rectangle",
       url: RectangleSymbol,
       width: 100,
-      height: 100
+      height: 100,
+      rotation:0
     },
     {
       alt: "Window",
       url: WindowSymbol,
       width: 16,
-      height: 100
+      height: 100,
+      rotation:0
     },
     {
       alt: "Stairs",
       url: StairsSymbol,
       width: 31,
-      height: 100
+      height: 100,
+      rotation:0
     },
     ]//dummy commit 
   }
