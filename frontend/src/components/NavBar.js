@@ -27,7 +27,7 @@ const Icons = styled(Box)(({ theme }) => ({
 }));
 
 const LogoutButton = styled(Button)(({ theme }) => ({
-  backgroundColor: "#F57663" ,
+  backgroundColor: "#F57663",
   "&:hover": {
     backgroundColor: "red",
   },
@@ -57,7 +57,7 @@ const NavBar = (props) => {
             <MenuIcon />
           </IconButton>
           <Icons>
-            <img height='40px' width='40px' src={SmarchitectIcon} alt={"Smarchitect Icon"}/>
+            <img height='40px' width='40px' src={SmarchitectIcon} alt={"Smarchitect Icon"} />
             <Typography variant="h6">Smarchitect!</Typography>
           </Icons>
 

@@ -12,8 +12,9 @@ import { AuthContext } from "../context/AuthContext";
 import { Grid } from "@mui/material";
 const drawerWidth = 240;
 const initial_menuItems = [
+  //eligible anchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']
   {
-    
+
     menuTitle: "Assets",
     visible: true,
     enteries: [{
@@ -21,35 +22,51 @@ const initial_menuItems = [
       url: DoorSymbol,
       width: 140,
       height: 100,
-      rotation:0
+      rotation: 0,
+      keepRatio: true,
+      enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+
     },
     {
       alt: "Wall",
       url: WallSymbol,
-      width: 6,
+      width: 15,
       height: 100,
-      rotation:0
+      rotation: 0,
+      keepRatio: false,
+      enabledAnchors: ['top-center', 'bottom-center'],
+
     },
     {
       alt: "Rectangle",
       url: RectangleSymbol,
       width: 100,
       height: 100,
-      rotation:0
+      rotation: 0,
+      keepRatio: false,
+      enabledAnchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right'],
+
     },
     {
       alt: "Window",
       url: WindowSymbol,
-      width: 16,
+      width: 20,
       height: 100,
-      rotation:0
+      rotation: 0,
+      keepRatio: false,
+      enabledAnchors: ['top-center', 'bottom-center'],
+
     },
     {
       alt: "Stairs",
       url: StairsSymbol,
       width: 31,
       height: 100,
-      rotation:0
+      rotation: 0,
+      keepRatio: false,
+      enabledAnchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right'],
+
+
     },
     ]//dummy commit 
   }
@@ -102,17 +119,17 @@ const SDrawer = (props) => {
 
           {menuItems.map((menu, index) => (
             <div key={index}>
-              <ListItemButton onClick={()=>handleStudentMenuClick(index)}>
+              <ListItemButton onClick={() => handleStudentMenuClick(index)}>
                 <ListItemText primary={menu.menuTitle} />
                 {menu.visible ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse in={menu.visible} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
 
-                {menu.enteries.map((img1, i) => (
+                  {menu.enteries.map((img1, i) => (
                     <img
                       key={i}
-                      style={{ width: '100px',height: '100px' }}
+                      style={{ width: '100px', height: '100px' }}
                       alt={img1.alt}
                       src={img1.url}
                       draggable="true"
@@ -123,7 +140,7 @@ const SDrawer = (props) => {
                       }}
                     />
 
-                 ))}
+                  ))}
                 </List>
               </Collapse>
             </div>
@@ -133,7 +150,7 @@ const SDrawer = (props) => {
       </Drawer>
 
 
-      
+
       <Drawer
         variant="permanent"
         sx={{
@@ -151,37 +168,37 @@ const SDrawer = (props) => {
 
           {menuItems.map((menu, index) => (
             <div key={index}>
-              <ListItemButton onClick={()=>handleStudentMenuClick(index)}>
+              <ListItemButton onClick={() => handleStudentMenuClick(index)}>
                 <ListItemText primary={menu.menuTitle} />
                 {menu.visible ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse in={menu.visible} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
 
-                {menu.enteries.map((img1, i) => (
-                  <Grid key={i} container spacing={1} width='100%' alignItems={'center'}>
-                    <Grid item xs={6} justifyItems='center' sx={{ mb:2, display: "flex", justifyContent: "space-around" }}>
-                    <img
-                      key={i}
-                      style={{ width: '50px',height: '50px' }}
-                      alt={img1.alt}
-                      src={img1.url}
-                      draggable="true"
-                      onDragStart={(e) => {
-                        auth.setSelectedAsset(img1);
-                        auth.setSelectedSource(e.target.src)
-                      //  dragUrl.current = e.target.src;
-                        //selectObj(img1)
-                      }}
-                    />
-                    </Grid>
-                    <Grid item xs={6}>
-                    <label>{img1.alt}</label>
-                    
-                    </Grid>
+                  {menu.enteries.map((img1, i) => (
+                    <Grid key={i} container spacing={1} width='100%' alignItems={'center'}>
+                      <Grid item xs={6} justifyItems='center' sx={{ mb: 2, display: "flex", justifyContent: "space-around" }}>
+                        <img
+                          key={i}
+                          style={{ width: '50px', height: '50px' }}
+                          alt={img1.alt}
+                          src={img1.url}
+                          draggable="true"
+                          onDragStart={(e) => {
+                            auth.setSelectedAsset(img1);
+                            auth.setSelectedSource(e.target.src)
+                            //  dragUrl.current = e.target.src;
+                            //selectObj(img1)
+                          }}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <label>{img1.alt}</label>
+
+                      </Grid>
                     </Grid>
 
-                 ))}
+                  ))}
                 </List>
               </Collapse>
             </div>
