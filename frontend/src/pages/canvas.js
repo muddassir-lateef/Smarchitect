@@ -3,13 +3,12 @@ import { AuthContext } from '../context/AuthContext';
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
 
-import { Button, Card, CardContent, Typography, CardActions, Grid } from '@mui/material';
+import { Button, Card, CardContent, Typography, Grid } from '@mui/material';
 import { CSVLink } from "react-csv";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import Papa from "papaparse";
-import { maxHeight } from '@mui/system';
 
-
+import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from './snapping_util';
 
 
 const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrack }) => {
@@ -97,6 +96,7 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrac
           rotationSnaps={[0, 90, 180, 270]}
           keepRatio={shapeProps.keepRatio}
           enabledAnchors={shapeProps.enabledAnchors}
+          rotationSnapTolerance={10}
         />
       )}
     </React.Fragment>
@@ -131,6 +131,8 @@ export const Sketcher = () => {
   const stageRef = React.useRef();
   const [exportData, setExportData] = React.useState([]);
   const [parsedInputData, setParsedInputData] = useState("");
+
+  const [lines, setLines] = useState([]);
 
   React.useEffect(() => {
     if (parsedInputData !== null) {
@@ -231,7 +233,8 @@ export const Sketcher = () => {
                 id: newId,
                 rotation: auth.selectedAsset.rotation,
                 keepRatio: auth.selectedAsset.keepRatio,
-                enabledAnchors: auth.selectedAsset.enabledAnchors
+                enabledAnchors: auth.selectedAsset.enabledAnchors,
+                name: 'object',
               },
             ]),
 
@@ -268,7 +271,80 @@ export const Sketcher = () => {
             onTouchStart={checkDeselect}
             ref={stageRef}
           >
-            <Layer>
+            <Layer
+              onDragMove={(e) => {
+                const layer = e.target.parent;
+                const stage = layer.parent;
+                console.log("Layer on Drag: ", e.target.parent) //layer 
+                e.target.parent.find('.guid-line').forEach((l) => l.destroy());
+                var lineGuideStops = getLineGuideStops(e.target, layer);  //obj and obj parent which is layer 
+                var itemBounds = getObjectSnappingEdges(e.target);
+
+                // now find where can we snap current object
+                var guides = getGuides(lineGuideStops, itemBounds);
+
+                // do nothing of no snapping
+                if (!guides.length) {
+                  return;
+                }
+
+                drawGuides(guides, layer);
+                var absPos = e.target.absolutePosition();
+                // now force object position
+                guides.forEach((lg) => {
+                  switch (lg.snap) {
+                    case 'start': {
+                      switch (lg.orientation) {
+                        case 'V': {
+                          absPos.x = lg.lineGuide + lg.offset;
+                          break;
+                        }
+                        case 'H': {
+                          absPos.y = lg.lineGuide + lg.offset;
+                          break;
+                        }
+                      }
+                      break;
+                    }
+                    case 'center': {
+                      switch (lg.orientation) {
+                        case 'V': {
+                          absPos.x = lg.lineGuide + lg.offset;
+                          break;
+                        }
+                        case 'H': {
+                          absPos.y = lg.lineGuide + lg.offset;
+                          break;
+                        }
+                      }
+                      break;
+                    }
+                    case 'end': {
+                      switch (lg.orientation) {
+                        case 'V': {
+                          absPos.x = lg.lineGuide + lg.offset;
+                          break;
+                        }
+                        case 'H': {
+                          absPos.y = lg.lineGuide + lg.offset;
+                          break;
+                        }
+                      }
+                      break;
+                    }
+                  }
+                });
+                e.target.absolutePosition(absPos);
+
+                //console.log(getLineGuideStops(e.target, e.target.parent));
+                //console.log(layer)
+              }
+              }
+              onDragEnd={(e) => {
+                const layer = e.target.parent;
+                layer.find('.guid-line').forEach((l) => l.destroy());
+              }}
+            >
               {ImageObjects.map((rect, i) => {
                 return (
 
@@ -289,7 +365,7 @@ export const Sketcher = () => {
                       selectShape(rect.id);
 
                       for (let i = 0; i < exportData.length; i++) {
-                        if (exportData[i].id == rect.id) {
+                        if (exportData[i].id === rect.id) {
                           exportData[i].x = newAttrs.x;
                           exportData[i].y = newAttrs.y;
                           exportData[i].width = newAttrs.width;
