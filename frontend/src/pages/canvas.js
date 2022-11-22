@@ -172,6 +172,7 @@ export const Sketcher = () => {
 
         })
       }
+      setNewId(String(parseInt(parsedInputData.length, 10) ))
       setExportData(tempExp.slice());
     }
   }, [parsedInputData])
