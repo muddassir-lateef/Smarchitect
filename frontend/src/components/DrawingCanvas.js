@@ -3,7 +3,7 @@ import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import { ImagePainter } from './ImagePainter'
 
-import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from '../pages/snapping_util';
+import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from '../util/snapping_util';
 
 export const DrawingCanvas = (props) => {
     const stageW = 900
