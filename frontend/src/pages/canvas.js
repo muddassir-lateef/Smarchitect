@@ -8,7 +8,7 @@ import { CSVLink } from "react-csv";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import Papa from "papaparse";
 
-import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from './snapping_util';
+import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from '../util/snapping_util';
 
 
 const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrack }) => {

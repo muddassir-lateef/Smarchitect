@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 //import { useContext } from "react";
 import { theme } from "../Themes/Default-theme";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -33,11 +34,18 @@ const LogoutButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#F57663",
+  "&:hover": {
+    backgroundColor: "red",
+  },
+}));
+
 const NavBar = (props) => {
   //const auth = useContext(AuthContext);
   const { logoutHandler } = props;
   const { handleDrawerToggle } = props;
-
+  const navigate = useNavigate();
   return (
     <div>
       <AppBar
@@ -56,11 +64,14 @@ const NavBar = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Icons>
+          <Icons onClick={()=>{navigate("/")}}>
             <img height='40px' width='40px' src={SmarchitectIcon} alt={"Smarchitect Icon"} />
             <Typography variant="h6">Smarchitect!</Typography>
           </Icons>
 
+          <StyledButton variant='contained' onClick={()=>{
+            navigate("/newMap")
+          }}>New Map</StyledButton>
           <LogoutButton variant="contained" onClick={logoutHandler}>
             <LogoutIcon />
           </LogoutButton>
