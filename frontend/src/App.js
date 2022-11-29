@@ -1,13 +1,26 @@
 import './App.css';
 import { useState, useCallback } from 'react';
 import { AuthContext } from "./context/AuthContext";
+import { DrawingBoardContext } from "./context/DrawingBoardContext";
+
 import { BrowserRouter as Router } from "react-router-dom";
-import { Box, Toolbar } from "@mui/material";
+import { Box, Grid, Toolbar } from "@mui/material";
 import { LoggedInRoutes, LoggedOutRoutes } from "./routes/AllRoutes";
 import NavigationUI from './components/NavigationUI'
 
 
 function App() {
+  const [selectedTool, selectTool] = useState("")
+  const [selectedShape, selectShape] = useState(null)
+  const setSelectedShape = useCallback((u) => {
+    selectShape(u);
+  }, []);
+
+
+  const setSelectedTool = useCallback((u) => {
+    selectTool(u);
+  }, []);
+
   const [loggedIn, setIsLoggedIn] = useState(true);
   const [selectedObj, setSelectedObj] = useState({});
   const [imgSource, setImgSource] = useState("");
@@ -43,24 +56,32 @@ function App() {
         setUser: setCurrentUser,
       }}
     >
+      <DrawingBoardContext.Provider
+        value={{
+          selectedTool: selectedTool,
+          setSelectedTool: setSelectedTool,
 
-      <Router>
-        <Box xs={12} sx={{ display: "flex" }}>
-          {loggedIn && <NavigationUI />}
-          {loggedIn && (
-            <Box component="main" sx={{ p: 3 }}>
-              <Toolbar />
-              {routes}
-            </Box>
-          )}
-          {!loggedIn && (
-            <Box component="main" sx={{}}>
-              {routes}
-            </Box>
-          )}
-        </Box>
-      </Router>
+          selectedAsset: selectedObj,
+          selectedSource: imgSource,
+          setSelectedAsset: setSelectedAsset,
+          setSelectedSource: setSelectedSource,
+          selectedImgInstance: selectedShape,
+          setSelectedImgInstance: setSelectedShape,
+
+
+        }}
+      >
+
+        <Router>
+          <Grid container direction="column">
+            <NavigationUI />
+            <Toolbar />
+            {routes}
+          </Grid>
+        </Router>
+      </DrawingBoardContext.Provider>
     </AuthContext.Provider>
+
   );
 }
 
