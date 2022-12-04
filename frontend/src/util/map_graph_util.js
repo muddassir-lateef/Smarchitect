@@ -3,8 +3,8 @@ import Konva from "konva";
 export function generateTarget(targets, stage) {
     targets.push({
     id: 'target-' + targets.length,
-    x: stage.width() * Math.random(),
-    y: stage.height() * Math.random(), 
+    x: 100 + stage.width() * Math.random(),
+    y: 100 + stage.height() * Math.random(), 
     });
     return targets;
 }
@@ -26,6 +26,20 @@ export function generateConnectors(connectors, targets) {
       });
     }
     return connectors;
+}
+
+// function to generate arrows between targets
+export function makeConnection(targets, connectors, from, to) {
+  if (targets.length < 2) return connectors;
+    if (from === to) {
+      return connectors;
+    }
+    connectors.push({
+      id: 'connector-' + connectors.length,
+      from: from,
+      to: to,
+    });
+  return connectors;
 }
 
 export function getConnectorPoints(from, to) {
@@ -64,6 +78,7 @@ export function updateObjects(targets, connectors, layer) {
 
 export function drawNodes(connectors, targets, layer, setSelectedNode ){
     // generate nodes for the app
+    console.log("Connectors: ", connectors.length)
     connectors.forEach((connect) => {
         var line = new Konva.Arrow({
           stroke: 'black',
@@ -80,6 +95,7 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
           radius: 20 + Math.random() * 20,
           shadowBlur: 10,
           draggable: true,
+          name: target.id
         });
         layer.add(node);
 
@@ -93,6 +109,7 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
         });
 
         node.on('click', () => {
+            console.log("ID of clicked node: ", node.id())
             setSelectedNode(node)
         });
     });
