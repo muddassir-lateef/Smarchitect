@@ -97,8 +97,8 @@ const GenerateNewMap = () => {
 
 
     return (
-        <Grid container sx={{ mt: 1 }} direction="column">
-            <Button variant="contained" sx={{ mb: 1 }} onClick={handleNewNodeClick}>Add Node</Button>
+        <Grid container  direction="column">
+            <Button variant="contained"  onClick={handleNewNodeClick}>Add Node</Button>
             <Stage
                 style={{
                     border: '2px solid',
