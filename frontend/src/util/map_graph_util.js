@@ -110,7 +110,7 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
 
         node.on('click', () => {
             console.log("ID of clicked node: ", node.id())
-            setSelectedNode(node)
+            setSelectedNode(node.id())
         });
     });
 }

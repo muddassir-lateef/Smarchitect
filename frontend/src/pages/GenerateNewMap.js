@@ -7,22 +7,24 @@ const GenerateNewMap = () => {
     const [targets, setTargets] = useState([])
     const [connectors, setConnectors] = useState([])
     const layerRef = React.useRef();
-    const [nodes, setNodes] = useState([])    //list with max size 2
+    const [node1, setNode1] = useState("")  //selected node 1
+    const [node2, setNode2] = useState("")  //selected node 2
+
     const setSelectedNode = (newNode) => {
-        console.log("Node clicked, before update: ", nodes)
-        console.log("Node length, before update: ", nodes.length)
-         console.log("Setting node", newNode.attrs.id)
+        console.log("Node clicked, before update: ", node1, node2)
+        //console.log("Node length, before update: ", nodes.length)
+         console.log("Setting node", newNode)
         //  console.log("Prev Node", node)
-        if (nodes.length === 0) {    //no nodes was selected before
+        if (node1 === "" && node2 === "") {    //no nodes was selected before
             console.log("Adding node 1")
-            //layerRef.current.findOne('#' + newNode.attrs.id).shadowColor('red')
-            setNodes([newNode]);
+            setNode1(newNode)
             return;
         }
-        else if (nodes.length === 1) {   //node was selected before 
-            if (newNode.attrs.id == nodes[0].attrs.id) {  //same node is selected now
+        else if (node1 !== "" && node2 === "") {   //node was selected before 
+            if (newNode == node1) {  //same node is selected now
                 console.log("Same node selected")
-                setNodes([])
+                setNode1("")
+                setNode2("")
                 removeCircleHighlight();
                 return;
             }
@@ -30,30 +32,32 @@ const GenerateNewMap = () => {
                 // nodes[1] = newNode
                 console.log("Adding node 2")
                 removeCircleHighlight();
-                setNodes(prevState => [...prevState, newNode]);
+                setNode2(newNode)
                 return;
             }
         }
-        else if (nodes.length === 2) {   // new selection alltogether
+        else if (node1 !== "" && node2 !== "" ) {   // new selection alltogether
             console.log("clearing and adding Node 1")
             removeCircleHighlight();
-            //layerRef.current.findOne('#' + newNode.attrs.id).shadowColor('red')
-            setNodes([newNode])
+            setNode1(newNode)
+            setNode2("")
             return;
         }
 
     }
 
     const handleNewNodeClick = () => {
+        //console.log("New Node")
         removeCircleHighlight();
-        setNodes([])
+        setNode1("")
+        setNode2("")
         //console.log(layerRef.current)
         const stage = layerRef.current.parent;
         const tars = generateTarget(targets, stage)
         setTargets(tars)
         console.log("Targetsss: ", tars)
 
-        drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        drawNodes([], [tars[tars.length - 1]], layerRef.current, setSelectedNode)
 
     }
 
@@ -64,41 +68,43 @@ const GenerateNewMap = () => {
     }
 
     const addCircleHighlight = () => {
-        for (var i = 0; i < nodes.length; i++) {
-           // console.log("Highlighted: ", nodes[i].attrs.id)
-            layerRef.current.findOne('#' + nodes[i].attrs.id).shadowColor('red')
-        }
+        //for (var i = 0; i < nodes.length; i++) {
+            if (node1 !== "")
+                layerRef.current.findOne('#' + node1).shadowColor('red')
+            if (node2 !== "")
+                layerRef.current.findOne('#' + node2).shadowColor('red')
+       // }
     }
     const removeExtraCircleHighlights = () => {
         for (var i = 0; i < targets.length; i++) {
-            if (nodes.find(node => node.attrs.id === targets[i].id) === undefined)  //node is not selected
+            if ( targets[i].id !== node1 && targets[i].id !== node2 )  //node is not selected
                 layerRef.current.findOne('#' + targets[i].id).shadowColor('black')
         }
     }
 
 
     useEffect(() => {
-        console.log("NODES SET: ", nodes)
+        console.log("NODES SET: ", node1, node2)
+       // console.log("NODES LENGTH: ", nodes.length)
         addCircleHighlight();
         removeExtraCircleHighlights();
-        // console.log("SELECT STATUS: ", isNodeSelected)
-        if (nodes.length === 2) {
+        if (node1 !== "" && node2 !== "") {
             console.log("Adding connection")
             removeCircleHighlight();
-            var newCons = makeConnection(targets, connectors, nodes[0].attrs.id, nodes[1].attrs.id)
-            drawNodes([newCons[newCons.length - 1]], [], layerRef.current, setSelectedNode)
+            var newCons = makeConnection(targets, connectors, node1, node2)
+            drawNodes([newCons[newCons.length - 1]], [], layerRef.current)
             setConnectors(newCons)
             updateObjects(targets, connectors, layerRef.current)
         }
+        console.log("------------------------")
 
-        /*   layerRef.current.findOne('#' + node.attrs.id).attrs.shadowColor = 'red';*/
-    }, [nodes]);
+    }, [node1, node2]);
 
 
 
     return (
         <Grid container sx={{ mt: 1 }} direction="column">
-            <Button variant="contained" sx={{ mb: 1 }} onClick={handleNewNodeClick}>Add Node</Button>
+            <Button variant="contained" sx={{ mb: 1 }} onClick={() => { handleNewNodeClick() }}>Add Node</Button>
             <Stage
                 style={{
                     border: '2px solid',
