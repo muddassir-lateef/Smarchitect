@@ -7,6 +7,7 @@ import useImage from 'use-image';
 const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrack }) => {
     const shapeRef = React.useRef();
     const trRef = React.useRef();
+
     const [img] = useImage(shapeProps.url);
     React.useEffect(() => {
         if (isSelected) {
@@ -71,7 +72,7 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrac
                         width: Math.max(5, node.width() * scaleX),
                         height: Math.max(node.height() * scaleY),
                     });
-                    attributeTrack({ x: node.x(), y: node.y(),w:Math.max(5, node.width() * scaleX),h:Math.max(node.height() * scaleY), angle: node.rotation() })
+                    attributeTrack({ x: node.x(), y: node.y(), w: Math.max(5, node.width() * scaleX), h: Math.max(node.height() * scaleY), angle: node.rotation() })
 
                 }}
 
@@ -99,7 +100,8 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrac
 export const ImagePainter = (props) => {
     const { ImageObjects } = props;
     const { setImageObjects } = props;
-    const { setSelectedItemCoordinates } = props;
+    const { setSelectedItemCoordinates } = props; 
+    const {exportData}=props
     const dbContext = useContext(DrawingBoardContext);
     return (
         <>
@@ -125,6 +127,19 @@ export const ImagePainter = (props) => {
 
                                 setImageObjects(rects);
                                 dbContext.setSelectedImgInstance(rect.id)
+                                for (let i = 0; i < exportData.length; i++) {
+                                    if (exportData[i].id === rect.id) {
+                                        exportData[i].x = newAttrs.x;
+                                        exportData[i].y = newAttrs.y;
+                                        exportData[i].width = newAttrs.width;
+                                        exportData[i].height = newAttrs.height;
+                                        exportData[i].rotation = newAttrs.rotation;
+                                        exportData[i].keepRatio = newAttrs.keepRatio;
+                                        exportData[i].enabledAnchors = newAttrs.enabledAnchors;
+                                    }
+
+                                }
+
 
                             }}
                             attributeTrack={(newAttrs) => {

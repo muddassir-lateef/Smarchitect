@@ -8,14 +8,16 @@ import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from
 export const DrawingCanvas = (props) => {
     const stageW = 900
     const stageH = 800
-
+    const { ImageObjects } = props
+    const { setImageObjects } = props
     const { setSelectedItemCoordinates } = props
     const stageRef = React.useRef();
-    const [newId, setNewId] = React.useState('1');
     const { scale } = props
-
+    const { setExportData } = props
+    const { exportData } = props
+    const {newId}=props
+    const {setNewId}=props
     const dbContext = useContext(DrawingBoardContext);
-    const [ImageObjects, setImageObjects] = React.useState([]);
     const checkDeselect = (e) => {
         // deselect when clicked on empty area
         const clickedOnEmpty = e.target === e.target.getStage();
@@ -66,6 +68,22 @@ export const DrawingCanvas = (props) => {
                                 name: 'object',
                             },
                         ]))
+
+                    setExportData(
+                        exportData.concat({
+                            type: dbContext.selectedAsset.alt,
+                            width: dbContext.selectedAsset.width,
+                            height: dbContext.selectedAsset.height,
+                            x: (correctPos.x * scale),
+                            y: (correctPos.y * scale),
+                            id: newId,
+                            url: dbContext.selectedAsset.url,
+                            rotation: dbContext.selectedAsset.rotation,
+                            keepRatio: dbContext.selectedAsset.keepRatio,
+                            enabledAnchors: dbContext.selectedAsset.enabledAnchors
+                        })
+                    )
+
 
                 }
 
@@ -153,7 +171,7 @@ export const DrawingCanvas = (props) => {
                     layer.find('.guid-line').forEach((l) => l.destroy());
                 }}
             >
-                <ImagePainter ImageObjects={ImageObjects} setImageObjects={setImageObjects} setSelectedItemCoordinates={setSelectedItemCoordinates} />
+                <ImagePainter ImageObjects={ImageObjects} setImageObjects={setImageObjects} setSelectedItemCoordinates={setSelectedItemCoordinates} exportData={exportData} />
 
             </Layer>
         </Stage>

@@ -10,12 +10,34 @@ export const DrawingBoard = () => {
     const dbContext = useContext(DrawingBoardContext);
     const [selectedItemCoordinates, setSelectedItemCoordinates] = React.useState({ x: 0, y: 0, w: 0, h: 0, angle: 0 })
     const [scale, setScale] = React.useState(1)
+    const [exportData, setExportData] = React.useState([]);
+    const [ImageObjects, setImageObjects] = React.useState([]);
+    const [newId, setNewId] = React.useState('1');
 
     return (
         <Grid sx={{ display: 'flex' }} padding={4} >
             <DrawingToolBox />
-            <DrawingCanvas setSelectedItemCoordinates={setSelectedItemCoordinates} scale={scale} />
-            <AttributeWindow selectedItemCoordinates={selectedItemCoordinates} scale={scale} setScale={setScale} />
+            <DrawingCanvas
+                setSelectedItemCoordinates={setSelectedItemCoordinates}
+                scale={scale}
+                exportData={exportData}
+                setExportData={setExportData}
+                ImageObjects={ImageObjects}
+                setImageObjects={setImageObjects}
+                newId={newId}
+                setNewId={setNewId}
+            />
+            <AttributeWindow
+                selectedItemCoordinates={selectedItemCoordinates}
+                scale={scale}
+                setScale={setScale}
+                exportData={exportData}
+                setNewId={setNewId}
+                setImageObjects={setImageObjects}
+                setExportData={setExportData}
+
+
+            />
         </Grid>
 
     );
