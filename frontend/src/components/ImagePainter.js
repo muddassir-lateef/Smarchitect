@@ -4,7 +4,7 @@ import { Stage, Layer, Image, Transformer } from 'react-konva';
 import useImage from 'use-image';
 
 
-const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrack }) => {
+const ImageObject = ({ shapeProps, isSelected, onSelect, setImageChanged, ImageChanged, onChange, attributeTrack }) => {
     const shapeRef = React.useRef();
     const trRef = React.useRef();
 
@@ -34,18 +34,21 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrac
                         y: e.target.y(),
                     });
                     attributeTrack({ x: e.target.x(), y: e.target.y(), w: Math.max(5, e.target.width() * e.target.scaleX()), h: Math.max(5, e.target.height() * e.target.scaleY()), angle: e.target.rotation() })
+                    setImageChanged(ImageChanged + 1)
 
                 }}
 
                 onDragMove={(e) => {
-
+                    onSelect()
                     attributeTrack({ x: e.target.x(), y: e.target.y(), w: Math.max(5, e.target.width() * e.target.scaleX()), h: Math.max(5, e.target.height() * e.target.scaleY()), angle: e.target.rotation() })
+                    setImageChanged(ImageChanged + 1)
 
                 }}
 
                 onTransform={(e) => {
                     const node = shapeRef.current;
                     attributeTrack({ x: node.x(), y: node.y(), w: Math.max(5, node.width() * node.scaleX()), h: Math.max(5, node.height() * node.scaleY()), angle: node.rotation() })
+                    setImageChanged(ImageChanged + 1)
 
                 }}
 
@@ -73,6 +76,7 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrac
                         height: Math.max(node.height() * scaleY),
                     });
                     attributeTrack({ x: node.x(), y: node.y(), w: Math.max(5, node.width() * scaleX), h: Math.max(node.height() * scaleY), angle: node.rotation() })
+                    setImageChanged(ImageChanged + 1)
 
                 }}
 
@@ -100,8 +104,10 @@ const ImageObject = ({ shapeProps, isSelected, onSelect, onChange, attributeTrac
 export const ImagePainter = (props) => {
     const { ImageObjects } = props;
     const { setImageObjects } = props;
-    const { setSelectedItemCoordinates } = props; 
-    const {exportData}=props
+    const { setSelectedItemCoordinates } = props;
+    const { setImageChanged } = props
+    const { ImageChanged } = props
+    const { exportData } = props
     const dbContext = useContext(DrawingBoardContext);
     return (
         <>
@@ -120,7 +126,8 @@ export const ImagePainter = (props) => {
 
                             }}
 
-
+                            setImageChanged={setImageChanged}
+                            ImageChanged={ImageChanged}
                             onChange={(newAttrs) => {
                                 const rects = ImageObjects.slice();
                                 rects[i] = newAttrs;
@@ -140,13 +147,14 @@ export const ImagePainter = (props) => {
 
                                 }
 
-
                             }}
                             attributeTrack={(newAttrs) => {
                                 setSelectedItemCoordinates(newAttrs)
-                                console.log(newAttrs)
                             }}
-                        />);
+                            
+                        />
+                        
+                        );
                 })
             }
         </>

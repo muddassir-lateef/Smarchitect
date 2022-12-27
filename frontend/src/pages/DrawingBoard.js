@@ -18,6 +18,7 @@ export const DrawingBoard = () => {
         <Grid sx={{ display: 'flex' }} padding={4} >
             <DrawingToolBox />
             <DrawingCanvas
+                selectedItemCoordinates={selectedItemCoordinates}
                 setSelectedItemCoordinates={setSelectedItemCoordinates}
                 scale={scale}
                 exportData={exportData}

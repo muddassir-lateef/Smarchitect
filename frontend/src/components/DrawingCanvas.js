@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import { ImagePainter } from './ImagePainter'
+import { JoinPainter } from './JoinPainter'
 
 import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from '../util/snapping_util';
 
@@ -10,13 +11,15 @@ export const DrawingCanvas = (props) => {
     const stageH = 800
     const { ImageObjects } = props
     const { setImageObjects } = props
+    const {selectedItemCoordinates} = props
     const { setSelectedItemCoordinates } = props
     const stageRef = React.useRef();
     const { scale } = props
     const { setExportData } = props
     const { exportData } = props
-    const {newId}=props
-    const {setNewId}=props
+    const { newId } = props
+    const { setNewId } = props
+    const [ImageChanged, setImageChanged] = React.useState(1)
     const dbContext = useContext(DrawingBoardContext);
     const checkDeselect = (e) => {
         // deselect when clicked on empty area
@@ -101,7 +104,7 @@ export const DrawingCanvas = (props) => {
                 onDragMove={(e) => {
                     const layer = e.target.parent;
                     const stage = layer.parent;
-                    console.log("Layer on Drag: ", e.target.parent) //layer 
+                    //console.log("Layer on Drag: ", e.target.parent) //layer 
                     e.target.parent.find('.guid-line').forEach((l) => l.destroy());
                     var lineGuideStops = getLineGuideStops(e.target, layer);  //obj and obj parent which is layer 
                     var itemBounds = getObjectSnappingEdges(e.target);
@@ -171,8 +174,15 @@ export const DrawingCanvas = (props) => {
                     layer.find('.guid-line').forEach((l) => l.destroy());
                 }}
             >
-                <ImagePainter ImageObjects={ImageObjects} setImageObjects={setImageObjects} setSelectedItemCoordinates={setSelectedItemCoordinates} exportData={exportData} />
-
+                <ImagePainter
+                    ImageObjects={ImageObjects}
+                    setImageObjects={setImageObjects}
+                    setSelectedItemCoordinates={setSelectedItemCoordinates}
+                    exportData={exportData}
+                    setImageChanged={setImageChanged}
+                    ImageChanged={ImageChanged}
+                />
+                <JoinPainter ImageObjects={ImageObjects} ImageChanged={ImageChanged} selectedItemCoordinates={selectedItemCoordinates}/>
             </Layer>
         </Stage>
 
