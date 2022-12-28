@@ -12,7 +12,8 @@ const GenerateNewMap = () => {
     const layerRef = React.useRef();
     const [nodes, setNodes] = useState([])    //list with max size 2
     const setSelectedNode = (newNode) => {
-        console.log("Node clicked, before update: ", nodes)
+        setNodes(prevState => [...prevState, newNode]);
+      /*  console.log("Node clicked, before update: ", nodes)
         console.log("Node length, before update: ", nodes.length)
          console.log("Setting node", newNode.attrs.id)
         //  console.log("Prev Node", node)
@@ -43,7 +44,7 @@ const GenerateNewMap = () => {
             //layerRef.current.findOne('#' + newNode.attrs.id).shadowColor('red')
             setNodes([newNode])
             return;
-        }
+        }*/
 
     }
 
@@ -67,10 +68,11 @@ const GenerateNewMap = () => {
     }
 
     const addCircleHighlight = () => {
-        for (var i = 0; i < nodes.length; i++) {
+        //for (var i = 0; i < nodes.length; i++) {
            // console.log("Highlighted: ", nodes[i].attrs.id)
-            layerRef.current.findOne('#' + nodes[i].attrs.id).shadowColor('red')
-        }
+           if (nodes.length % 2 === 1)
+            layerRef.current.findOne('#' + nodes[nodes.length-1].attrs.id).shadowColor('red')
+       // }
     }
     const removeExtraCircleHighlights = () => {
         for (var i = 0; i < targets.length; i++) {
@@ -85,12 +87,13 @@ const GenerateNewMap = () => {
         addCircleHighlight();
         removeExtraCircleHighlights();
         // console.log("SELECT STATUS: ", isNodeSelected)
-        if (nodes.length === 2) {
+        if ( nodes.length > 1 && nodes.length % 2 === 0){
             console.log("Adding connection")
             removeCircleHighlight();
-            var newCons = makeConnection(targets, connectors, nodes[0].attrs.id, nodes[1].attrs.id)
+            var newCons = makeConnection(targets, connectors, nodes[nodes.length - 2].attrs.id, nodes[nodes.length - 1].attrs.id)
             drawNodes([newCons[newCons.length - 1]], [], layerRef.current, setSelectedNode)
             setConnectors(newCons)
+            console.log(newCons)
             updateObjects(targets, connectors, layerRef.current)
         }
 
