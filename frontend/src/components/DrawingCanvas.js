@@ -59,6 +59,7 @@ export const DrawingCanvas = (props) => {
                     setImageObjects(
                         ImageObjects.concat([
                             {
+                                alt: dbContext.selectedAsset.alt,
                                 url: dbContext.selectedSource,
                                 x: (correctPos.x * scale),
                                 y: (correctPos.y * scale),
@@ -83,7 +84,8 @@ export const DrawingCanvas = (props) => {
                             url: dbContext.selectedAsset.url,
                             rotation: dbContext.selectedAsset.rotation,
                             keepRatio: dbContext.selectedAsset.keepRatio,
-                            enabledAnchors: dbContext.selectedAsset.enabledAnchors
+                            enabledAnchors: dbContext.selectedAsset.enabledAnchors,
+
                         })
                     )
 

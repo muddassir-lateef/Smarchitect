@@ -30,7 +30,7 @@ export const JoinPainter = (props) => {
     //     |____________________|
     //    p3                    p4
 
-    const CoordinateTranslator = (x, y, w, h, angle) => {
+    const CoordinateTranslator = (x, y, w, h, angle, type) => {
 
         var coords = []
 
@@ -60,18 +60,39 @@ export const JoinPainter = (props) => {
         // midpoint of p2 and p4
         coords.push([(coords[1][0] + coords[3][0]) / 2, (coords[1][1] + coords[3][1]) / 2])
 
+        if (type == 'Wall') {
+            var step = 5
+            var xt = 0
+            var yt = 0
+            var edgeAvoidance = 2
+
+            //generating points btwn p1 and p3
+            for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
+                xt = x - (i * Math.cos((angle + 270) * (Math.PI / 180)))
+                yt = y - (i * Math.sin((angle + 270) * (Math.PI / 180)))
+                coords.push([xt, yt])
+            }
+
+            //generating points btwn p2 and p4
+            for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
+                xt = coords[1][0] - (i * Math.cos((angle + 270) * (Math.PI / 180)))
+                yt = coords[1][1] - (i * Math.sin((angle + 270) * (Math.PI / 180)))
+                coords.push([xt, yt])
+            }
+
+        }
         return coords
 
 
     };
-    const makeJoins = (xx, yy, id1, id2) => {
+    const makeJoins = (xx, yy, id1, id2, obj1, obj2) => {
         if (id1 != id2) {
             if (id1 > id2) {
                 var temp = id1
                 id1 = id2
                 id2 = temp
             }
-            Joins.push({ img1Id: id1, img2Id: id2, x: xx, y: yy })
+            Joins.push({ img1Id: id1, img2Id: id2, type1: obj1, type2: obj2, x: xx, y: yy })
         }
 
     };
@@ -156,96 +177,99 @@ export const JoinPainter = (props) => {
 
     React.useEffect(() => {
 
+        var selid = dbContext.selectedImgInstance
+        var selt = findElement(ImageObjects, "id", selid)
+        if (selt != null) {
+            var selAsset = selt.alt
 
-        var coords2 = CoordinateTranslator(selectedItemCoordinates.x, selectedItemCoordinates.y, selectedItemCoordinates.w, selectedItemCoordinates.h, selectedItemCoordinates.angle)
+            var coords2 = CoordinateTranslator(selectedItemCoordinates.x, selectedItemCoordinates.y, selectedItemCoordinates.w, selectedItemCoordinates.h, selectedItemCoordinates.angle, selAsset)
 
-        // checking for attachment and making joins
-        for (var img = 0; img < ImageObjects.length; img++) {
-            if (ImageObjects[img] != null) {
-                var coords1 = CoordinateTranslator(ImageObjects[img].x, ImageObjects[img].y, ImageObjects[img].width, ImageObjects[img].height, ImageObjects[img].rotation)
-                for (var i = 0; i < coords2.length; i++) {
-                    for (var j = 0; j < coords2.length; j++) {
-
-                        if (checkJoins(coords1[i], coords2[j])) {
-                            if (checkIds(dbContext.selectedImgInstance, ImageObjects[img].id, coords1[i])) {
-                                makeJoins(coords1[i][0], coords1[i][1], dbContext.selectedImgInstance, ImageObjects[img].id)
+            // checking for attachment and making joins
+            for (var img = 0; img < ImageObjects.length; img++) {
+                if (ImageObjects[img] != null) {
+                    var coords1 = CoordinateTranslator(ImageObjects[img].x, ImageObjects[img].y, ImageObjects[img].width, ImageObjects[img].height, ImageObjects[img].rotation, ImageObjects[img].alt)
+                    for (var i = 0; i < coords1.length; i++) {
+                        for (var j = 0; j < coords2.length; j++) {
+                            if (checkJoins(coords1[i], coords2[j])) {
+                                if (checkIds(dbContext.selectedImgInstance, ImageObjects[img].id, coords1[i])) {
+                                    makeJoins(coords1[i][0], coords1[i][1], dbContext.selectedImgInstance, ImageObjects[img].id, selAsset, ImageObjects[img].alt)
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
 
 
-        // Checking to Remove all unattached joins
-        var toRemove = []
+            // Checking to Remove all unattached joins
+            var toRemove = []
 
-        for (var i = 0; i < Joins.length; i++) {
+            for (var i = 0; i < Joins.length; i++) {
 
-            for (var x = 0; x < Joins.length; x++) {
+                for (var x = 0; x < Joins.length; x++) {
 
-            }
-            if (Joins[i].img1Id == dbContext.selectedImgInstance || Joins[i].img2Id == dbContext.selectedImgInstance) {
-                var valid = false;
-                for (var j = 0; j < coords2.length; j++) {
-                    if (checkJoins([Joins[i].x, Joins[i].y], coords2[j])) {
+                }
+                if (Joins[i].img1Id == dbContext.selectedImgInstance || Joins[i].img2Id == dbContext.selectedImgInstance) {
+                    var valid = false;
+                    for (var j = 0; j < coords2.length; j++) {
+                        if (checkJoins([Joins[i].x, Joins[i].y], coords2[j])) {
 
-                        valid = true
+                            valid = true
+                        }
+                    }
+                    if (!valid) {
+                        toRemove.push(i)
                     }
                 }
-                if (!valid) {
-                    toRemove.push(i)
-                }
+
             }
 
-        }
+            //Remove all unattached joins
+            for (var i = toRemove.length - 1; i >= 0; i--) {
 
-        //Remove all unattached joins
-        for (var i = toRemove.length - 1; i >= 0; i--) {
-
-            Joins.splice(toRemove[i], 1)
-        }
-        // making double joins into singles
-        var sJoins = splitBasedonID(Joins)
-        toRemove = []
-        for (var i = 0; i < sJoins.length; i++) {
-            if (sJoins[i][1].length > 1) {
-                var avgX = 0
-                var avgY = 0
-                var indices = []
-                for (var j = 0; j < sJoins[i][1].length; j++) {
-                    indices.push(sJoins[i][1][j][0])
-                    avgX += sJoins[i][1][j][1].x
-                    avgY += sJoins[i][1][j][1].y
-                }
-                avgX = avgX / sJoins[i][1].length
-                avgY = avgY / sJoins[i][1].length
-                var minIndex = sJoins[i][1][0][0]
-                var minDist = getDistance(sJoins[i][1][0][1].x, sJoins[i][1][0][1].y, avgX, avgY)
-
-                for (var j = 1; j < sJoins[i][1].length; j++) {
-                    var ind = sJoins[i][1][j][0]
-                    var dist = getDistance(sJoins[i][1][j][1].x, sJoins[i][1][j][1].y, avgX, avgY)
-                    if (dist < minDist) {
-                        minDist = dist
-                        minIndex = ind
+                Joins.splice(toRemove[i], 1)
+            }
+            // making double joins into singles
+            var sJoins = splitBasedonID(Joins)
+            toRemove = []
+            for (var i = 0; i < sJoins.length; i++) {
+                if (sJoins[i][1].length > 1) {
+                    var avgX = 0
+                    var avgY = 0
+                    var indices = []
+                    for (var j = 0; j < sJoins[i][1].length; j++) {
+                        indices.push(sJoins[i][1][j][0])
+                        avgX += sJoins[i][1][j][1].x
+                        avgY += sJoins[i][1][j][1].y
                     }
+                    avgX = avgX / sJoins[i][1].length
+                    avgY = avgY / sJoins[i][1].length
+                    var minIndex = sJoins[i][1][0][0]
+                    var minDist = getDistance(sJoins[i][1][0][1].x, sJoins[i][1][0][1].y, avgX, avgY)
+
+                    for (var j = 1; j < sJoins[i][1].length; j++) {
+                        var ind = sJoins[i][1][j][0]
+                        var dist = getDistance(sJoins[i][1][j][1].x, sJoins[i][1][j][1].y, avgX, avgY)
+                        if (dist < minDist) {
+                            minDist = dist
+                            minIndex = ind
+                        }
+                    }
+                    const index = indices.indexOf(minIndex);
+                    indices.splice(index, 1);
+                    toRemove = toRemove.concat(indices)
                 }
-                const index = indices.indexOf(minIndex);
-                indices.splice(index, 1);
-                toRemove = toRemove.concat(indices)
+            }
+
+            toRemove.sort(function (a, b) { return a - b })
+
+            //Remove all double joins
+            for (var i = toRemove.length - 1; i >= 0; i--) {
+
+                Joins.splice(toRemove[i], 1)
             }
         }
-
-        toRemove.sort(function (a, b) { return a - b })
-        
-        //Remove all double joins
-        for (var i = toRemove.length - 1; i >= 0; i--) {
-
-            Joins.splice(toRemove[i], 1)
-        }
-
     }, [ImageChanged])
     return (
         <>
