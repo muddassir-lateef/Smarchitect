@@ -1,10 +1,19 @@
 import Konva from "konva";
 
-export function generateTarget(targets, stage) {
+export function generateTarget(targets, stage, offset, tar_tag) {
+  //console.log("Offset received: ", offset)
+    var x_pos = 10 + offset*70;
+    var y_pos = 50;
+    if (x_pos > stage.width() - 70 && offset > 10){
+      offset = offset - 10;
+      x_pos = 10 + offset*70; 
+      y_pos = y_pos + 70;
+    }
     targets.push({
     id: 'target-' + targets.length,
-    x: 100 + stage.width() * Math.random(),
-    y: 100 + stage.height() * Math.random(), 
+    x: x_pos,
+    y: y_pos,
+    tag: tar_tag,
     });
     return targets;
 }
@@ -89,13 +98,22 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
     });
 
     targets.forEach((target) => {
+        var rad = 10;
+        if (target.tag.includes("bedroom")){
+          rad = 40
+        }
+        else if(target.tag.includes("bathroom")){
+          rad = 25
+        }
         var node = new Konva.Circle({
+          x: target.x,
+          y: target.y,
           id: target.id,
           fill: Konva.Util.getRandomColor(),
-          radius: 20 + Math.random() * 20,
+          radius: rad,
           shadowBlur: 10,
           draggable: true,
-          name: target.id
+          name: target.id,
         });
         layer.add(node);
 
@@ -106,11 +124,45 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
 
           // update nodes from the new state
           updateObjects(targets, connectors, layer);
+          var label = layer.findOne((obj)=>
+            obj.attrs.id === target.tag
+          );
+         // console.log("LABEL TO MOVE: ", label)
+          label.x(node.x() - 30);
+          label.y(node.y() - 10);
+
         });
 
         node.on('click', () => {
             console.log("ID of clicked node: ", node.id())
             setSelectedNode(node)
         });
+
+        var simpleLabel = new Konva.Label({
+          id: target.tag,
+          x: target.x - 30,
+          y: target.y - 10,
+          opacity: 0.75,
+        });
+        simpleLabel.add(
+          new Konva.Tag({
+            fill: 'white',
+          })
+        );
+        simpleLabel.add(
+          new Konva.Text({
+            text: target.tag,
+            fontFamily: 'Calibri',
+            fontSize: 12,
+            padding: 2,
+            fill: 'black',
+          })
+        );
+        layer.add(simpleLabel)
+        console.log("Label added to layer: ", simpleLabel)
+      
+
     });
+
+
 }

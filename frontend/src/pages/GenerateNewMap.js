@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Button } from '@mui/material';
 import { Stage, Layer } from 'react-konva';
 import { generateTarget, drawNodes, updateObjects, makeConnection } from '../util/map_graph_util';
+import ConstraintsForm from '../components/ContraintsForm';
 
 const GenerateNewMap = () => {
+    const stageW = 900
+    const stageH = 800
     const [targets, setTargets] = useState([])
     const [connectors, setConnectors] = useState([])
     const layerRef = React.useRef();
@@ -94,18 +97,48 @@ const GenerateNewMap = () => {
         /*   layerRef.current.findOne('#' + node.attrs.id).attrs.shadowColor = 'red';*/
     }, [nodes]);
 
+    const onSubmitFormHandler = (formInputs) => {
+        console.log("INPUTS: ", formInputs);
+        var bedrooms = parseInt(formInputs.bedrooms.value);
+        var bathrooms = parseInt(formInputs.bathrooms.value);
+        removeCircleHighlight();
+        setNodes([])
+        const stage = layerRef.current.parent;
+        for (var i=0; i<bedrooms; i++){
+        //console.log(layerRef.current)
+           // console.log("GEnerate Target called, i: ", i)
+            var tag = 'bedroom-' + i;
+            const tars = generateTarget(targets, stage, i, tag)
+            setTargets(tars)
+            console.log("Targetsss: ", tars)
+            drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        }
+
+        for (var i=0; i<bathrooms; i++){
+            var tag = 'bathroom-' + i;
+            const tars = generateTarget(targets, stage, i + bedrooms, tag) 
+            setTargets(tars)
+            console.log("Targetsss: ", tars)
+            drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        }
+
+    }
+
 
 
     return (
-        <Grid container  direction="column">
-            <Button variant="contained"  onClick={handleNewNodeClick}>Add Node</Button>
+        <Grid container sx={{pt:5}}>
+            {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}
+            <Grid item xs={4}><ConstraintsForm onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
+            <Grid item xs={8}>
             <Stage
-                style={{
-                    border: '2px solid',
-                    marginTop: '2px',
-                }}
-                width={window.innerWidth - 50}
-                height={window.innerHeight - 50}
+                width={800}
+                height={800}
+                style={{ width: '800px', height: '500px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
+                //style={{
+                 //   border: '2px solid',
+                 //   marginTop: '2px',
+                //}}
                 onDragMove={() => { updateObjects(targets, connectors, layerRef.current) }}
 
             >
@@ -113,6 +146,7 @@ const GenerateNewMap = () => {
 
                 </Layer>
             </Stage>
+            </Grid>
         </Grid>
     )
 }
