@@ -130,7 +130,7 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
          // console.log("LABEL TO MOVE: ", label)
           label.x(node.x() - 30);
           label.y(node.y() - 10);
-
+          
         });
 
         node.on('click', () => {
@@ -159,7 +159,7 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
           })
         );
         layer.add(simpleLabel)
-        console.log("Label added to layer: ", simpleLabel)
+        //console.log("Label added to layer: ", simpleLabel)
       
 
     });
