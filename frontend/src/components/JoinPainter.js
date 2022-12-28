@@ -55,10 +55,10 @@ export const JoinPainter = (props) => {
         coords.push([(coords[0][0] + coords[1][0]) / 2, (coords[0][1] + coords[1][1]) / 2])
 
         // midpoint of p3 and p4
-        coords.push([(coords[2][0]+coords[3][0])/2,(coords[2][1]+coords[3][1])/2])
+        coords.push([(coords[2][0] + coords[3][0]) / 2, (coords[2][1] + coords[3][1]) / 2])
 
         // midpoint of p2 and p4
-        coords.push([(coords[1][0]+coords[3][0])/2,(coords[1][1]+coords[3][1])/2])
+        coords.push([(coords[1][0] + coords[3][0]) / 2, (coords[1][1] + coords[3][1]) / 2])
 
         return coords
 
@@ -111,6 +111,47 @@ export const JoinPainter = (props) => {
                 return arr[i];
 
         return null
+    }
+    const findEntry = (arr, entry) => {
+
+        for (var i = 0; i < arr.length; i++) {
+            if (JSON.stringify(arr[i][0]) === JSON.stringify(entry)) {
+
+                return i
+            }
+        }
+    }
+
+    const checkInclusion = (arr, entry) => {
+
+        for (var i = 0; i < arr.length; i++) {
+            if (JSON.stringify(arr[i]) === JSON.stringify(entry)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    const splitBasedonID = (arr) => {
+        var tArr = []
+        var temp = []
+        for (var i = 0; i < arr.length; i++) {
+            if (checkInclusion(temp, { id1: arr[i].img1Id, id2: arr[i].img2Id })) {
+                tArr[findEntry(tArr, { id1: arr[i].img1Id, id2: arr[i].img2Id })][1].push([i, arr[i]])
+            }
+            else {
+                temp.push({ id1: arr[i].img1Id, id2: arr[i].img2Id })
+                tArr.push([{ id1: arr[i].img1Id, id2: arr[i].img2Id }, [[i, arr[i]]]])
+            }
+        }
+        return tArr
+    }
+
+    const getDistance = (xA, yA, xB, yB) => {
+        var xDiff = xA - xB;
+        var yDiff = yA - yB;
+
+        return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
     }
 
     React.useEffect(() => {
@@ -165,35 +206,47 @@ export const JoinPainter = (props) => {
 
             Joins.splice(toRemove[i], 1)
         }
-
-
-
         // making double joins into singles
+        var sJoins = splitBasedonID(Joins)
         toRemove = []
+        for (var i = 0; i < sJoins.length; i++) {
+            if (sJoins[i][1].length > 1) {
+                var avgX = 0
+                var avgY = 0
+                var indices = []
+                for (var j = 0; j < sJoins[i][1].length; j++) {
+                    indices.push(sJoins[i][1][j][0])
+                    avgX += sJoins[i][1][j][1].x
+                    avgY += sJoins[i][1][j][1].y
+                }
+                avgX = avgX / sJoins[i][1].length
+                avgY = avgY / sJoins[i][1].length
+                var minIndex = sJoins[i][1][0][0]
+                var minDist = getDistance(sJoins[i][1][0][1].x, sJoins[i][1][0][1].y, avgX, avgY)
 
-        for (var i = 0; i < Joins.length; i++) {
-
-            for (var x = 0; x < Joins.length; x++) {
-
-            }
-            if (Joins[i].img1Id == dbContext.selectedImgInstance || Joins[i].img2Id == dbContext.selectedImgInstance) {
-                var valid = false;
-                for (var j = 0; j < 4; j++) {
-                    if (checkJoins([Joins[i].x, Joins[i].y], coords2[j])) {
-
-                        valid = true
+                for (var j = 1; j < sJoins[i][1].length; j++) {
+                    var ind = sJoins[i][1][j][0]
+                    var dist = getDistance(sJoins[i][1][j][1].x, sJoins[i][1][j][1].y, avgX, avgY)
+                    if (dist < minDist) {
+                        minDist = dist
+                        minIndex = ind
                     }
                 }
-                if (!valid) {
-                    toRemove.push(i)
-                }
+                const index = indices.indexOf(minIndex);
+                indices.splice(index, 1);
+                toRemove = toRemove.concat(indices)
             }
-
         }
 
+        toRemove.sort(function (a, b) { return a - b })
+        
+        //Remove all double joins
+        for (var i = toRemove.length - 1; i >= 0; i--) {
+
+            Joins.splice(toRemove[i], 1)
+        }
 
     }, [ImageChanged])
-
     return (
         <>
             {
