@@ -7,7 +7,9 @@ import { useState } from 'react';
 
 
 //Noted Bug
-//Selecting anther image while having tranform on another make new
+// joining 3 images at a point create 2 join points instead of one
+
+// need to implement something for joins in  a T shape
 
 var Joins = [];
 export const JoinPainter = (props) => {
