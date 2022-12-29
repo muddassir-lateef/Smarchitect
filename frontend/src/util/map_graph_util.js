@@ -2,7 +2,7 @@ import Konva from "konva";
 
 export function generateTarget(targets, stage, offset, tar_tag) {
   //console.log("Offset received: ", offset)
-    var x_pos = 10 + offset*70;
+    var x_pos = 20 + offset*70;
     var y_pos = 50;
     if (x_pos > stage.width() - 70 && offset > 10){
       offset = offset - 10;
@@ -41,6 +41,8 @@ export function generateConnectors(connectors, targets) {
 // function to generate arrows between targets
 export function makeConnection(targets, connectors, from, to) {
   console.log("Making connecton from ", from, ", to ", to)
+  var tag_from = targets.find(target=>target.id === from).tag
+  var tag_to = targets.find(target=>target.id === to).tag
   //checking if there are enough tergets to add connectors 
   if (targets.length < 2) return connectors;
   // checking if the connection already exists
@@ -61,6 +63,8 @@ export function makeConnection(targets, connectors, from, to) {
       id: 'connector-' + connectors.length,
       from: from,
       to: to,
+      from_tag: tag_from,
+      to_tag: tag_to
     });
   return connectors;
 }
@@ -112,13 +116,29 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
     });
 
     targets.forEach((target) => {
-        var rad = 10;
+        var rad = 25;
         if (target.tag.includes("bedroom")){
           rad = 40
         }
         else if(target.tag.includes("bathroom")){
           rad = 25
         }
+        else if(target.tag.includes("carporch")){
+          rad = 40
+        }
+        else if(target.tag.includes("kitchen")){
+          rad = 35
+        }
+        else if(target.tag.includes("livingroom")){
+          rad = 40
+        }
+        else if(target.tag.includes("drawingroom")){
+          rad = 45
+        }
+        else if(target.tag.includes("garden")){
+          rad = 25
+        }
+
         var node = new Konva.Circle({
           x: target.x,
           y: target.y,
@@ -130,6 +150,22 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
           name: target.id,
         });
         layer.add(node);
+        var x_adjust = 30;
+        if(target.tag.includes("garden")){
+          x_adjust = 24
+        }
+        if(target.tag.includes("livingroom")){
+          x_adjust = 33
+        }
+        if(target.tag.includes("drawingroom")){
+          x_adjust = 39
+        }
+        if(target.tag.includes("kitchen")){
+          x_adjust = 25
+        }
+        if(target.tag.includes("carporch")){
+          x_adjust = 28
+        }
 
         node.on('dragmove', () => {
           // mutate the state
@@ -142,7 +178,7 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
             obj.attrs.id === target.tag
           );
          // console.log("LABEL TO MOVE: ", label)
-          label.x(node.x() - 30);
+          label.x(node.x() - x_adjust);
           label.y(node.y() - 10);
           
         });
@@ -152,9 +188,11 @@ export function drawNodes(connectors, targets, layer, setSelectedNode ){
             setSelectedNode(node)
         });
 
+        
+
         var simpleLabel = new Konva.Label({
           id: target.tag,
-          x: target.x - 30,
+          x: target.x - x_adjust,
           y: target.y - 10,
           opacity: 0.75,
         });

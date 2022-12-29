@@ -11,6 +11,7 @@ const GenerateNewMap = () => {
     const [connectors, setConnectors] = useState([])
     const layerRef = React.useRef();
     const [nodes, setNodes] = useState([])    //list with max size 2
+    const [submitClicked, setSubmitClicked] = useState(false)
     const setSelectedNode = (newNode) => {
         setNodes(prevState => [...prevState, newNode]);
       /*  console.log("Node clicked, before update: ", nodes)
@@ -101,9 +102,23 @@ const GenerateNewMap = () => {
     }, [nodes]);
 
     const onSubmitFormHandler = (formInputs) => {
+        setSubmitClicked(true)
         console.log("INPUTS: ", formInputs);
         var bedrooms = parseInt(formInputs.bedrooms.value);
         var bathrooms = parseInt(formInputs.bathrooms.value);
+        var carporch = parseInt(formInputs.carporch.value);
+        var coveredarea = parseInt(formInputs.coveredarea.value);
+        var drawingrooms = parseInt(formInputs.drawingrooms.value);
+        var gardens = parseInt(formInputs.gardens.value);
+        var kitchens = parseInt(formInputs.kitchens.value);
+        var livingrooms = parseInt(formInputs.livingrooms.value);
+        var plot_x = parseInt(formInputs.plot_X_Dimension.value);
+        var plot_y = parseInt(formInputs.plot_Y_Dimension.value);
+
+
+
+
+
         removeCircleHighlight();
         setNodes([])
         const stage = layerRef.current.parent;
@@ -124,6 +139,41 @@ const GenerateNewMap = () => {
             console.log("Targetsss: ", tars)
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
         }
+        for (var i=0; i<carporch; i++){
+            var tag = 'carporch-' + i;
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms, tag) 
+            setTargets(tars)
+            console.log("Targetsss: ", tars)
+            drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        }
+        for (var i=0; i<drawingrooms; i++){
+            var tag = 'drawingroom-' + i;
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch, tag) 
+            setTargets(tars)
+            console.log("Targetsss: ", tars)
+            drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        }
+        for (var i=0; i<gardens; i++){
+            var tag = 'garden-' + i;
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms, tag) 
+            setTargets(tars)
+            console.log("Targetsss: ", tars)
+            drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        }
+        for (var i=0; i<kitchens; i++){
+            var tag = 'kitchen-' + i;
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms + gardens, tag) 
+            setTargets(tars)
+            console.log("Targetsss: ", tars)
+            drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        }
+        for (var i=0; i<livingrooms; i++){
+            var tag = 'livingroom-' + i;
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms + gardens + kitchens, tag) 
+            setTargets(tars)
+            console.log("Targetsss: ", tars)
+            drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
+        }
 
     }
 
@@ -132,12 +182,12 @@ const GenerateNewMap = () => {
     return (
         <Grid container sx={{pt:5}}>
             {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}
-            <Grid item xs={4}><ConstraintsForm onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
-            <Grid item xs={8}>
+            <Grid item xs={4}><ConstraintsForm submitClicked = {submitClicked} onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
+            <Grid item xs={8} sx={{pb:2}}>
             <Stage
                 width={800}
                 height={800}
-                style={{ width: '800px', height: '500px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
+                style={{ width: '800px', height: '900px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
                 //style={{
                  //   border: '2px solid',
                  //   marginTop: '2px',

@@ -6,7 +6,7 @@ import Avatar from "@mui/material/Avatar";
 import SendIcon from "@mui/icons-material/Send";
 import Input from "../components/Input";
 import { useForm } from "../hooks/form-hook";
-import { VALIDATOR_MIN, VALIDATOR_MINLENGTH } from "../util/validators"
+import { VALIDATOR_MAX, VALIDATOR_MIN, VALIDATOR_MINLENGTH } from "../util/validators"
 
 
 const ConstraintsForm = (props) => {
@@ -18,6 +18,30 @@ const ConstraintsForm = (props) => {
         isValid: false,
       },
       bathrooms: {
+        value: 0,
+        isValid: false,
+      },
+      livingrooms: {
+        value: 0,
+        isValid: false,
+      },
+      kitchens: {
+        value: 0,
+        isValid: false,
+      },
+      carporch: {
+        value: 0,
+        isValid: false,
+      },
+      drawingrooms: {
+        value: 0,
+        isValid: false,
+      },
+      coveredarea: {
+        value: 0,
+        isValid: false,
+      },
+      gardens: {
         value: 0,
         isValid: false,
       },
@@ -37,7 +61,7 @@ const ConstraintsForm = (props) => {
 
   return (
     <Grid justifyContent="center" display="flex" flex-direction="row">
-      <Card sx={{ width: "100%", height:"500px", maxWidth: "300px" }}>
+      <Card sx={{ width: "100%", height:"900px", maxWidth: "300px" }}>
         <Box
           sx={{
             display: "flex",
@@ -99,6 +123,60 @@ const ConstraintsForm = (props) => {
             validators={[VALIDATOR_MINLENGTH(1)]}
             errorText="Bathroom Count is a required field"
           />
+          <Input
+            sx={{ pr: 2, pb: 3, flex: "100%" }}
+            id="livingrooms"
+            label="Living Rooms"
+            variant="standard"
+            onInput={InputHandler}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Living Rooms is a required field"
+          />
+          <Input
+            sx={{ pr: 2, pb: 3, flex: "100%" }}
+            id="kitchens"
+            label="Kitchens"
+            variant="standard"
+            onInput={InputHandler}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Kitchens is a required field"
+          />
+          <Input
+            sx={{ pr: 2, pb: 3, flex: "100%" }}
+            id="carporch"
+            label="Car Porch"
+            variant="standard"
+            onInput={InputHandler}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Car Porch is a required field"
+          />
+          <Input
+            sx={{ pr: 2, pb: 3, flex: "100%" }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandler}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+            sx={{ pr: 2, pb: 3, flex: "100%" }}
+            id="coveredarea"
+            label="Covered Area %"
+            variant="standard"
+            onInput={InputHandler}
+            validators={[VALIDATOR_MINLENGTH(1),VALIDATOR_MIN(50), VALIDATOR_MAX(100) ]}
+            errorText="% Covered Area should be in range 50-100"
+          />
+          <Input
+            sx={{ pr: 2, pb: 3, flex: "100%" }}
+            id="gardens"
+            label="Garden"
+            variant="standard"
+            onInput={InputHandler}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Gardens is a required field"
+          />
 
           <Box
             sx={{
@@ -107,7 +185,7 @@ const ConstraintsForm = (props) => {
               flexWrap: "wrap",
               alignItems: "center",
               width: "100%",
-              p: 1,
+             
             }}
           >
           </Box>
@@ -116,8 +194,8 @@ const ConstraintsForm = (props) => {
               onClick={()=>props.onSubmit(formState.inputs)}
               variant="contained"
               endIcon={<SendIcon />}
-              sx={{ mt: 2 }}
-              disabled={!formState.isValid}
+              sx={{ mt: 1 }}
+              disabled={!formState.isValid || props.submitClicked}
             >
               Draw Nodes
             </Button>
