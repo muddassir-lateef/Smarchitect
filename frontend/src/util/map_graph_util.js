@@ -21,6 +21,7 @@ export function generateTarget(targets, stage, offset, tar_tag) {
 // function to generate arrows between targets
 export function generateConnectors(connectors, targets) {
     var number = targets.length;
+    //checking if there are enough tergets to add connectors 
     if (targets.length < 2) return connectors;
     while (connectors.length < number) {
       var from = 'target-' + Math.floor(Math.random() * targets.length);
@@ -39,7 +40,20 @@ export function generateConnectors(connectors, targets) {
 
 // function to generate arrows between targets
 export function makeConnection(targets, connectors, from, to) {
+  console.log("Making connecton from ", from, ", to ", to)
+  //checking if there are enough tergets to add connectors 
   if (targets.length < 2) return connectors;
+  // checking if the connection already exists
+ for (var i=0; i<connectors.length; i++) {
+    if(from === connectors[i].from && to === connectors[i].to){
+      return connectors;
+    }
+    // connectors are already bi-directional
+    if(to === connectors[i].from && from === connectors[i].to){
+      return connectors;
+    }
+
+  };
     if (from === to) {
       return connectors;
     }

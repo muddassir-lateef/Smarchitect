@@ -93,7 +93,7 @@ const GenerateNewMap = () => {
             var newCons = makeConnection(targets, connectors, nodes[nodes.length - 2].attrs.id, nodes[nodes.length - 1].attrs.id)
             drawNodes([newCons[newCons.length - 1]], [], layerRef.current, setSelectedNode)
             setConnectors(newCons)
-            console.log(newCons)
+            console.log("New connections: ", newCons)
             updateObjects(targets, connectors, layerRef.current)
         }
 
