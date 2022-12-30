@@ -21,7 +21,7 @@ function App() {
     selectTool(u);
   }, []);
 
-  const [loggedIn, setIsLoggedIn] = useState(true);
+  const [loggedIn, setIsLoggedIn] = useState(false);
   const [selectedObj, setSelectedObj] = useState({});
   const [imgSource, setImgSource] = useState("");
   const [user, setUser] = useState("");
@@ -74,8 +74,12 @@ function App() {
 
         <Router>
           <Grid container direction="column">
-            <NavigationUI />
-            <Toolbar />
+            {loggedIn &&
+              <NavigationUI />
+            }
+            {loggedIn &&
+              <Toolbar />
+            }
             {routes}
           </Grid>
         </Router>
