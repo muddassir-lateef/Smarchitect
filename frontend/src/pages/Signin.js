@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LandingImage from './smarchitect_landing_page.avif'; 
 import { AuthContext } from '../context/AuthContext';
-//import {login as LoginUser} from '../../services/UserService';
+import {Login as LoginUser} from '../services/apiServices';
 
 function Copyright(props) {
   return (
@@ -56,7 +56,7 @@ export default function SignInSide() {
       password,
     });
 
-    /*LoginUser(email, password)
+    LoginUser(email, password)
       .then((log) => {
         if (log.status === 201) {
           auth.setUser(log.data.username);
@@ -66,9 +66,7 @@ export default function SignInSide() {
       .catch((err) => {
         setErrorMessage("Invalid login credentials");
         console.log("Error: " + err);
-      });*/
-      auth.setUser(email);
-      auth.login();
+      });
   };
 
   return (

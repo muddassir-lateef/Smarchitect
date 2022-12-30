@@ -15,3 +15,13 @@ export async function UpdateUser(username, password) {
     return -1;
   }
 }
+
+export async function Login(username, password) {
+  console.log("Here")
+let tempURL = URL + "/Login";
+console.log(tempURL);
+let loginDetails = { username, password };
+
+const response = await axios.patch(tempURL, loginDetails);
+return response;
+}
