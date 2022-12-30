@@ -270,6 +270,7 @@ export const JoinPainter = (props) => {
                 Joins.splice(toRemove[i], 1)
             }
         }
+        console.log(Joins)
     }, [ImageChanged])
     return (
         <>

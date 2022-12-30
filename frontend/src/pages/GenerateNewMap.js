@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Button } from '@mui/material';
 import { Stage, Layer } from 'react-konva';
 import { generateTarget, drawNodes, updateObjects, makeConnection } from '../util/map_graph_util';
+import { UpdateUser } from '../services/apiServices';
 import ConstraintsForm from '../components/ContraintsForm';
 
 const GenerateNewMap = () => {
@@ -177,7 +178,12 @@ const GenerateNewMap = () => {
 
     }
 
-
+const buttonClicked = () => {
+    console.log("Hello")
+    UpdateUser("MudiLund", "PassWord123NewNew").then((res) => {
+        console.log(res)
+    })
+}
 
     return (
         <Grid container sx={{pt:5}}>
@@ -199,6 +205,11 @@ const GenerateNewMap = () => {
 
                 </Layer>
             </Stage>
+            </Grid>
+            <Grid item xs = {8} sx = {{pd:2}}>
+                <Button variant = "contained" onClick = {buttonClicked}>
+                    Test Button1
+                </Button>
             </Grid>
         </Grid>
     )
