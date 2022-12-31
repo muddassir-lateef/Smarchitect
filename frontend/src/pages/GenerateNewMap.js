@@ -192,7 +192,7 @@ const buttonClicked = () => {
             <Grid item xs={8} sx={{pb:2}}>
             <Stage
                 width={800}
-                height={800}
+                height={900}
                 style={{ width: '800px', height: '900px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
                 //style={{
                  //   border: '2px solid',
