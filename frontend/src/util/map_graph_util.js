@@ -2,13 +2,9 @@ import Konva from "konva";
 
 export function generateTarget(targets, stage, offset, tar_tag) {
   //console.log("Offset received: ", offset)
-    var x_pos = 20 + offset*70;
-    var y_pos = 50;
-    if (x_pos > stage.width() - 70 && offset > 10){
-      offset = offset - 10;
-      x_pos = 10 + offset*70; 
-      y_pos = y_pos + 70;
-    }
+    var x_pos = 50 + (offset%10)*70;
+    var y_pos = 50 + (70* Math.floor(offset/10));
+
     targets.push({
     id: 'target-' + targets.length,
     x: x_pos,
