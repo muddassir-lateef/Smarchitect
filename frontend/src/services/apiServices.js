@@ -25,3 +25,14 @@ let loginDetails = { username, password };
 const response = await axios.patch(tempURL, loginDetails);
 return response;
 }
+
+export async function Signup(firstName, lastName, username, password) {
+  console.log("Here")
+let tempURL = URL + "/Users";
+console.log(tempURL);
+let loginDetails = { username, password };
+//let loginDetails = { firstName, lastName, username, password };
+
+const response = await axios.post(tempURL, loginDetails);
+return response;
+}

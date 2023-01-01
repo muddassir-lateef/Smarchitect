@@ -17,6 +17,7 @@ import LandingImage from './smarchitect_landing_page.avif';
 import { AuthContext } from '../context/AuthContext';
 import {Login as LoginUser} from '../services/apiServices';
 import SmarchitectIcon from "../assets/Smarchitect.svg";
+import "./typography_animation.css"
 
 function Copyright(props) {
   return (
@@ -94,11 +95,12 @@ export default function SignInSide() {
           >
            {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
-            </Avatar>*/} 
-            <Typography variant="h3" sx={{ px: 5, mt: 4, mb: 1}}>
+            </Avatar>*/
+            } 
+            <Typography className="typing-animation-right" variant="h3" sx={{ px: 5, mt: 4, mb: 1}}>
               Hi, 
             </Typography>
-            <Typography variant="h3" sx={{ px: 5, mt: 1, mb: 3 }}>
+            <Typography className="typing-animation-right"variant="h3" sx={{ px: 5, mt: 1, mb: 3 }}>
               Welcome Back
             </Typography>
             <Icons>

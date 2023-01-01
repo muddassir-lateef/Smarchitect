@@ -1,0 +1,34 @@
+@keyframes typing-left {
+  from { width: 100%; }
+  to { width: 0; }
+}
+
+@keyframes typing-right {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typing-animation-left {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  animation: typing-left 1s linear 1;
+}
+
+.typing-animation-right {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  animation: typing-right 1s linear 1;
+}
+
+@keyframes typing-top {
+  from { height: 0; }
+  to { height: auto; }
+}
+
+.typing-animation-top {
+  overflow: hidden;
+  height: 0;
+  animation: typing-top 1s linear 1;
+}
