@@ -5,15 +5,74 @@ import useImage from 'use-image';
 import { useState } from 'react';
 
 
+import DoorSymbol from "../assets/door_symbol.svg";
+import WallSymbol from "../assets/wall_symbol.svg";
+import WindowSymbol from "../assets/window_symbol.svg";
+import StairsSymbol from "../assets/stairs_symbol.svg";
+
+const initial_menuItems = [
+    //eligible anchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']
+    {
+        alt: "Wall",
+        url: WallSymbol,
+        width: 15,
+        height: 100,
+        rotation: 0,
+        keepRatio: false,
+        enabledAnchors: ['top-center', 'bottom-center'],
+
+    },
+    {
+        alt: "Door",
+        url: DoorSymbol,
+        width: 70,
+        height: 50,
+        rotation: 0,
+        keepRatio: true,
+        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+
+    },
+    {
+        alt: "Window",
+        url: WindowSymbol,
+        width: 20,
+        height: 100,
+        rotation: 0,
+        keepRatio: false,
+        enabledAnchors: ['top-center', 'bottom-center'],
+
+    },
+    {
+        alt: "Stairs",
+        url: StairsSymbol,
+        width: 31,
+        height: 100,
+        rotation: 0,
+        keepRatio: false,
+        enabledAnchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right'],
+
+
+    },
+
+
+]
 
 //Noted Bug
-// joining 3 images at a point create 2 join points instead of one
+// joining 3 images at a point leads to incorrect connections
 
-// need to implement something for joins in  a T shape
 
 var Joins = [];
+
 export const JoinPainter = (props) => {
+    const { testBtn } = props
+    const { testBtn2 } = props
+    const { setImageObjects } = props
+    const { newId } = props
+    const { setNewId } = props
+
     const { ImageObjects } = props;
+    const [connections, setConnections] = React.useState([]);
+
     const { setImageChanged } = props
     const { ImageChanged } = props
     const { selectedItemCoordinates } = props
@@ -34,11 +93,13 @@ export const JoinPainter = (props) => {
 
         var coords = []
 
-        //p1
-        coords.push([x, y])
+        if (type != "Door") {
+            //p1
+            coords.push([x, y])
 
-        //p2
-        coords.push([x + (w * Math.cos(angle * (Math.PI / 180))), y + (w * Math.sin(angle * (Math.PI / 180)))])
+            //p2
+            coords.push([x + (w * Math.cos(angle * (Math.PI / 180))), y + (w * Math.sin(angle * (Math.PI / 180)))])
+        }
 
         //p3
         var x3 = x - (h * Math.cos((angle + 270) * (Math.PI / 180)))
@@ -48,38 +109,44 @@ export const JoinPainter = (props) => {
         //p4
         coords.push([x3 + (w * Math.cos((angle) * (Math.PI / 180))), y3 + (w * Math.sin((angle) * (Math.PI / 180)))])
 
-        // midpoint of p1 and p3
-        coords.push([(coords[0][0] + coords[2][0]) / 2, (coords[0][1] + coords[2][1]) / 2])
+        if (type != "Door") {
 
-        // midpoint of p1 and p2
-        coords.push([(coords[0][0] + coords[1][0]) / 2, (coords[0][1] + coords[1][1]) / 2])
+            if (type != "Connector") {
+                // midpoint of p1 and p3
+                coords.push([(coords[0][0] + coords[2][0]) / 2, (coords[0][1] + coords[2][1]) / 2])
+                // midpoint of p2 and p4
+                coords.push([(coords[1][0] + coords[3][0]) / 2, (coords[1][1] + coords[3][1]) / 2])
 
-        // midpoint of p3 and p4
-        coords.push([(coords[2][0] + coords[3][0]) / 2, (coords[2][1] + coords[3][1]) / 2])
 
-        // midpoint of p2 and p4
-        coords.push([(coords[1][0] + coords[3][0]) / 2, (coords[1][1] + coords[3][1]) / 2])
-
-        if (type == 'Wall') {
-            var step = 5
-            var xt = 0
-            var yt = 0
-            var edgeAvoidance = 2
-
-            //generating points btwn p1 and p3
-            for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
-                xt = x - (i * Math.cos((angle + 270) * (Math.PI / 180)))
-                yt = y - (i * Math.sin((angle + 270) * (Math.PI / 180)))
-                coords.push([xt, yt])
             }
+            // midpoint of p1 and p2
+            coords.push([(coords[0][0] + coords[1][0]) / 2, (coords[0][1] + coords[1][1]) / 2])
 
-            //generating points btwn p2 and p4
-            for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
-                xt = coords[1][0] - (i * Math.cos((angle + 270) * (Math.PI / 180)))
-                yt = coords[1][1] - (i * Math.sin((angle + 270) * (Math.PI / 180)))
-                coords.push([xt, yt])
+            // midpoint of p3 and p4
+            coords.push([(coords[2][0] + coords[3][0]) / 2, (coords[2][1] + coords[3][1]) / 2])
+
+
+            if (type == 'Wall') {
+                var step = 5
+                var xt = 0
+                var yt = 0
+                var edgeAvoidance = 5
+
+                //generating points btwn p1 and p3
+                for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
+                    xt = x - (i * Math.cos((angle + 270) * (Math.PI / 180)))
+                    yt = y - (i * Math.sin((angle + 270) * (Math.PI / 180)))
+                    coords.push([xt, yt])
+                }
+
+                //generating points btwn p2 and p4
+                for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
+                    xt = coords[1][0] - (i * Math.cos((angle + 270) * (Math.PI / 180)))
+                    yt = coords[1][1] - (i * Math.sin((angle + 270) * (Math.PI / 180)))
+                    coords.push([xt, yt])
+                }
+
             }
-
         }
         return coords
 
@@ -106,6 +173,35 @@ export const JoinPainter = (props) => {
         }
 
     };
+    const checkEdgeConnections = (x, y, image) => {
+
+        var coords1 = CoordinateTranslator(image.x, image.y, image.width, image.height, image.rotation, "Connector")
+        for (var i = 0; i < coords1.length; i++) {
+            if (checkJoins([x, y], coords1[i])) {
+                return true
+            }
+
+        }
+        return false
+    }
+
+    const specifyEdgeConnection = (x, y, image) => {
+
+        var coords1 = CoordinateTranslator(image.x, image.y, image.width, image.height, image.rotation, "Connector")
+        for (var i = 0; i < coords1.length; i++) {
+            if (checkJoins([x, y], coords1[i])) {
+                if (i == 0 || i == 1 || i == 4) {
+                    return "top"
+                }
+                else {
+                    return "bottom"
+                }
+            }
+
+        }
+        return false
+    }
+
     const checkIds = (id1, id2, coord1) => {
 
         if (id1 == null || id2 == null) {
@@ -175,9 +271,9 @@ export const JoinPainter = (props) => {
         return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
     }
 
-    React.useEffect(() => {
+    const joinMaker = (selectedImgInstance, selectedItemCoordinates) => {
 
-        var selid = dbContext.selectedImgInstance
+        var selid = selectedImgInstance
         var selt = findElement(ImageObjects, "id", selid)
         if (selt != null) {
             var selAsset = selt.alt
@@ -191,8 +287,8 @@ export const JoinPainter = (props) => {
                     for (var i = 0; i < coords1.length; i++) {
                         for (var j = 0; j < coords2.length; j++) {
                             if (checkJoins(coords1[i], coords2[j])) {
-                                if (checkIds(dbContext.selectedImgInstance, ImageObjects[img].id, coords1[i])) {
-                                    makeJoins(coords1[i][0], coords1[i][1], dbContext.selectedImgInstance, ImageObjects[img].id, selAsset, ImageObjects[img].alt)
+                                if (checkIds(selectedImgInstance, ImageObjects[img].id, coords1[i])) {
+                                    makeJoins(coords1[i][0], coords1[i][1], selectedImgInstance, ImageObjects[img].id, selAsset, ImageObjects[img].alt)
                                 }
                             }
                         }
@@ -210,7 +306,7 @@ export const JoinPainter = (props) => {
                 for (var x = 0; x < Joins.length; x++) {
 
                 }
-                if (Joins[i].img1Id == dbContext.selectedImgInstance || Joins[i].img2Id == dbContext.selectedImgInstance) {
+                if (Joins[i].img1Id == selectedImgInstance || Joins[i].img2Id == selectedImgInstance) {
                     var valid = false;
                     for (var j = 0; j < coords2.length; j++) {
                         if (checkJoins([Joins[i].x, Joins[i].y], coords2[j])) {
@@ -269,20 +365,183 @@ export const JoinPainter = (props) => {
 
                 Joins.splice(toRemove[i], 1)
             }
+
+            // making joins into connections
+
+
         }
         console.log(Joins)
+        console.log(connections)
+
+    }
+    React.useEffect(() => {
+        joinMaker(dbContext.selectedImgInstance, selectedItemCoordinates)
+
     }, [ImageChanged])
+
+    React.useEffect(() => {
+
+        for (var i = 0; i < ImageObjects.length; i++) {
+            joinMaker(ImageObjects[i].id,
+                {
+                    x: ImageObjects[i].x,
+                    y: ImageObjects[i].y,
+                    w: ImageObjects[i].width,
+                    h: ImageObjects[i].height,
+                    angle: ImageObjects[i].rotation,
+                }
+            )
+
+
+
+        }
+
+
+        var cons = []
+        for (var i = 0; i < ImageObjects.length; i++) {
+            console.log(ImageObjects[i])
+            var edgeNo = -1
+            var inJoin = false
+            var points = [[0, 0], [0, 0]]
+            for (var j = 0; j < Joins.length; j++) {
+                console.log(Joins[j])
+
+                if (edgeNo < 1) {
+                    if (Joins[j].img1Id == ImageObjects[i].id || Joins[j].img2Id == ImageObjects[i].id) {
+                        inJoin = true
+                        if (checkEdgeConnections(Joins[j].x, Joins[j].y, ImageObjects[i])) {
+                            console.log("edge here")
+                            edgeNo += 1
+                            points[edgeNo][0] = Joins[j].x
+                            points[edgeNo][1] = Joins[j].y
+                        }
+                    }
+                }
+            }
+            if (inJoin) {
+                if (edgeNo == 0) {
+                    if (specifyEdgeConnection(points[0][0], points[0][1], ImageObjects[i]) == "top") {
+
+                        points[1][0] = points[0][0] - (ImageObjects[i].height * Math.cos((ImageObjects[i].rotation + 270) * (Math.PI / 180)))
+                        points[1][1] = points[0][1] - (ImageObjects[i].height * Math.sin((ImageObjects[i].rotation + 270) * (Math.PI / 180)))
+
+                    }
+                    else {
+                        points[1][0] = points[0][0] + (ImageObjects[i].height * Math.cos((ImageObjects[i].rotation + 270) * (Math.PI / 180)))
+                        points[1][1] = points[0][1] + (ImageObjects[i].height * Math.sin((ImageObjects[i].rotation + 270) * (Math.PI / 180)))
+
+
+                    }
+
+                }
+                else if (edgeNo == -1) {
+                    var coords1 = CoordinateTranslator(ImageObjects[i].x, ImageObjects[i].y, ImageObjects[i].width, ImageObjects[i].height, ImageObjects[i].rotation, "Connector")
+
+                    points[0][0] = coords1[4][0]
+                    points[0][1] = coords1[4][1]
+                    points[1][0] = coords1[5][0]
+                    points[1][1] = coords1[5][1]
+
+                }
+
+                cons.push({
+                    x1: points[0][0],
+                    y1: points[0][1],
+                    x2: points[1][0],
+                    y2: points[1][1],
+                    type: ImageObjects[i].alt
+                })
+
+            }
+        }
+        setConnections(cons)
+
+        console.log(connections)
+
+
+    }, [testBtn])
+    React.useEffect(() => {
+        var imgs = []
+        setImageObjects([])
+        Joins = []
+        var ids = '1'
+        for (var i = 0; i < connections.length; i++) {
+            ids = String(parseInt(ids, 10) + 1)
+
+            var dist1 = getDistance(0, 0, connections[i].x1, connections[i].y1)
+            var dist2 = getDistance(0, 0, connections[i].x2, connections[i].y2)
+
+            if (dist1 > dist2) {
+
+                var tempx = connections[i].x1
+                var tempy = connections[i].y1
+
+                connections[i].x1 = connections[i].x2
+                connections[i].y1 = connections[i].y2
+
+                connections[i].x2 = tempx
+                connections[i].y2 = tempy
+
+            }
+
+
+            var rot = (Math.atan((connections[i].y2 - connections[i].y1) / (connections[i].x2 - connections[i].x1)) * (180 / Math.PI)) - 90
+            var alt = connections[i].type
+            var element = findElement(initial_menuItems, "alt", alt)
+            var ea = element.enabledAnchors
+            var kr = element.keepRatio
+            var url = element.url
+            var width = element.width
+            var height = getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2)
+            //var coords1 = CoordinateTranslator(ImageObjects[i].x, ImageObjects[i].y, ImageObjects[i].width, ImageObjects[i].height, ImageObjects[i].rotation, "Connector")
+
+            imgs.push(
+
+                {
+                    alt: alt,
+                    url: url,
+                    x: connections[i].x1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180))),
+                    y: connections[i].y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180))),
+                    width: width,
+                    height: height,
+                    id: ids,
+                    rotation: rot,
+                    keepRatio: kr,
+                    enabledAnchors: ea,
+                    name: 'object',
+                },
+
+            )
+
+        }
+        ids = String(parseInt(ids, 10) + 1)
+
+        setNewId(ids)
+
+        setImageObjects(imgs)
+
+    }, [testBtn2])
+
+
     return (
         <>
             {
                 Joins.map((circ, i) => {
                     return (
-                        <Circle
-                            x={circ.x}
-                            y={circ.y}
-                            radius={5}
-                            fill="red"
-                        />
+                        <>
+                            <Circle
+                                x={circ.x}
+                                y={circ.y}
+                                radius={10}
+                                fill="red"
+                            />
+                            <Circle
+                                x={circ.x}
+                                y={circ.y}
+                                radius={7}
+                                fill="white"
+                            />
+                        </>
                     );
                 })
             }

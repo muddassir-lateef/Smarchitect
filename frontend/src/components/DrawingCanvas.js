@@ -9,9 +9,14 @@ import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from
 export const DrawingCanvas = (props) => {
     const stageW = 900
     const stageH = 800
+
+    const { testBtn } = props
+    const { testBtn2 } = props
+
+
     const { ImageObjects } = props
     const { setImageObjects } = props
-    const {selectedItemCoordinates} = props
+    const { selectedItemCoordinates } = props
     const { setSelectedItemCoordinates } = props
     const stageRef = React.useRef();
     const { scale } = props
@@ -184,7 +189,7 @@ export const DrawingCanvas = (props) => {
                     setImageChanged={setImageChanged}
                     ImageChanged={ImageChanged}
                 />
-                <JoinPainter ImageObjects={ImageObjects} ImageChanged={ImageChanged} selectedItemCoordinates={selectedItemCoordinates}/>
+                <JoinPainter newId={newId} setNewId={setNewId} setImageObjects={setImageObjects} testBtn={testBtn} testBtn2={testBtn2} ImageObjects={ImageObjects} ImageChanged={ImageChanged} selectedItemCoordinates={selectedItemCoordinates} />
             </Layer>
         </Stage>
 

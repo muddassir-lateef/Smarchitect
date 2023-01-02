@@ -14,10 +14,16 @@ export const DrawingBoard = () => {
     const [ImageObjects, setImageObjects] = React.useState([]);
     const [newId, setNewId] = React.useState('1');
 
+    const [testBtn, setTestBtn] = React.useState(1)
+    const [testBtn2, setTestBtn2] = React.useState(1)
+
     return (
         <Grid sx={{ display: 'flex' }} padding={4} >
             <DrawingToolBox />
             <DrawingCanvas
+                testBtn={testBtn}
+                testBtn2={testBtn2}
+
                 selectedItemCoordinates={selectedItemCoordinates}
                 setSelectedItemCoordinates={setSelectedItemCoordinates}
                 scale={scale}
@@ -39,6 +45,14 @@ export const DrawingBoard = () => {
 
 
             />
+
+            <Button onClick={() => {
+                setTestBtn(testBtn + 1)
+            }}>Tester</Button>
+            <Button onClick={() => {
+                setTestBtn2(testBtn2 + 1)
+            }}>Tester2</Button>
+
         </Grid>
 
     );
