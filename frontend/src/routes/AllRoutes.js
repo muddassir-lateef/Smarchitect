@@ -3,6 +3,7 @@ import { Sketcher } from "../pages/canvas";
 import {DrawingBoard} from "../pages/DrawingBoard"
 import GenerateNewMap from "../pages/GenerateNewMap";
 import SignInSide from "../pages/Signin";
+import SignUp from "../pages/Signup";
 
 export const LoggedOutRoutes = () => {
   let routes;
@@ -10,6 +11,7 @@ export const LoggedOutRoutes = () => {
   routes = (
     <Routes>
        <Route path="/" element={< SignInSide/>} />
+       <Route path="/register" element={< SignUp/>} />
     </Routes>
   );
 

@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 class Users(models.Model):
     username = models.CharField(max_length=500)
@@ -14,5 +13,10 @@ class Join(models.Model):
     type2 = models.CharField(max_length=500)
     x_coordinate = models.CharField(max_length=500)
     y_coordinate = models.CharField(max_length=500)
+
+class Floorplan(models.Model):
+    name = models.CharField(max_length=500)
+    fpId =  models.CharField(max_length=500)
+    joins = models.ManyToManyField(Join)
 
 

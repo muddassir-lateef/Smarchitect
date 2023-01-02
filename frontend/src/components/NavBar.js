@@ -66,7 +66,7 @@ const NavBar = (props) => {
           </IconButton>
           <Icons onClick={()=>{navigate("/")}}>
             <img height='40px' width='40px' src={SmarchitectIcon} alt={"Smarchitect Icon"} />
-            <Typography variant="h6">Smarchitect!</Typography>
+            <Typography variant="h5">Smarchitect</Typography>
           </Icons>
 
           <StyledButton variant='contained' onClick={()=>{
