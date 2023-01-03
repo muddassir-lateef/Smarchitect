@@ -4,12 +4,15 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-
+import pymongo
 from api.models import Users
 from api.serializers import UserSerializer
+connectionString = "mongodb+srv://Salar:Salar123@cluster0.lu89phy.mongodb.net/?retryWrites=true&w=majority"
 
 @csrf_exempt
 def userAPI(request,id=0):
+    client = pymongo.MongoClient(connectionString)
+    db = client['smarchitectdb']
 
 
     if request.method=='GET':
@@ -64,6 +67,21 @@ def authenticationApi(request):
             users_serializer = UserSerializer(data={"username":users_data["username"], "password" : users_data["password"]})
             return JsonResponse(users_data, safe=False, status = 201)
         return JsonResponse("User Not Found", safe=False, status = 401)
+
+@csrf_exempt
+def floorplanApi(request):
+    client = pymongo.MongoClient(connectionString)
+    db = client['smarchitectdb']
+    if request.method=='POST':
+        users_data=JSONParser().parse(request)
+        collection=db['api_joins']
+        temp = {
+            "X" : users_data['X'],
+            "Y" : users_data['Y']
+        }
+        collection.insert_one(temp)
+        return JsonResponse("Done", safe=False, status = 201)
+        
 
 
 

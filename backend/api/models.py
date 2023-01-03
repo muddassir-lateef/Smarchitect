@@ -7,16 +7,11 @@ class Users(models.Model):
 
 
 class Join(models.Model):
-    image1 = models.CharField(max_length=500)
-    image2 = models.CharField(max_length=500)
-    type1 = models.CharField(max_length=500)
-    type2 = models.CharField(max_length=500)
     x_coordinate = models.CharField(max_length=500)
     y_coordinate = models.CharField(max_length=500)
 
 class Floorplan(models.Model):
     name = models.CharField(max_length=500)
-    fpId =  models.CharField(max_length=500)
     joins = models.ManyToManyField(Join)
 
 
