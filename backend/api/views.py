@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 import pymongo
-from api.models import Users
-from api.serializers import UserSerializer
+from api.models import Users, Join, Floorplan
+from api.serializers import UserSerializer, JoinSerializer, FloorplanSerializer
 connectionString = "mongodb+srv://Salar:Salar123@cluster0.lu89phy.mongodb.net/?retryWrites=true&w=majority"
 
 @csrf_exempt
@@ -72,15 +72,42 @@ def authenticationApi(request):
 def floorplanApi(request):
     client = pymongo.MongoClient(connectionString)
     db = client['smarchitectdb']
+
     if request.method=='POST':
-        users_data=JSONParser().parse(request)
+        floorplan=JSONParser().parse(request)
         collection=db['api_joins']
-        temp = {
-            "X" : users_data['X'],
-            "Y" : users_data['Y']
-        }
-        collection.insert_one(temp)
+        tempFloorplan = Floorplan.objects.create(name = floorplan["name"])
+        print(tempFloorplan.name)
+        for i in floorplan['Joins']:
+            join = Join.objects.create(x_coordinate = str(i['x_coordinate']),y_coordinate= str(i['y_coordinate']))
+            print("X : " + str(join.x_coordinate) + "| Y : " + str(join.y_coordinate))
+            print(type(join.x_coordinate))
+            join.save()
+            tempFloorplan.joins.add(join)
+        tempFloorplan.save()
+
         return JsonResponse("Done", safe=False, status = 201)
+
+
+    if request.method=='GET':
+        allFloorplans = Floorplan.objects.all()
+        data = [{'Floorplan Name': fp.name, 'Floorplan ID': fp.id} for fp in allFloorplans]
+        return JsonResponse(data, safe = False, status = 201)
+
+@csrf_exempt
+def singleFloorplanApi(request,fp_Id):
+    print("Here")
+    if request.method=='GET':
+
+        floorplan = Floorplan.objects.prefetch_related('joins').get(id =fp_Id)
+        floorplanDictionary = {}
+        floorplanDictionary['Name'] = floorplan.name
+        floorplanDictionary['ID'] = fp_Id
+        joins = [{'X': join.x_coordinate, 'Y': join.y_coordinate} for join in floorplan.joins.all()]
+        floorplanDictionary['Joins'] = joins
+
+    return JsonResponse(floorplanDictionary, safe = False, status = 201)
+
         
 
 
