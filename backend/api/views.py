@@ -25,12 +25,9 @@ def userAPI(request,id=0):
     elif request.method=='POST':
         print("Post Hit")
         users_data=JSONParser().parse(request)
-        users_serializer = UserSerializer(data={"username":users_data["username"], "password" : users_data["password"]})
-        print(users_serializer.is_valid())
-        if(users_serializer.is_valid()):
-            users_serializer.save()
-            return JsonResponse("Added Succesfully", status=201, safe=False)
-        return JsonResponse("Failed to Add the User", status=401, safe=False)
+        user = Users.objects.create(username = users_data["username"], password = users_data["password"], firstname =users_data['firstname'], lastname = users_data['lastname'])
+        user.save()
+        return JsonResponse("Added Succesfully", status=201, safe=False)
 
 
 
@@ -63,9 +60,17 @@ def authenticationApi(request):
             user = Users.objects.get(username=users_data["username"])
             print("After Getting")
             print(user.username)
+            print(user.id)
+            print(user.firstname)
             print("After Serialized")
+            UserDictionary = {}
+            UserDictionary['username'] = user.username
+            UserDictionary['ID'] = user.id
+            UserDictionary['firstname'] = user.firstname
+            UserDictionary['lastname'] = user.lastname
+            print(UserDictionary)
             users_serializer = UserSerializer(data={"username":users_data["username"], "password" : users_data["password"]})
-            return JsonResponse(users_data, safe=False, status = 201)
+            return JsonResponse(UserDictionary, safe=False, status = 201)
         return JsonResponse("User Not Found", safe=False, status = 401)
 
 @csrf_exempt
@@ -79,32 +84,38 @@ def floorplanApi(request):
         tempFloorplan = Floorplan.objects.create(name = floorplan["name"])
         print(tempFloorplan.name)
         for i in floorplan['Joins']:
-            join = Join.objects.create(x_coordinate = str(i['x_coordinate']),y_coordinate= str(i['y_coordinate']))
-            print("X : " + str(join.x_coordinate) + "| Y : " + str(join.y_coordinate))
-            print(type(join.x_coordinate))
+            join = Join.objects.create(X1= (i['X1']),Y1= (i['Y1']), X2= (i['X2']),Y2= (i['Y2']), type = (i['Type']))
             join.save()
             tempFloorplan.joins.add(join)
+        tempFloorplan.width = floorplan["width"]
+        tempFloorplan.length = floorplan["length"]
         tempFloorplan.save()
+        User = Users.objects.prefetch_related('floorplans').get(id = floorplan["userId"])
+        User.floorplans.add(tempFloorplan)
 
         return JsonResponse("Done", safe=False, status = 201)
 
 
-    if request.method=='GET':
-        allFloorplans = Floorplan.objects.all()
-        data = [{'Floorplan Name': fp.name, 'Floorplan ID': fp.id} for fp in allFloorplans]
+    if request.method=='PATCH':
+        userDetails = JSONParser().parse(request)
+        User = Users.objects.prefetch_related('floorplans').get(id = userDetails['user_Id'])
+        print(User.username)
+        data = [{'Floorplan Name': fp.name, 'Floorplan ID': fp.id} for fp in User.floorplans.all()]
         return JsonResponse(data, safe = False, status = 201)
 
 @csrf_exempt
-def singleFloorplanApi(request,fp_Id):
+def singleFloorplanApi(request, fp_Id):
     print("Here")
     if request.method=='GET':
+        print(fp_Id)
+        tempFloorplan = Floorplan.objects.prefetch_related('joins').get(id = fp_Id)
 
-        floorplan = Floorplan.objects.prefetch_related('joins').get(id =fp_Id)
         floorplanDictionary = {}
-        floorplanDictionary['Name'] = floorplan.name
-        floorplanDictionary['ID'] = fp_Id
-        joins = [{'X': join.x_coordinate, 'Y': join.y_coordinate} for join in floorplan.joins.all()]
-        floorplanDictionary['Joins'] = joins
+        floorplanDictionary['ID'] = tempFloorplan.id
+        floorplanDictionary['Name'] = tempFloorplan.name
+        Joins = [{'X1': str(join.X1), 'Y1': str(join.Y1), 'X2' : str(join.X2), 'Y2' : str(join.Y2), 'Type' : join.type} for join in tempFloorplan.joins.all()]
+        floorplanDictionary['Joins'] = Joins
+        print(floorplanDictionary)
 
     return JsonResponse(floorplanDictionary, safe = False, status = 201)
 
