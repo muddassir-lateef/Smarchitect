@@ -5,57 +5,7 @@ import WindowOutlinedIcon from '@mui/icons-material/WindowOutlined';
 import StairsIcon from '@mui/icons-material/Stairs';
 import { Button, Card, Stack, Tooltip, Typography } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
-import DoorSymbol from "../assets/door_symbol.svg";
-import WallSymbol from "../assets/wall_symbol.svg";
-import WindowSymbol from "../assets/window_symbol.svg";
-import StairsSymbol from "../assets/stairs_symbol.svg";
-
-const initial_menuItems = [
-    //eligible anchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']
-    {
-        alt: "Wall",
-        url: WallSymbol,
-        width: 15,
-        height: 100,
-        rotation: 0,
-        keepRatio: false,
-        enabledAnchors: ['top-center', 'bottom-center'],
-
-    },
-    {
-        alt: "Door",
-        url: DoorSymbol,
-        width: 70,
-        height: 50,
-        rotation: 0,
-        keepRatio: true,
-        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
-
-    },
-    {
-        alt: "Window",
-        url: WindowSymbol,
-        width: 20,
-        height: 100,
-        rotation: 0,
-        keepRatio: false,
-        enabledAnchors: ['top-center', 'bottom-center'],
-
-    },
-    {
-        alt: "Stairs",
-        url: StairsSymbol,
-        width: 31,
-        height: 100,
-        rotation: 0,
-        keepRatio: false,
-        enabledAnchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right'],
-
-
-    },
-
-
-]
+import {initial_menuItems} from "../data/MenuItems.js";
 
 
 export const DrawingToolBox = () => {
@@ -71,23 +21,23 @@ export const DrawingToolBox = () => {
             console.log(e.currentTarget.value)
             if (e.currentTarget.value == "Wall") {
                 dbContext.setSelectedAsset(initial_menuItems[0]);
-                dbContext.setSelectedSource(WallSymbol);
+                dbContext.setSelectedSource(initial_menuItems[0].url);
 
                 console.log(dbContext.selectedAsset)
             }
             else if (e.currentTarget.value == "Door") {
                 dbContext.setSelectedAsset(initial_menuItems[1]);
-                dbContext.setSelectedSource(DoorSymbol);
+                dbContext.setSelectedSource(initial_menuItems[1].url);
 
             }
             else if (e.currentTarget.value == "Window") {
                 dbContext.setSelectedAsset(initial_menuItems[2]);
-                dbContext.setSelectedSource(WindowSymbol);
+                dbContext.setSelectedSource(initial_menuItems[2].url);
 
             }
             else if (e.currentTarget.value == "Stairs") {
                 dbContext.setSelectedAsset(initial_menuItems[3]);
-                dbContext.setSelectedSource(StairsSymbol);
+                dbContext.setSelectedSource(initial_menuItems[3].url);
 
             }
 
