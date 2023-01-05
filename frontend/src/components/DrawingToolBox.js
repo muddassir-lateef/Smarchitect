@@ -44,7 +44,7 @@ export const DrawingToolBox = () => {
         }
     }
     return (
-        <Card >
+        <Card sx={{mr:1}}>
             <Typography sx={{ fontFamily: "Arial" }} variant="h6" padding={2} align="center">Tools</Typography>
             <Stack spacing={2} padding={2}  >
                 <Tooltip title="Wall Tool" enterDelay={500} placement="right">

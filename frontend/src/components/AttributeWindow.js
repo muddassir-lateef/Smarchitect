@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import WindowOutlinedIcon from '@mui/icons-material/WindowOutlined';
@@ -6,9 +6,11 @@ import StairsIcon from '@mui/icons-material/Stairs';
 import { Button, Grid, Card, CardContent, Slider, Typography, Divider } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import PostAddIcon from '@mui/icons-material/PostAdd';
-
+import Input from './Input';
 import { CSVLink } from "react-csv";
 import Papa from "papaparse";
+import { VALIDATOR_REQUIRE } from '../util/validators';
+import { useForm } from "../hooks/form-hook";
 
 
 const headers = [
@@ -58,6 +60,15 @@ export const AttributeWindow = (props) => {
     const { setNewId } = props
     const { setImageObjects } = props
     const [parsedInputData, setParsedInputData] = useState("");
+    const [formState, InputHandler] = useForm(
+        {
+          name: {
+            value: "",
+            isValid: false,
+            }
+        },
+        false
+      );
 
     const handleScaleChange = (event, newValue) => {
         setScale(newValue);
@@ -115,9 +126,12 @@ export const AttributeWindow = (props) => {
         return feet.toString() + "'" + inches.toString() + "\""
 
     }
+    useEffect(() => {
+        props.setMap_name(formState.inputs.name.value)
+    }, [formState.inputs.name.value]);
     return (
-        <Card >
-            <Card sx={{ minWidth: 275, maxHeight: 300 }}>
+        <Card sx={{pl:1, pr:1}} elevation={0}>
+            <Card sx={{ minWidth: 275, maxHeight: 300, p:1}}>
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Entity Attributes
@@ -169,7 +183,7 @@ export const AttributeWindow = (props) => {
 
             </Card>
             <Divider />
-            <Card sx={{ minWidth: 275, maxHeight: 300 }}>
+            <Card sx={{ minWidth: 275, maxHeight: 300 , p:1, mt:1 }}>
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Scale
@@ -191,6 +205,7 @@ export const AttributeWindow = (props) => {
 
             </Card>
             <Divider />
+            {/* 
             <Card sx={{ minWidth: 275, maxHeight: 300 }}>
                 <CardContent>
                     <Button sx={{ mt: 1 }} variant="contained" >
@@ -219,6 +234,26 @@ export const AttributeWindow = (props) => {
                     </Button>
 
                 </CardContent>
+            </Card>
+            */}
+
+            <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
+                <Typography variant='h5' gutterBottom width={'100%'} >
+                    Save Floor Plan
+                </Typography>
+                <Input
+                    sx={{ pr: 2, pb: 3, flex: "100%" , width:'100%'}}
+                    id="name"
+                    label="Floorplan Name"
+                    variant="standard"
+                    onInput={InputHandler}
+                    validators={[VALIDATOR_REQUIRE()]}
+                    errorText="Floorplan name must be provided"
+                />
+                <Button sx={{ mt: 1, width:'100%' }} variant="outlined" disabled={!formState.isValid} onClick={props.createJoins}>
+                    Save
+                </Button>
+
             </Card>
 
 

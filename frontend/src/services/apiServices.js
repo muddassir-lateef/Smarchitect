@@ -28,11 +28,22 @@ return response;
 
 export async function Signup(firstName, lastName, username, password) {
   console.log("Here")
-let tempURL = URL + "/Users";
-console.log(tempURL);
-let loginDetails = { username, password };
-//let loginDetails = { firstName, lastName, username, password };
+  let tempURL = URL + "/Users";
+  console.log(tempURL);
+  //let loginDetails = { username, password };
+  console.log("HERE: ", { firstName, lastName, username, password })
+  let loginDetails = { firstName, lastName, username, password };
 
-const response = await axios.post(tempURL, loginDetails);
-return response;
+  const response = await axios.post(tempURL, loginDetails);
+  return response;
+}
+
+export async function SaveMap(name, length, width, userId, Joins) {
+  let tempURL = URL + "/Floorplan";
+  console.log(tempURL);
+  //let loginDetails = { username, password };
+  let mapInfo = { name, length, width, userId, Joins };
+  console.log("SENDING MAP INFO: ", mapInfo)
+  const response = await axios.post(tempURL, mapInfo);
+  return response;
 }

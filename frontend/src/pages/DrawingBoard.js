@@ -16,13 +16,15 @@ export const DrawingBoard = () => {
 
     const [testBtn, setTestBtn] = React.useState(1)
     const [testBtn2, setTestBtn2] = React.useState(1)
+    const [mapName, setMapName] = React.useState("")
 
     return (
-        <Grid sx={{ display: 'flex' }} padding={4} >
+        <Grid sx={{ display: 'flex', pt:4, pl:1 }}  >
             <DrawingToolBox />
             <DrawingCanvas
                 testBtn={testBtn}
                 testBtn2={testBtn2}
+                mapName = {mapName}
 
                 selectedItemCoordinates={selectedItemCoordinates}
                 setSelectedItemCoordinates={setSelectedItemCoordinates}
@@ -42,6 +44,13 @@ export const DrawingBoard = () => {
                 setNewId={setNewId}
                 setImageObjects={setImageObjects}
                 setExportData={setExportData}
+                createJoins = {() => {
+                    setTestBtn(testBtn + 1)
+                }}
+                setMap_name = {(newname)=>{
+                   // console.log("Setting name to: ", newname)
+                    setMapName(newname)
+                }}
 
 
             />
