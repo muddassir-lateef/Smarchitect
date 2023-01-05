@@ -7,11 +7,10 @@ import { useState } from 'react';
 
 import { initial_menuItems } from "../data/MenuItems.js";
 import { CoordinateTranslator, checkJoins, checkEdgeConnections, specifyEdgeConnection, checkIds, findElement, splitBasedonID, getDistance } from "../util/join_utils.js";
-import { SaveMap } from '../services/apiServices';
-import { AuthContext } from '../context/AuthContext';
+
 //Noted Bug
 // joining 3 images at a point leads to incorrect connections
-
+// angled connection to map translation is full of bugs
 
 var Joins = [];
 
@@ -31,7 +30,6 @@ export const JoinPainter = (props) => {
     const [newJoinId, setNewJoinId] = React.useState('1');
 
     const dbContext = useContext(DrawingBoardContext);
-    const auth = useContext(AuthContext)
 
 
     const makeJoins = (xx, yy, id1, id2, obj1, obj2) => {
@@ -169,18 +167,18 @@ export const JoinPainter = (props) => {
 
         var cons = []
         for (var i = 0; i < ImageObjects.length; i++) {
-           // console.log(ImageObjects[i])
+            console.log(ImageObjects[i])
             var edgeNo = -1
             var inJoin = false
             var points = [[0, 0], [0, 0]]
             for (var j = 0; j < Joins.length; j++) {
-                //console.log(Joins[j])
+                console.log(Joins[j])
 
                 if (edgeNo < 1) {
                     if (Joins[j].img1Id == ImageObjects[i].id || Joins[j].img2Id == ImageObjects[i].id) {
                         inJoin = true
                         if (checkEdgeConnections(Joins[j].x, Joins[j].y, ImageObjects[i])) {
-                           // console.log("edge here")
+                            console.log("edge here")
                             edgeNo += 1
                             points[edgeNo][0] = Joins[j].x
                             points[edgeNo][1] = Joins[j].y
@@ -215,21 +213,17 @@ export const JoinPainter = (props) => {
                 }
 
                 cons.push({
-                    X1: points[0][0],
-                    Y1: points[0][1],
-                    X2: points[1][0],
-                    Y2: points[1][1],
-                    Type: ImageObjects[i].alt
+                    x1: points[0][0],
+                    y1: points[0][1],
+                    x2: points[1][0],
+                    y2: points[1][1],
+                    type: ImageObjects[i].alt
                 })
 
             }
         }
-        
         setConnections(cons)
 
-        //saving map to the database 
-        postMap(cons)
-        .catch(console.error);
     }
     const makeMap = (connections) => {
         var imgs = []
@@ -239,27 +233,27 @@ export const JoinPainter = (props) => {
         for (var i = 0; i < connections.length; i++) {
             ids = String(parseInt(ids, 10) + 1)
 
-            var dist1 = getDistance(0, 0, connections[i].X1, connections[i].Y1)
-            var dist2 = getDistance(0, 0, connections[i].X2, connections[i].Y2)
+            var dist1 = getDistance(0, 0, connections[i].x1, connections[i].y1)
+            var dist2 = getDistance(0, 0, connections[i].x2, connections[i].y2)
 
             if (dist1 > dist2) {
-                var tempx = connections[i].X1
-                var tempy = connections[i].Y1
-                connections[i].X1 = connections[i].X2
-                connections[i].Y1 = connections[i].Y2
-                connections[i].X2 = tempx
-                connections[i].Y2 = tempy
+                var tempx = connections[i].x1
+                var tempy = connections[i].y1
+                connections[i].x1 = connections[i].x2
+                connections[i].y1 = connections[i].y2
+                connections[i].x2 = tempx
+                connections[i].y2 = tempy
             }
 
 
-            var rot = (Math.atan((connections[i].Y2 - connections[i].Y1) / (connections[i].X2 - connections[i].X1)) * (180 / Math.PI)) - 90
-            var alt = connections[i].Type
+            var rot = (Math.atan((connections[i].y2 - connections[i].y1) / Math.abs(connections[i].x2 - connections[i].x1)) * (180 / Math.PI)) - 90
+            var alt = connections[i].type
             var element = findElement(initial_menuItems, "alt", alt)
             var ea = element.enabledAnchors
             var kr = element.keepRatio
             var url = element.url
             var width = element.width
-            var height = getDistance(connections[i].X1, connections[i].Y1, connections[i].X2, connections[i].Y2)
+            var height = getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2)
             //var coords1 = CoordinateTranslator(ImageObjects[i].x, ImageObjects[i].y, ImageObjects[i].width, ImageObjects[i].height, ImageObjects[i].rotation, "Connector")
 
             imgs.push(
@@ -267,8 +261,8 @@ export const JoinPainter = (props) => {
                 {
                     alt: alt,
                     url: url,
-                    x: connections[i].X1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180))),
-                    y: connections[i].Y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180))),
+                    x: connections[i].x1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180))),
+                    y: connections[i].y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180))),
                     width: width,
                     height: height,
                     id: ids,
@@ -292,22 +286,8 @@ export const JoinPainter = (props) => {
         joinMaker(dbContext.selectedImgInstance, selectedItemCoordinates)
 
     }, [ImageChanged])
-    const postMap = async (cons) => {
-        const length = 100;  //static for the time being
-        const width = 100;  //static for the time being
-        const userId = auth.user.ID;
-        const response= await SaveMap(props.mapName, length, width, userId, cons)
-        if (response.status === 201){
-            console.log("Map Saved Successfully")
-        }
-        else {
-            console.log("Map was NOT saved")
-        }
-    }
 
     React.useEffect(() => {
-        console.log("Reached here")
-        console.log(props.mapName)
 
         joinRefresher()
 
@@ -317,7 +297,6 @@ export const JoinPainter = (props) => {
 
 
     }, [testBtn])
-
     React.useEffect(() => {
         makeMap(connections)
     }, [testBtn2])
