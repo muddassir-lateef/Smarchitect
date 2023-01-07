@@ -61,9 +61,7 @@ export const DrawingBoard = () => {
             <Button onClick={() => {
                 setTestBtn2(testBtn2 + 1)
             }}>Tester2</Button>
-            <Button onClick = {GetMap}>
-                This gets floorplan ID 52
-            </Button>
+
         </Grid>
 
     );

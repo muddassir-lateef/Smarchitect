@@ -55,8 +55,9 @@ export async function SaveMap(name, length, width, userId, Joins) {
   return response;
 }
 
-export async function GetMap() {
-  let tempURL = URL +  "getFloorplan/32" 
+export async function GetMap(mapId) {
+  let tempURL = URL +  "getFloorplan/"
+  tempURL = tempURL + mapId 
 
   const response = await axios.get(tempURL)
   if(response.status === 201)
@@ -64,6 +65,7 @@ export async function GetMap() {
     console.log("Floor Plan Details")
     console.log(response.data)
   }
+  return response;
 }
 export async function GetUserMaps(userId) {
   let tempURL = URL + "/Floorplan";
@@ -73,8 +75,9 @@ export async function GetUserMaps(userId) {
 }
 
 export async function GetMapConnections(mapId) {
-  let tempURL = URL + `/getFloorplan/${mapId}`;
+  let tempURL = URL + "/getFloorplan/";
+  tempURL = tempURL + mapId;
   console.log(tempURL);
-  const response = await axios.get(tempURL, {});
+  const response = await axios.get(tempURL);
   return response;
 }

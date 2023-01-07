@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import { initial_menuItems } from "../data/MenuItems.js";
 import { CoordinateTranslator, checkJoins, checkEdgeConnections, specifyEdgeConnection, checkIds, findElement, splitBasedonID, getDistance } from "../util/join_utils.js";
-import { GetMapConnections, SaveMap } from '../services/apiServices';
+import { GetMapConnections, GetMap,  SaveMap } from '../services/apiServices';
 import { AuthContext } from '../context/AuthContext';
 //Noted Bug
 // joining 3 images at a point leads to incorrect connections
@@ -310,8 +310,20 @@ export const JoinPainter = (props) => {
     React.useEffect(()=>{
         if (auth.selectedMap !== ""){
             console.log("I will now make the map", auth.selectedMap)
-            GetMapConnections(auth.selectedMap).then(res=>{
-                console.log("Map Joins", res.data)
+            GetMap(auth.selectedMap).then(res=>{
+                console.log("Map Fetched:", res.data)
+                auth.setSelectedMap("")
+                var tempCons = []
+                if (Array.isArray(res.data.Joins) && res.data.Joins.length > 0){
+                    for (var i=0; i<res.data.Joins.length; i++){
+                        tempCons.push({x1:res.data.Joins[i].X1, y1: res.data.Joins[i].Y1, x2:res.data.Joins[i].X2, y2: res.data.Joins[i].Y2, type: res.data.Joins[i].Type})
+                    }
+                    console.log("Temp Cons: ", tempCons)
+                    setConnections(tempCons)
+                    makeMap(tempCons)
+                }
+                
+               // makeMap(tempCons)
             }).catch(err=>console.log("Error: ",err))
         }
 
