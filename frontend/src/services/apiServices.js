@@ -42,7 +42,14 @@ export async function SaveMap(name, length, width, userId, Joins) {
   let tempURL = URL + "/Floorplan";
   console.log(tempURL);
   //let loginDetails = { username, password };
-  let mapInfo = { name, length, width, userId, Joins };
+  const newJoins = []
+  if (Array.isArray(Joins) && Joins.length > 0){
+    for (var i=0; i<Joins.length; i++){
+      newJoins.push({X1:Joins[i].x1, Y1: Joins[i].y1, X2:Joins[i].x2, Y2: Joins[i].y2, Type: Joins[i].type})
+    }
+  }
+  console.log("New Joins: ", newJoins)
+  let mapInfo = { name, length, width, userId, Joins:newJoins };
   console.log("SENDING MAP INFO: ", mapInfo)
   const response = await axios.post(tempURL, mapInfo);
   return response;
