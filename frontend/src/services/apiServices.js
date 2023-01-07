@@ -18,7 +18,7 @@ export async function UpdateUser(username, password) {
 
 export async function Login(username, password) {
   console.log("Here")
-let tempURL = URL + "/Login";
+let tempURL = URL + "Login";
 console.log(tempURL);
 let loginDetails = { username, password };
 
@@ -46,4 +46,15 @@ export async function SaveMap(name, length, width, userId, Joins) {
   console.log("SENDING MAP INFO: ", mapInfo)
   const response = await axios.post(tempURL, mapInfo);
   return response;
+}
+
+export async function GetMap() {
+  let tempURL = URL +  "getFloorplan/32" 
+
+  const response = await axios.get(tempURL)
+  if(response.status === 201)
+  {
+    console.log("Floor Plan Details")
+    console.log(response.data)
+  }
 }

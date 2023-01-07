@@ -5,6 +5,7 @@ import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
 import { AttributeWindow } from "../components/AttributeWindow"
+import { GetMap } from '../services/apiServices';
 
 export const DrawingBoard = () => {
     const dbContext = useContext(DrawingBoardContext);
@@ -17,7 +18,6 @@ export const DrawingBoard = () => {
     const [testBtn, setTestBtn] = React.useState(1)
     const [testBtn2, setTestBtn2] = React.useState(1)
     const [mapName, setMapName] = React.useState("")
-
     return (
         <Grid sx={{ display: 'flex', pt:4, pl:1 }}  >
             <DrawingToolBox />
@@ -61,7 +61,9 @@ export const DrawingBoard = () => {
             <Button onClick={() => {
                 setTestBtn2(testBtn2 + 1)
             }}>Tester2</Button>
-
+            <Button onClick = {GetMap}>
+                This gets floorplan ID 52
+            </Button>
         </Grid>
 
     );
