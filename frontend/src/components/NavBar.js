@@ -69,18 +69,24 @@ const NavBar = (props) => {
             <Typography variant="h5">Smarchitect</Typography>
           </Icons>
 
-          <StyledButton variant='contained' onClick={() => {
+          <div>
+          <StyledButton sx={{mr:1}} variant='contained' onClick={() => {
+            navigate("/")
+          }}>Home</StyledButton>
+
+          <StyledButton sx={{mr:1}} variant='contained' onClick={() => {
             navigate("/newMap")
           }}>New Map</StyledButton>
 
           
-          <StyledButton variant='contained' onClick={() => {
-            navigate("/newMap")
+          <StyledButton sx={{mr:1}} variant='contained' onClick={() => {
+            navigate("/userMaps")
           }}>My Maps</StyledButton>
           
           <LogoutButton variant="contained" onClick={logoutHandler}>
             <LogoutIcon />
           </LogoutButton>
+          </div>
         </StyledToolbar>
       </AppBar>
     </div>

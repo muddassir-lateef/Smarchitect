@@ -4,6 +4,7 @@ import {DrawingBoard} from "../pages/DrawingBoard"
 import GenerateNewMap from "../pages/GenerateNewMap";
 import SignInSide from "../pages/Signin";
 import SignUp from "../pages/Signup";
+import UserMaps from "../pages/UserMaps";
 
 export const LoggedOutRoutes = () => {
   let routes;
@@ -24,6 +25,8 @@ export const LoggedInRoutes = () => {
       <Routes>
         <Route path="/" element={< DrawingBoard/>} />
         <Route path="/newMap" element={< GenerateNewMap/>} />
+        <Route path="userMaps" element={< UserMaps/>} />
+        
       </Routes>
     );
     return routes;
