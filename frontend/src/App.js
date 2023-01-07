@@ -25,6 +25,7 @@ function App() {
   const [selectedObj, setSelectedObj] = useState({});
   const [imgSource, setImgSource] = useState("");
   const [user, setUser] = useState("");
+  const [selectedMap, setSelectedMap] = useState("");
   const login = useCallback(() => {
     setIsLoggedIn(true);
   }, []);
@@ -40,6 +41,9 @@ function App() {
   const setSelectedSource = useCallback((s) => {
     setImgSource(s);
   }, []);
+  const selectMap = useCallback((map_id) => {
+    setSelectedMap(map_id);
+  }, []);
   let routes = loggedIn ? LoggedInRoutes() : LoggedOutRoutes();
 
   return (
@@ -54,6 +58,8 @@ function App() {
         setSelectedSource: setSelectedSource,
         user: user,
         setUser: setCurrentUser,
+        selectedMap: selectedMap,
+        setSelectedMap:selectMap
       }}
     >
       <DrawingBoardContext.Provider

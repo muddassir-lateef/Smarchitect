@@ -75,7 +75,7 @@ const NavBar = (props) => {
 
           
           <StyledButton variant='contained' onClick={() => {
-            navigate("/newMap")
+            navigate("/userMaps")
           }}>My Maps</StyledButton>
           
           <LogoutButton variant="contained" onClick={logoutHandler}>

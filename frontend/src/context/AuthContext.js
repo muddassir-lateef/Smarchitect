@@ -9,5 +9,7 @@ export const AuthContext = createContext({
     setSelectedSource: () => { },
     setUser: () => { },
     login: () => { },
-    logout: () => { }
+    logout: () => { },
+    setSelectedMap: ()=> {},
+    selectedMap: "",
 });

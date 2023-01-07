@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import { initial_menuItems } from "../data/MenuItems.js";
 import { CoordinateTranslator, checkJoins, checkEdgeConnections, specifyEdgeConnection, checkIds, findElement, splitBasedonID, getDistance } from "../util/join_utils.js";
-import { SaveMap } from '../services/apiServices';
+import { GetMapConnections, SaveMap } from '../services/apiServices';
 import { AuthContext } from '../context/AuthContext';
 //Noted Bug
 // joining 3 images at a point leads to incorrect connections
@@ -228,8 +228,10 @@ export const JoinPainter = (props) => {
         setConnections(cons)
 
         //saving map to the database 
-        postMap(cons)
-        .catch(console.error);
+        if (props.mapName !== ""){
+            postMap(cons)
+            .catch(console.error);
+        }
     }
     const makeMap = (connections) => {
         var imgs = []
@@ -292,6 +294,7 @@ export const JoinPainter = (props) => {
         joinMaker(dbContext.selectedImgInstance, selectedItemCoordinates)
 
     }, [ImageChanged])
+
     const postMap = async (cons) => {
         const length = 100;  //static for the time being
         const width = 100;  //static for the time being
@@ -304,6 +307,16 @@ export const JoinPainter = (props) => {
             console.log("Map was NOT saved")
         }
     }
+    
+    React.useEffect(()=>{
+        if (auth.selectedMap !== ""){
+            console.log("I will now make the map", auth.selectedMap)
+            GetMapConnections(auth.selectedMap).then(res=>{
+                console.log("Map Joins", res.data)
+            }).catch(err=>console.log("Error: ",err))
+        }
+
+    }, [])
 
     React.useEffect(() => {
         console.log("Reached here")

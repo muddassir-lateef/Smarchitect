@@ -47,3 +47,17 @@ export async function SaveMap(name, length, width, userId, Joins) {
   const response = await axios.post(tempURL, mapInfo);
   return response;
 }
+
+export async function GetUserMaps(userId) {
+  let tempURL = URL + "/Floorplan";
+  console.log(tempURL);
+  const response = await axios.patch(tempURL, {user_Id: userId});
+  return response;
+}
+
+export async function GetMapConnections(mapId) {
+  let tempURL = URL + `/getFloorplan/${mapId}`;
+  console.log(tempURL);
+  const response = await axios.get(tempURL, {});
+  return response;
+}

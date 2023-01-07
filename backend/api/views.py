@@ -100,7 +100,7 @@ def floorplanApi(request):
         userDetails = JSONParser().parse(request)
         User = Users.objects.prefetch_related('floorplans').get(id = userDetails['user_Id'])
         print(User.username)
-        data = [{'Floorplan Name': fp.name, 'Floorplan ID': fp.id} for fp in User.floorplans.all()]
+        data = [{'Floorplan_Name': fp.name, 'Floorplan_ID': fp.id} for fp in User.floorplans.all()]
         return JsonResponse(data, safe = False, status = 201)
 
 @csrf_exempt
