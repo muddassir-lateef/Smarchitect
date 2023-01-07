@@ -71,6 +71,10 @@ const NavBar = (props) => {
 
           <div>
           <StyledButton sx={{mr:1}} variant='contained' onClick={() => {
+            navigate("/")
+          }}>Home</StyledButton>
+
+          <StyledButton sx={{mr:1}} variant='contained' onClick={() => {
             navigate("/newMap")
           }}>New Map</StyledButton>
 
