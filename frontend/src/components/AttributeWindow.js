@@ -172,7 +172,7 @@ export const AttributeWindow = (props) => {
                     </Grid>
                     <Grid container sx={{ mt: 1 }}>
                         <Typography sx={{ fontSize: 20 }} color="red">
-                            angle:&nbsp;
+                            Angle:&nbsp;
                         </Typography>
                         <Typography sx={{ fontSize: 20 }} component="div">
                             {parseInt(selectedItemCoordinates.angle)}
