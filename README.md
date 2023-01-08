@@ -1,30 +1,30 @@
+
+
+
 # Smarchitect
-//1
-//Data Format
-The format of the data regarding the house plan will be created by the group. A new format will be designed based upon the needs of the project and will be manipulated for 2D generation accordingly.
+2D & 3D Floor plan generator. The end goal is to take user constraints as input, and product a 2D floorplan as output with options to tweak. 3D visualization will also be provided. The frontend is being developed in React, and the backend is in Django, which will be carrying our AI Model.
+How to run the Application:-
+
+Pull the code from Github, open it in the IDE of your choice, navigate to the base folder "Smarchitect"
 
 
-//2
-//Dataset gathering and Normalizing/Feeding to Model 
-1. Data can be collected in the form of Autocad models, and tranformed into the desired format. Need to explore possible libraries to automate process or we can map it manually
-2. Data can be collected in form of 2D images, mapping will be done manually
-
-Both 1 and 2 will be implemented with the tweaking module, as the dataset for the model will be according to our preferences
-
-
-//3
-//2D floor plan generation
-1. Unity, strong grip on the working of it aswell as abundance of tools avaiable. will nuffily use of autocad in project.
-2. Pyautocad, can be used to generate an Autocad model out of the floor plan produced by model.
-
-//4
-//Web module
-1. If pyautocad, some tools are available for converting DWG to web compatible formats for user display
-2. Canvas.js, prior experinece in javascript.
-
-//5
-//3D conversion
-1. Unity is compatible with autocad, allowes to convert autocad model to 3D strucutres.
-2. If Unity is used for 2D floor plan, then model can also be converted to 3D easily
+//FRONTEND
+To run the frontend, you must have NodeJS Installed and up to date
+Once the Repository has been pulled.
+cd frontend
+npm install
+npm start
 
 
+//BACKEND
+To run the Django backend, all the necessary library code lines are included in the repo, as well as the database credentials. However, following libraries need to be installed in order to run the backend server. You must have Python version 3.9.x in order to avoid issues with the backend.
+cd backend
+pip install django
+pip install dnspython
+pip install djongo
+pip install pymongo==3.12.2
+pip install djongorestframework
+pip install djongo-cors-headers
+python manage.py makimigrations api
+python manage.py migrate api
+python manage.py runserver
