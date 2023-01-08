@@ -1,4 +1,8 @@
+
+
+
 # Smarchitect
+2D & 3D Floor plan generator. The end goal is to take user constraints as input, and product a 2D floorplan as output with options to tweak. 3D visualization will also be provided. The frontend is being developed in React, and the backend is in Django, which will be carrying our AI Model.
 How to run the Application:-
 
 Pull the code from Github, open it in the IDE of your choice, navigate to the base folder "Smarchitect"
