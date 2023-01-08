@@ -145,13 +145,15 @@ export const JoinPainter = (props) => {
 
 
         }
-        console.log(Joins)
-        console.log(connections)
+      //  console.log(Joins)
+       // console.log(connections)
 
     }
     const joinRefresher = () => {
+        console.log("In Join Refresher")
 
         for (var i = 0; i < ImageObjects.length; i++) {
+            console.log("In Join Refresher loop")
             joinMaker(ImageObjects[i].id,
                 {
                     x: ImageObjects[i].x,
@@ -320,7 +322,10 @@ export const JoinPainter = (props) => {
                     }
                     console.log("Temp Cons: ", tempCons)
                     setConnections(tempCons)
+                    
+                    makeConnections(ImageObjects, Joins)
                     makeMap(tempCons)
+                    
                 }
                 
                // makeMap(tempCons)
@@ -328,6 +333,11 @@ export const JoinPainter = (props) => {
         }
 
     }, [])
+
+    React.useEffect(()=>{
+        console.log("Join refresher called, connections: ", connections)
+        joinRefresher()
+    }, [ImageObjects])
 
     React.useEffect(() => {
 
