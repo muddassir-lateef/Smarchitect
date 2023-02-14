@@ -226,8 +226,9 @@ export const JoinPainter = (props) => {
 
             }
         }
+        
         setConnections(cons)
-
+        //setConnections()
         //saving map to the database 
         if (props.mapName !== ""){
             postMap(cons)
@@ -310,7 +311,7 @@ export const JoinPainter = (props) => {
     }
     
     React.useEffect(()=>{
-        if (auth.selectedMap !== ""){
+        if (auth.selectedMap !== "" && !Array.isArray(auth.selectedMap)){
             console.log("I will now make the map", auth.selectedMap)
             GetMap(auth.selectedMap).then(res=>{
                 console.log("Map Fetched:", res.data)
@@ -330,6 +331,13 @@ export const JoinPainter = (props) => {
                 
                // makeMap(tempCons)
             }).catch(err=>console.log("Error: ",err))
+        }
+        else if (Array.isArray(auth.selectedMap) && auth.selectedMap.length > 0){
+            console.log("Drawing Generated Map", auth.selectedMap)
+            setConnections(auth.selectedMap)
+            makeConnections(ImageObjects, Joins)
+            makeMap(auth.selectedMap)
+            auth.setSelectedMap("")
         }
 
     }, [])

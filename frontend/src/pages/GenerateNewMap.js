@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Grid, Button } from '@mui/material';
 import { Stage, Layer } from 'react-konva';
 import { generateTarget, drawNodes, updateObjects, makeConnection } from '../util/map_graph_util';
 import { UpdateUser } from '../services/apiServices';
 import ConstraintsForm from '../components/ContraintsForm';
+import { GenerateMap } from '../services/apiServices';
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const GenerateNewMap = () => {
     const stageW = 900
@@ -13,6 +16,8 @@ const GenerateNewMap = () => {
     const layerRef = React.useRef();
     const [nodes, setNodes] = useState([])    //list with max size 2
     const [submitClicked, setSubmitClicked] = useState(false)
+    const auth = useContext(AuthContext)
+    const nav = useNavigate();
     const setSelectedNode = (newNode) => {
         setNodes(prevState => [...prevState, newNode]);
       /*  console.log("Node clicked, before update: ", nodes)
@@ -178,10 +183,12 @@ const GenerateNewMap = () => {
 
     }
 
-const buttonClicked = () => {
+const generateBtnClicked = () => {
     console.log("Hello")
-    UpdateUser("MudiLund", "PassWord123NewNew").then((res) => {
-        console.log(res)
+    GenerateMap(connectors).then((res) => {
+        console.log("Generated Map: ", res.data)
+        auth.setSelectedMap(res.data)
+        nav('/')
     })
 }
 
@@ -205,11 +212,11 @@ const buttonClicked = () => {
 
                 </Layer>
             </Stage>
-            </Grid>
-            <Grid item xs = {8} sx = {{pd:2}}>
-                <Button variant = "contained" onClick = {buttonClicked}>
-                    Test Button1
+            <Grid item xs = {8} sx = {{pt:2}}>
+                <Button  variant = "contained" onClick = {generateBtnClicked}>
+                    Generate Map
                 </Button>
+            </Grid>
             </Grid>
         </Grid>
     )

@@ -81,3 +81,11 @@ export async function GetMapConnections(mapId) {
   const response = await axios.get(tempURL);
   return response;
 }
+
+export async function GenerateMap(connectors) {
+  let tempURL = URL + "GenerateFloorPlan";
+  console.log(tempURL);
+  console.log("Connectors: ", connectors)
+  const response = await axios.patch(tempURL, connectors);
+  return response;
+}

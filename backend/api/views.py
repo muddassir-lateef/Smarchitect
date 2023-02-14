@@ -8,6 +8,7 @@ import pymongo
 from api.models import Users, Join, Floorplan
 from api.serializers import UserSerializer, JoinSerializer, FloorplanSerializer
 connectionString = "mongodb+srv://Salar:Salar123@cluster0.lu89phy.mongodb.net/?retryWrites=true&w=majority"
+from api.genetic_algo import GA_driver
 
 @csrf_exempt
 def userAPI(request,id=0):
@@ -119,6 +120,17 @@ def singleFloorplanApi(request, fp_Id):
 
     return JsonResponse(floorplanDictionary, safe = False, status = 201)
 
+
+@csrf_exempt
+def GenerateFloorPlan(request):
+    print("Here")
+    if request.method=='PATCH':
+        graphEdges = JSONParser().parse(request)
+        print(graphEdges)
+        generated_map = GA_driver(graphEdges)
+        print(generated_map)
+        
+    return JsonResponse(generated_map, safe = False, status = 201)
         
 
 
