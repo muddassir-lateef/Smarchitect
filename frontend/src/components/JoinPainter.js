@@ -227,7 +227,7 @@ export const JoinPainter = (props) => {
             }
         }
         
-        setConnections(cons)
+        //setConnections(cons)
         //setConnections()
         //saving map to the database 
         if (props.mapName !== ""){
@@ -236,6 +236,7 @@ export const JoinPainter = (props) => {
         }
     }
     const makeMap = (connections) => {
+        console.log("Make map called on cons: ", connections)
         var imgs = []
         setImageObjects([])
         Joins = []
@@ -290,6 +291,7 @@ export const JoinPainter = (props) => {
         setNewId(ids)
 
         setImageObjects(imgs)
+       // console.log("IMAGES: ", imgs)
 
     }
     React.useEffect(() => {
@@ -325,6 +327,7 @@ export const JoinPainter = (props) => {
                     setConnections(tempCons)
                     
                     makeConnections(ImageObjects, Joins)
+                    console.log("This should not be printed")
                     makeMap(tempCons)
                     
                 }
@@ -337,6 +340,8 @@ export const JoinPainter = (props) => {
             setConnections(auth.selectedMap)
             makeConnections(ImageObjects, Joins)
             makeMap(auth.selectedMap)
+           // joinRefresher()
+            //console.log("IMAGE OBJECTS: ", ImageObjects)
             auth.setSelectedMap("")
         }
 
@@ -359,7 +364,8 @@ export const JoinPainter = (props) => {
     }, [testBtn])
     React.useEffect(() => {
         makeMap(connections)
-    }, [testBtn2])
+    }, [auth.selectedMap])
+
 
 
     return (
