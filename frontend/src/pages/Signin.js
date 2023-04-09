@@ -4,19 +4,23 @@ import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
+import Slider from "react-slick";
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import { ReactComponent as Icon } from "../assets/Smarchitect.svg"
 import {styled} from '@mui/material/';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import LandingImage from './smarchitect_landing_page.avif'; 
+import LandingImage from './Blur.avif'; 
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import { AuthContext } from '../context/AuthContext';
 import {Login as LoginUser} from '../services/apiServices';
-import SmarchitectIcon from "../assets/Smarchitect.svg";
+import SmarchitectIcon from "../assets/Smarchitect Black.png";
 import "./typography_animation.css"
 
 function Copyright(props) {
@@ -31,6 +35,9 @@ function Copyright(props) {
     </Typography>
   );
 }
+
+
+
 
 const theme = createTheme({
     palette: {
@@ -81,10 +88,10 @@ export default function SignInSide() {
 
   return (
     
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ height: "100vh" , fontSize: "40px" }}>
         <CssBaseline />
         
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square  sx={{ height: "100vh" , fontSize: "40px" }}>
           <Box
             sx={{
               my: 8,
@@ -94,19 +101,10 @@ export default function SignInSide() {
               alignItems: "center",
             }}
           >
-           {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>*/
-            } 
-            <Typography className="typing-animation-right" variant="h3" sx={{ px: 5, mt: 4, mb: 1}}>
-              Hi, 
+              <img src={SmarchitectIcon} alt="My SVG Image" style={{ width: "700px", height: "400px" }} />
+            <Typography className="typing-animation-right"variant="h3" sx={{ px: 5, mt: 1, mb: 3, textAlign: 'center' }}>
+              Welcome Back!
             </Typography>
-            <Typography className="typing-animation-right"variant="h3" sx={{ px: 5, mt: 1, mb: 3 }}>
-              Welcome Back
-            </Typography>
-            <Icons>
-              <img height='40px' width='40px' src={SmarchitectIcon} alt={"Smarchitect Icon"} />
-            </Icons>
 
             <Box
               component="form"
@@ -125,6 +123,9 @@ export default function SignInSide() {
                 autoFocus
                 error={errorMessage === "" ? false: true}
                 style={{ backgroundColor: 'white' }}
+                sx={{
+                  borderRadius: '10px'
+                }}
               />
               <TextField
                 margin="normal"
@@ -137,21 +138,36 @@ export default function SignInSide() {
                 autoComplete="current-password"
                 helperText={errorMessage}
                 error={errorMessage === "" ? false: true}
+                sx={{
+                  borderRadius: '20px'
+                }}
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
-              <Typography variant="body2" sx={{pt:1, mt: { md: -2 } }}>
-                Don’t have an account? 
-              <Link variant="subtitle2" sx={{pl:1}} component={RouterLink} to={'/register'}>
-                Get started
-              </Link>
-            </Typography>
+            <Button
+  type="submit"
+  fullWidth
+  variant="contained"
+  sx={{
+    mt: 3,
+    mb: 2,
+      height: '60px',
+
+    backgroundColor: '#2e3f5e',
+    color: '#ffffff',
+    borderRadius: '50px',
+    padding: '12px 24px',
+    '&:hover': {
+      backgroundColor: '#1a263b'
+    }
+  }}
+>
+  Sign In
+</Button>
+<Typography variant="body2" sx={{marginTop: 2, pt: 1, mt: { md: -2 } }}>
+  Don’t have an account? 
+  <Link variant="subtitle2" sx={{pl:1}} component={RouterLink} to={'/register'}>
+    Get started
+  </Link>
+</Typography>
             </Box>
           </Box>
         </Grid>
@@ -169,7 +185,11 @@ export default function SignInSide() {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-        />
+        >
+  <Typography  variant="h4" sx={{ position: 'absolute', top: 200, left: 1150, padding: '20px', fontSize: '10rem', fontFamily: 'Times New Roman', fontWeight: 800 }}>
+<span style={{color: '#000'}}> Your</span> <span style={{ color: '#555', fontStyle: 'italic', fontSize: '14rem', fontWeight: 900, textDecoration: 'underline' }}>AI</span><span style={{color: '#000'}}> Powered Architect</span>
+</Typography>
+        </Grid>
       </Grid>
   );
 } 

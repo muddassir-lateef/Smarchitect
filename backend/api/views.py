@@ -72,7 +72,7 @@ def authenticationApi(request):
             print(UserDictionary)
             users_serializer = UserSerializer(data={"username":users_data["username"], "password" : users_data["password"]})
             return JsonResponse(UserDictionary, safe=False, status = 201)
-        return JsonResponse("User Not Found", safe=False, status = 401)
+        return JsonResponse("User Not Found", safe=False, status = 400)
 
 @csrf_exempt
 def floorplanApi(request):
