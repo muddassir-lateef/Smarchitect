@@ -7,6 +7,7 @@ import SendIcon from "@mui/icons-material/Send";
 import Input from "../components/Input";
 import { useForm } from "../hooks/form-hook";
 import { VALIDATOR_MAX, VALIDATOR_MIN, VALIDATOR_MINLENGTH } from "../util/validators"
+import { theme } from "../Themes/Default-theme";
 
 
 const ConstraintsForm = (props) => {
@@ -61,20 +62,24 @@ const ConstraintsForm = (props) => {
 
   return (
     <Grid justifyContent="center" display="flex" flex-direction="row">
-      <Card sx={{ width: "100%", height:"770px", maxWidth: "300px" }}>
+      <Card sx={{ width: "100%", height:"800px", maxWidth: "300px", }}>
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            p: 1,
-            m: 1,
+            padding: '4px 4px',
+            backgroundColor: "#F57663",
+                      color: "#fff",
+                      "&:hover": {
+                        backgroundColor: "#FFA546",
+                      },
           }}
         >
           <Avatar sx={{ mr: 2 }}>
             <SquareFootIcon />
           </Avatar>
-          <Typography variant="h5">Map Constraints</Typography>
+          <Typography variant="h6">Map Constraints</Typography>
         </Box>
 
         <Box
@@ -83,38 +88,34 @@ const ConstraintsForm = (props) => {
             justifyContent: "space-evenly",
             flexWrap: "wrap",
             alignItems: "center",
-             mt: 2,
-            p: 1,
+    
           }}
         >
           <Input
             sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+
             }}
             id="plot_X_Dimension"
             label="Plot X Dimension in feet"
             variant="standard"
             onInput={InputHandler}
             validators={[VALIDATOR_MIN(10)]}
-            errorText="Plot X Dimension must be over 10 feet"
+            errorText="Must be over 10 feet"
           />
           <Input
             sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+
             }}
             id="plot_Y_Dimension"
             label="Plot Y Dimension in feet"
             variant="standard"
             onInput={InputHandler}
             validators={[VALIDATOR_MIN(10)]}
-            errorText="Plot Y Dimension must be over 10 feet"
+            errorText="Must be over 10 feet"
           />
           <Input
              sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+
             }}
             id="bedrooms"
             label="Bedroom Count"
@@ -125,8 +126,7 @@ const ConstraintsForm = (props) => {
           />
           <Input
             sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+  
             }}
             id="bathrooms"
             label="Bathroom Count"
@@ -137,8 +137,7 @@ const ConstraintsForm = (props) => {
           />
           <Input
              sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+    
             }}
             id="livingrooms"
             label="Living Rooms"
@@ -149,8 +148,7 @@ const ConstraintsForm = (props) => {
           />
           <Input
              sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+   
             }}
             id="kitchens"
             label="Kitchens"
@@ -161,8 +159,7 @@ const ConstraintsForm = (props) => {
           />
           <Input
              sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+     
             }}
             id="carporch"
             label="Car Porch"
@@ -173,8 +170,7 @@ const ConstraintsForm = (props) => {
           />
           <Input
              sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+ 
             }}
             id="drawingrooms"
             label="Drawing Rooms"
@@ -185,20 +181,18 @@ const ConstraintsForm = (props) => {
           />
           <Input
              sx={{
-              marginBottom: '5px',
-              border: '1px solid #E0E0E0',
+ 
             }}
             id="coveredarea"
             label="Covered Area %"
             variant="standard"
             onInput={InputHandler}
             validators={[VALIDATOR_MINLENGTH(1),VALIDATOR_MIN(50), VALIDATOR_MAX(100) ]}
-            errorText="% Covered Area should be in range 50-100"
+            errorText="Area should be in range 50-100"
           />
 <Input
    sx={{
-    marginBottom: '5px',
-    border: '1px solid #E0E0E0',
+
   }}
   id="gardens"
   label="Garden"
@@ -218,12 +212,17 @@ const ConstraintsForm = (props) => {
             }}
           >
           </Box>
-          <Grid container display="flex" justifyContent="flex-end">
-            <Button
+          <Grid container display="flex" justifyContent="center" >
+            <Button 
               onClick={()=>props.onSubmit(formState.inputs)}
               variant="contained"
               endIcon={<SendIcon />}
-              sx={{ mt: 1 }}
+              sx={{ mt: 1, justifyContent: "center",
+              alignItems: "center",  backgroundColor: "#F57663",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#FFA546",
+              }, }}
               disabled={!formState.isValid || props.submitClicked}
             >
               Draw Nodes

@@ -7,6 +7,7 @@ import ConstraintsForm from '../components/ContraintsForm';
 import { GenerateMap } from '../services/apiServices';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { theme } from "../Themes/Default-theme";
 
 const GenerateNewMap = () => {
     const stageW = 900
@@ -195,7 +196,7 @@ const generateBtnClicked = () => {
     return (
         <Grid container sx={{pt:5}}>
             {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}
-            <Grid item xs={4}><ConstraintsForm submitClicked = {submitClicked} onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
+            <Grid item xs={4} sx = {{}}><ConstraintsForm submitClicked = {submitClicked} onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
             <Grid item xs={4} sx={{pb:1}}>
             <Stage
                 width={700}
@@ -217,6 +218,7 @@ const generateBtnClicked = () => {
   variant="contained"
   size="large"
   onClick={generateBtnClicked}
+  justifyContent="flex-end"
   sx={{
     mt: 3,
     mb: 2,

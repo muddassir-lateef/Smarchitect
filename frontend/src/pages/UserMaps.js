@@ -72,7 +72,11 @@ const UserMaps = () => {
       options={mapOptions}
       label="Map Name"
     />
-    <Box sx={{ marginTop: "16px", backgroundColor: "#f9f9f9", padding: "16px", borderRadius: "10px", boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)" }}>
+    <Box sx={{ marginTop: "16px", backgroundColor: "#f9f9f9", padding: "16px", borderRadius: "10px", boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)" , backgroundColor: "#F57663",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: theme.palette.primary.main,
+              },}}>
     
 <Typography variant="h5" sx={{ marginBottom: "8px", fontFamily: "Roboto", fontWeight: 600, color: "#000000", textTransform: "uppercase", letterSpacing: "2px" }}>
   TOTAL FLOORPLANS GENERATED
