@@ -196,11 +196,11 @@ const generateBtnClicked = () => {
         <Grid container sx={{pt:5}}>
             {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}
             <Grid item xs={4}><ConstraintsForm submitClicked = {submitClicked} onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
-            <Grid item xs={8} sx={{pb:2}}>
+            <Grid item xs={4} sx={{pb:1}}>
             <Stage
-                width={800}
-                height={900}
-                style={{ width: '800px', height: '900px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
+                width={700}
+                height={1000}
+                style={{ width: '700px', height: '680px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
                 //style={{
                  //   border: '2px solid',
                  //   marginTop: '2px',
@@ -213,9 +213,25 @@ const generateBtnClicked = () => {
                 </Layer>
             </Stage>
             <Grid item xs = {8} sx = {{pt:2}}>
-                <Button  variant = "contained" onClick = {generateBtnClicked}>
-                    Generate Map
-                </Button>
+            <Button
+  variant="contained"
+  size="large"
+  onClick={generateBtnClicked}
+  sx={{
+    mt: 3,
+    mb: 2,
+      height: '60px',
+    borderRadius: '50px',
+    padding: '12px 24px',
+    backgroundColor: "#F57663",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#FFA546",
+              },
+  }}
+>
+  Generate Map
+</Button>
             </Grid>
             </Grid>
         </Grid>

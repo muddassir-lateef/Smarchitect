@@ -61,7 +61,7 @@ const ConstraintsForm = (props) => {
 
   return (
     <Grid justifyContent="center" display="flex" flex-direction="row">
-      <Card sx={{ width: "100%", height:"900px", maxWidth: "300px" }}>
+      <Card sx={{ width: "100%", height:"770px", maxWidth: "300px" }}>
         <Box
           sx={{
             display: "flex",
@@ -89,12 +89,8 @@ const ConstraintsForm = (props) => {
         >
           <Input
             sx={{
-              backgroundColor: '#F9F9F9',
+              marginBottom: '5px',
               border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              padding: '10px',
-              marginBottom: '10px',
-              boxShadow: '0px 0px 5px #E0E0E0'
             }}
             id="plot_X_Dimension"
             label="Plot X Dimension in feet"
@@ -104,14 +100,10 @@ const ConstraintsForm = (props) => {
             errorText="Plot X Dimension must be over 10 feet"
           />
           <Input
-           sx={{
-            backgroundColor: '#F9F9F9',
-            border: '1px solid #E0E0E0',
-            borderRadius: '4px',
-            padding: '10px',
-            marginBottom: '10px',
-            boxShadow: '0px 0px 5px #E0E0E0'
-          }}
+            sx={{
+              marginBottom: '5px',
+              border: '1px solid #E0E0E0',
+            }}
             id="plot_Y_Dimension"
             label="Plot Y Dimension in feet"
             variant="standard"
@@ -120,13 +112,9 @@ const ConstraintsForm = (props) => {
             errorText="Plot Y Dimension must be over 10 feet"
           />
           <Input
-            sx={{
-              backgroundColor: '#F9F9F9',
+             sx={{
+              marginBottom: '5px',
               border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              padding: '10px',
-              marginBottom: '10px',
-              boxShadow: '0px 0px 5px #E0E0E0'
             }}
             id="bedrooms"
             label="Bedroom Count"
@@ -136,14 +124,10 @@ const ConstraintsForm = (props) => {
             errorText="Bedroom Count is a required field"
           />
           <Input
-           sx={{
-            backgroundColor: '#F9F9F9',
-            border: '1px solid #E0E0E0',
-            borderRadius: '4px',
-            padding: '10px',
-            marginBottom: '10px',
-            boxShadow: '0px 0px 5px #E0E0E0'
-          }}
+            sx={{
+              marginBottom: '5px',
+              border: '1px solid #E0E0E0',
+            }}
             id="bathrooms"
             label="Bathroom Count"
             variant="standard"
@@ -152,13 +136,9 @@ const ConstraintsForm = (props) => {
             errorText="Bathroom Count is a required field"
           />
           <Input
-            sx={{
-              backgroundColor: '#F9F9F9',
+             sx={{
+              marginBottom: '5px',
               border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              padding: '10px',
-              marginBottom: '10px',
-              boxShadow: '0px 0px 5px #E0E0E0'
             }}
             id="livingrooms"
             label="Living Rooms"
@@ -168,13 +148,9 @@ const ConstraintsForm = (props) => {
             errorText="Living Rooms is a required field"
           />
           <Input
-            sx={{
-              backgroundColor: '#F9F9F9',
+             sx={{
+              marginBottom: '5px',
               border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              padding: '10px',
-              marginBottom: '10px',
-              boxShadow: '0px 0px 5px #E0E0E0'
             }}
             id="kitchens"
             label="Kitchens"
@@ -184,13 +160,9 @@ const ConstraintsForm = (props) => {
             errorText="Kitchens is a required field"
           />
           <Input
-            sx={{
-              backgroundColor: '#F9F9F9',
+             sx={{
+              marginBottom: '5px',
               border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              padding: '10px',
-              marginBottom: '10px',
-              boxShadow: '0px 0px 5px #E0E0E0'
             }}
             id="carporch"
             label="Car Porch"
@@ -200,13 +172,9 @@ const ConstraintsForm = (props) => {
             errorText="Car Porch is a required field"
           />
           <Input
-            sx={{
-              backgroundColor: '#F9F9F9',
+             sx={{
+              marginBottom: '5px',
               border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              padding: '10px',
-              marginBottom: '10px',
-              boxShadow: '0px 0px 5px #E0E0E0'
             }}
             id="drawingrooms"
             label="Drawing Rooms"
@@ -216,13 +184,9 @@ const ConstraintsForm = (props) => {
             errorText="Drawing rooms is a required field"
           />
           <Input
-            sx={{
-              backgroundColor: '#F9F9F9',
+             sx={{
+              marginBottom: '5px',
               border: '1px solid #E0E0E0',
-              borderRadius: '4px',
-              padding: '10px',
-              marginBottom: '10px',
-              boxShadow: '0px 0px 5px #E0E0E0'
             }}
             id="coveredarea"
             label="Covered Area %"
@@ -232,11 +196,9 @@ const ConstraintsForm = (props) => {
             errorText="% Covered Area should be in range 50-100"
           />
 <Input
-  sx={{
-    backgroundColor: '#F0F0F0',
-    border: '1px solid #BDBDBD',
-    borderRadius: '4px',
-    padding: '10px',
+   sx={{
+    marginBottom: '5px',
+    border: '1px solid #E0E0E0',
   }}
   id="gardens"
   label="Garden"

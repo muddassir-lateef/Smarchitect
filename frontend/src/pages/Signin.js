@@ -15,12 +15,12 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import LandingImage from './Blur.avif'; 
+import LandingImage from './Blur2.avif'; 
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AuthContext } from '../context/AuthContext';
 import {Login as LoginUser} from '../services/apiServices';
-import SmarchitectIcon from "../assets/Smarchitect Black.png";
+import SmarchitectIcon from "../assets/SmarchitectLogo.png";
 import "./typography_animation.css"
 
 function Copyright(props) {
@@ -91,20 +91,17 @@ export default function SignInSide() {
       <Grid container component="main" sx={{ height: "100vh" , fontSize: "40px" }}>
         <CssBaseline />
         
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square  sx={{ height: "100vh" , fontSize: "40px" }}>
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={2} >
           <Box
             sx={{
-              my: 8,
+              my: 10,
               mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
             }}
           >
-              <img src={SmarchitectIcon} alt="My SVG Image" style={{ width: "700px", height: "400px" }} />
-            <Typography className="typing-animation-right"variant="h3" sx={{ px: 5, mt: 1, mb: 3, textAlign: 'center' }}>
-              Welcome Back!
-            </Typography>
+              <img src={SmarchitectIcon} alt="My SVG Image" style={{ width: "600px", height: "400px" }}  />
 
             <Box
               component="form"
@@ -150,14 +147,13 @@ export default function SignInSide() {
     mt: 3,
     mb: 2,
       height: '60px',
-
-    backgroundColor: '#2e3f5e',
-    color: '#ffffff',
     borderRadius: '50px',
     padding: '12px 24px',
-    '&:hover': {
-      backgroundColor: '#1a263b'
-    }
+    backgroundColor: "#F57663",
+              color: "#fff",
+              "&:hover": {
+                backgroundColor: "#FFA546",
+              },
   }}
 >
   Sign In
@@ -186,9 +182,7 @@ export default function SignInSide() {
             backgroundPosition: "center",
           }}
         >
-  <Typography  variant="h4" sx={{ position: 'absolute', top: 200, left: 1150, padding: '20px', fontSize: '10rem', fontFamily: 'Times New Roman', fontWeight: 800 }}>
-<span style={{color: '#000'}}> Your</span> <span style={{ color: '#555', fontStyle: 'italic', fontSize: '14rem', fontWeight: 900, textDecoration: 'underline' }}>AI</span><span style={{color: '#000'}}> Powered Architect</span>
-</Typography>
+  
         </Grid>
       </Grid>
   );
