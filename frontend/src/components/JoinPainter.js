@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
-import { Stage, Layer, Image, Circle, Transformer } from 'react-konva';
+import { Stage, Layer, Image, Circle, Transformer, Text, Rect } from 'react-konva';
 import useImage from 'use-image';
 import { useState } from 'react';
 
@@ -30,6 +30,7 @@ export const JoinPainter = (props) => {
     const { ImageChanged } = props
     const { selectedItemCoordinates } = props
     const [newJoinId, setNewJoinId] = React.useState('1');
+    const [labels, setLabels] = React.useState([])
 
     const dbContext = useContext(DrawingBoardContext);
 
@@ -241,51 +242,59 @@ export const JoinPainter = (props) => {
         setImageObjects([])
         Joins = []
         var ids = '1'
+        var temp_labels = []
         for (var i = 0; i < connections.length; i++) {
-            ids = String(parseInt(ids, 10) + 1)
+            if (connections[i].type != 'label'){
+                ids = String(parseInt(ids, 10) + 1)
 
-            var dist1 = getDistance(0, 0, connections[i].x1, connections[i].y1)
-            var dist2 = getDistance(0, 0, connections[i].x2, connections[i].y2)
+                var dist1 = getDistance(0, 0, connections[i].x1, connections[i].y1)
+                var dist2 = getDistance(0, 0, connections[i].x2, connections[i].y2)
 
-            if (dist1 > dist2) {
-                var tempx = connections[i].x1
-                var tempy = connections[i].y1
-                connections[i].x1 = connections[i].x2
-                connections[i].y1 = connections[i].y2
-                connections[i].x2 = tempx
-                connections[i].y2 = tempy
+                if (dist1 > dist2) {
+                    var tempx = connections[i].x1
+                    var tempy = connections[i].y1
+                    connections[i].x1 = connections[i].x2
+                    connections[i].y1 = connections[i].y2
+                    connections[i].x2 = tempx
+                    connections[i].y2 = tempy
+                }
+
+
+                var rot = (Math.atan((connections[i].y2 - connections[i].y1) / Math.abs(connections[i].x2 - connections[i].x1)) * (180 / Math.PI)) - 90
+                var alt = connections[i].type
+                var element = findElement(initial_menuItems, "alt", alt)
+                var ea = element.enabledAnchors
+                var kr = element.keepRatio
+                var url = element.url
+                var width = element.width
+                var height = getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2)
+                //var coords1 = CoordinateTranslator(ImageObjects[i].x, ImageObjects[i].y, ImageObjects[i].width, ImageObjects[i].height, ImageObjects[i].rotation, "Connector")
+
+                imgs.push(
+
+                    {
+                        alt: alt,
+                        url: url,
+                        x: connections[i].x1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180))),
+                        y: connections[i].y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180))),
+                        width: width,
+                        height: height,
+                        id: ids,
+                        rotation: rot,
+                        keepRatio: kr,
+                        enabledAnchors: ea,
+                        name: 'object',
+                    },
+
+                )
+            }
+            else if (connections[i].type == 'label'){
+                //setLabels(prevList => [...prevList, connections[i]])
+                temp_labels.push(connections[i])
             }
 
-
-            var rot = (Math.atan((connections[i].y2 - connections[i].y1) / Math.abs(connections[i].x2 - connections[i].x1)) * (180 / Math.PI)) - 90
-            var alt = connections[i].type
-            var element = findElement(initial_menuItems, "alt", alt)
-            var ea = element.enabledAnchors
-            var kr = element.keepRatio
-            var url = element.url
-            var width = element.width
-            var height = getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2)
-            //var coords1 = CoordinateTranslator(ImageObjects[i].x, ImageObjects[i].y, ImageObjects[i].width, ImageObjects[i].height, ImageObjects[i].rotation, "Connector")
-
-            imgs.push(
-
-                {
-                    alt: alt,
-                    url: url,
-                    x: connections[i].x1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180))),
-                    y: connections[i].y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180))),
-                    width: width,
-                    height: height,
-                    id: ids,
-                    rotation: rot,
-                    keepRatio: kr,
-                    enabledAnchors: ea,
-                    name: 'object',
-                },
-
-            )
-
         }
+        setLabels(temp_labels)
         ids = String(parseInt(ids, 10) + 1)
 
         setNewId(ids)
@@ -386,6 +395,23 @@ export const JoinPainter = (props) => {
                                 radius={7}
                                 fill="white"
                             />
+                        </>
+                    );
+                })
+            }
+            {
+                labels.length > 0 &&
+                labels.map((lab)=>{
+                    return(<>
+                        <Rect
+                        x={lab.x + 18}
+                        y={lab.y}
+                        width={lab.label.length * 7}
+                        height={20}
+                        fill="#FFFFFF"
+                        opacity={0.9}
+                      />
+                        <Text text={lab.label.charAt(0).toUpperCase() + lab.label.slice(1)} x={lab.x + 20} y={lab.y}/>
                         </>
                     );
                 })
