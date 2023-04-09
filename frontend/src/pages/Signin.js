@@ -15,7 +15,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import LandingImage from './Blur2.avif'; 
+import LandingImage from './AI-Logo.avif'; 
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AuthContext } from '../context/AuthContext';
