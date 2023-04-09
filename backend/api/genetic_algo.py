@@ -530,13 +530,29 @@ def GA(pop_size, generations_count, Nr, cat,inputG,trees):
 
     return pop[0][0]
 
+def getRoomCenters(rooms):
+  room_centers = []
+  for room in rooms:
+    # Extract the coordinates for the opposite corners of the rectangle
+    x1, y1 = room[0]
+    x2, y2 = room[2]
+    
+    # Calculate the midpoint between the two corners
+    center_x = (x1 + x2) / 2
+    center_y = (y1 + y2) / 2
+    room_centers.append({'x' : center_x, 'y': center_y, 'type': 'label', 'label':room[4]})
+  return room_centers
+
+
 def geneToJsonMap(inputG,gene,trees,Rooms):
-    print(gene)
     tree=genTree(gene,Rooms,trees)
     rooms=GenerateRooms(GenCoord(inputG["width"],inputG["height"]),tree)
     lines=roomsToLines(rooms)
     nlines=NormalizeLines(lines.copy())
     jsonlines=linestoJson(nlines)
+    room_centers = getRoomCenters(rooms)
+    for center in room_centers: 
+      jsonlines.append(center)
     return jsonlines
 
 def GA_driver(connects):

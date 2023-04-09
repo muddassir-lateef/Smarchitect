@@ -31,7 +31,6 @@
     "react-konva": "^18.2.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
-    "react-slick": "^0.29.0",
     "react-transition-group": "^4.4.2",
     "roughjs": "^4.5.2",
     "use-image": "^1.1.0",
