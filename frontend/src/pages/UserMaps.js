@@ -25,6 +25,8 @@ const UserMaps = () => {
     const [mapOptions, setMapOptions] = useState([])
     const [maps, setMaps] = useState([])
     const [mapsMaster, setMapsMaster] = useState([])
+    const { data, loading } = this.state;
+
     useEffect(()=>{
         GetUserMaps(auth.user.ID)
         .then(res=>{
