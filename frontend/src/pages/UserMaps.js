@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { GetUserMaps } from "../services/apiServices";
@@ -16,6 +17,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import SearchBox from "../components/SearchBox";
 import { theme } from "../Themes/Default-theme";
+import HouseIcon from '@mui/icons-material/House';
 
 const UserMaps = () => {
     const [fps, setFps] = useState(0)
@@ -25,8 +27,6 @@ const UserMaps = () => {
     const [mapOptions, setMapOptions] = useState([])
     const [maps, setMaps] = useState([])
     const [mapsMaster, setMapsMaster] = useState([])
-    const { data, loading } = this.state;
-
     useEffect(()=>{
         GetUserMaps(auth.user.ID)
         .then(res=>{
@@ -74,19 +74,26 @@ const UserMaps = () => {
       options={mapOptions}
       label="Map Name"
     />
-    <Box sx={{ marginTop: "16px", backgroundColor: "#f9f9f9", padding: "16px", borderRadius: "10px", boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)" , backgroundColor: "#F57663",
-              color: "#fff",
-              "&:hover": {
-                backgroundColor: theme.palette.primary.main,
-              },}}>
-    
-<Typography variant="h5" sx={{ marginBottom: "8px", fontFamily: "Roboto", fontWeight: 600, color: "#000000", textTransform: "uppercase", letterSpacing: "2px" }}>
-  TOTAL FLOORPLANS GENERATED
-</Typography>
-<Typography variant="h5" sx={{ fontSize: "20px", fontFamily: "Roboto", fontWeight: 400, lineHeight: "1.5", color: "#000" }}>
-  {fps}
-</Typography>
-    </Box>
+  <Box sx={{
+  display: "flex",
+  alignItems: "center",
+  marginTop: "16px",
+  backgroundColor: theme.palette.primary.main,
+  borderRadius: "10px",
+  boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
+}}>
+  <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", width: "20%", }}>
+    <HouseIcon />
+  </Box>
+  <Box sx={{ width: "80%",  backgroundColor: "#F57663", height : "100%"}}>
+    <Typography variant="h7" sx={{ marginBottom: "8px", fontFamily: "Roboto", fontWeight: 60, color: "#000000", textTransform: "uppercase", letterSpacing: "1px" }}>
+      TOTAL FLOORPLANS GENERATED
+    </Typography>
+    <Typography variant="h5" sx={{ fontSize: "20px", fontFamily: "Roboto", fontWeight: 400, lineHeight: "1.5", color: "#000" , textAlign :  "center"}}>
+      {fps}
+    </Typography>
+  </Box>
+</Box>
   </Grid>
   <Grid item xs={12} md={9}>
     <Grid container spacing={3}>
@@ -101,18 +108,18 @@ const UserMaps = () => {
       display: "flex",
       justifyContent: "center",
       "&:hover": {
-        transform: "scale(1.05)",
+        transform: "scale(1.01)",
         transition: "transform 0.2s ease-in-out",
-        boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.15)",
+        boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.10)",
       },
     }}
   >
     <Card
       sx={{
-        maxWidth: 320,
-        minWidth: 320,
+        maxWidth: 220,
+        minWidth: 220,
         borderRadius: "10px",
-        boxShadow: "0px 0px 20px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
       }}
     >
       <CardContent sx={{ backgroundColor: "#f9f9f9" }}>

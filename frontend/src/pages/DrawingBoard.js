@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Stage, Layer, Image, Transformer } from 'react-konva';
-import { Button, Card, Stack, Tooltip, Typography, Grid, CardActionArea, Toolbar } from '@mui/material';
+import { Button, Card, Stack, Tooltip, Typography, Grid, CardActionArea, Toolbar, Box } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
@@ -19,7 +19,8 @@ export const DrawingBoard = () => {
     const [testBtn2, setTestBtn2] = React.useState(1)
     const [mapName, setMapName] = React.useState("")
     return (
-        <Grid sx={{ display: 'flex', pt:4, pl:1 }}  >
+        
+        <Grid sx={{ display: 'flex',  pt:4, pl:1 }}  >
             <DrawingToolBox />
             <DrawingCanvas
                 testBtn={testBtn}
@@ -55,12 +56,7 @@ export const DrawingBoard = () => {
 
             />
 
-            <Button onClick={() => {
-                setTestBtn(testBtn + 1)
-            }}>Tester</Button>
-            <Button onClick={() => {
-                setTestBtn2(testBtn2 + 1)
-            }}>Tester2</Button>
+            
 
         </Grid>
 
