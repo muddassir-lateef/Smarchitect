@@ -1,11 +1,26 @@
 import React, { useContext, useState } from 'react';
-import { Stage, Layer, Image, Transformer } from 'react-konva';
-import { Button, Card, Stack, Tooltip, Typography, Grid, CardActionArea, Toolbar } from '@mui/material';
+import { Button, Typography, Grid } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
 import { AttributeWindow } from "../components/AttributeWindow"
 import { GetMap } from '../services/apiServices';
+import { Modal, Backdrop, Fade, Box } from "@mui/material";
+
+import { Unity, useUnityContext } from "react-unity-webgl";
+
+const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 250,
+    bgcolor: "background.paper",
+    borderRadius: '2%',
+    boxShadow: 24,
+    p: 4,
+};
+
 
 export const DrawingBoard = () => {
     const dbContext = useContext(DrawingBoardContext);
@@ -18,6 +33,24 @@ export const DrawingBoard = () => {
     const [testBtn, setTestBtn] = React.useState(1)
     const [testBtn2, setTestBtn2] = React.useState(1)
     const [mapName, setMapName] = React.useState("")
+    const [modalOpen, setModalOpen] = useState(false);
+    const [disable3D, setDisable3D] = useState(true)
+    const openModal = (username) => {
+        setModalOpen(true);
+    };
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+    const enable3D = () => {
+        setDisable3D(false)
+
+    }
+    const { unityProvider } = useUnityContext({
+        loaderUrl: "../../public/WebGLBuild/Build/WebGLBuild.loader.js",
+        dataUrl: "../../public/WebGLBuild/Build/WebGLBuild.data",
+        frameworkUrl: "../../public/WebGLBuild/Build/WebGLBuild.framework.js",
+        codeUrl: "../../public/WebGLBuild/Build/WebGLBuild.wasm",
+      });
     return (
         <Grid sx={{ display: 'flex', pt:4, pl:1 }}  >
             <DrawingToolBox />
@@ -25,7 +58,7 @@ export const DrawingBoard = () => {
                 testBtn={testBtn}
                 testBtn2={testBtn2}
                 mapName = {mapName}
-
+                enable3D = {enable3D}
                 selectedItemCoordinates={selectedItemCoordinates}
                 setSelectedItemCoordinates={setSelectedItemCoordinates}
                 scale={scale}
@@ -36,7 +69,10 @@ export const DrawingBoard = () => {
                 newId={newId}
                 setNewId={setNewId}
             />
+            
             <AttributeWindow
+                disable3D = {disable3D}
+                onVisualizeClick = {openModal}
                 selectedItemCoordinates={selectedItemCoordinates}
                 scale={scale}
                 setScale={setScale}
@@ -55,12 +91,64 @@ export const DrawingBoard = () => {
 
             />
 
-            <Button onClick={() => {
+          {/*{  <Button onClick={() => {
                 setTestBtn(testBtn + 1)
             }}>Tester</Button>
             <Button onClick={() => {
                 setTestBtn2(testBtn2 + 1)
-            }}>Tester2</Button>
+            }}>Tester2</Button>*/}
+            <Modal
+                aria-labelledby="transition-modal-title"
+                open={modalOpen}
+                onClose={closeModal}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={modalOpen}>
+                    <Box sx={style}>
+                        <Grid container>
+                            <Grid item>
+                                <Typography
+                                    id="transition-modal-title"
+                                    variant="h6"
+                                    component="h2"
+                                    sx={{ mb: 2 }}
+                                >
+                                    Your New Home
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Unity unityProvider={unityProvider} />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Box
+                                    sx={{
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                    }}
+
+                                >
+
+                                    <Button
+                                        onClick={closeModal}
+                                        variant="contained"
+                                        component="label"
+                                        sx={{ mr: 3 }}
+                                    >
+                                        Close
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Fade>
+            </Modal>
 
         </Grid>
 

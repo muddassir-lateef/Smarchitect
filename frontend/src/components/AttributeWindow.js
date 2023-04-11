@@ -236,6 +236,15 @@ export const AttributeWindow = (props) => {
                 </CardContent>
             </Card>
             */}
+            <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
+                <Button sx={{
+                    mt: 1, width: '100%', backgroundColor: '#FF803A', "&:hover": {
+                        backgroundColor: "#FF803A"
+                    }
+                }} variant="contained" onClick={()=>{props.onVisualizeClick()}} disabled={props.disable3D}>
+                    Visualize in 3D
+                </Button>
+            </Card>
 
             <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
                 <Typography variant='h5' gutterBottom width={'100%'} >
