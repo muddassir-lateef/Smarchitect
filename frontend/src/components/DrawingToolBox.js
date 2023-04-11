@@ -3,9 +3,10 @@ import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import WindowOutlinedIcon from '@mui/icons-material/WindowOutlined';
 import StairsIcon from '@mui/icons-material/Stairs';
-import { Button, Card, Stack, Tooltip, Typography } from '@mui/material';
+import { Button, Card, Stack, Tooltip, Typography, Box } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import {initial_menuItems} from "../data/MenuItems.js";
+import { theme } from "../Themes/Default-theme";
 
 
 export const DrawingToolBox = () => {
@@ -44,10 +45,25 @@ export const DrawingToolBox = () => {
         }
     }
     return (
-        <Card sx={{mr:1}}>
-            <Typography sx={{ fontFamily: "Arial" }} variant="h6" padding={2} align="center">Tools</Typography>
+        <Card sx={{mr:1 , backgroundColor: "#fff",
+        color: "#fff",
+        }} >
+            <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F57663",
+                      color: "#fff",
+                      borderRadius: "10px 10px 0 0" // Add this property for rounded top edges only
+          }}>
+            <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">Entities</Typography>
+            </Box>
             <Stack spacing={2} padding={2}  >
-                <Tooltip title="Wall Tool" enterDelay={500} placement="right">
+                <Tooltip title="Wall Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
+        color: "#000000",
+        "&:hover": {
+          backgroundColor: theme.palette.primary.main,
+        }, }}>
 
                     <Button
                         variant={(
@@ -59,7 +75,11 @@ export const DrawingToolBox = () => {
                         <LinearScaleIcon />
                     </Button>
                 </Tooltip>
-                <Tooltip title="Door Tool" enterDelay={500} placement="right">
+                <Tooltip title="Door Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
+        color: "#000000",
+        "&:hover": {
+          backgroundColor: theme.palette.primary.main,
+        }, }}>
 
                     <Button
                         variant={(
@@ -72,7 +92,11 @@ export const DrawingToolBox = () => {
                     </Button>
                 </Tooltip>
 
-                <Tooltip title="Window Tool" enterDelay={500} placement="right">
+                <Tooltip title="Window Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
+        color: "#000000",
+        "&:hover": {
+          backgroundColor: theme.palette.primary.main,
+        }, }}>
 
                     <Button
                         variant={(
@@ -85,7 +109,11 @@ export const DrawingToolBox = () => {
                     </Button>
                 </Tooltip>
 
-                <Tooltip title="Stairs Tool" enterDelay={500} placement="right">
+                <Tooltip title="Stairs Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
+        color: "#000000",
+        "&:hover": {
+          backgroundColor: theme.palette.primary.main,
+        }, }}>
 
                     <Button
                         variant={(
