@@ -6,7 +6,7 @@ import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
 import { AttributeWindow } from "../components/AttributeWindow"
 import { GetMap } from '../services/apiServices';
-import { Modal, Backdrop, Fade, Box } from "@mui/material";
+import { Modal, Backdrop, Fade } from "@mui/material";
 import { Unity, useUnityContext } from "react-unity-webgl";
 
 const style = {
