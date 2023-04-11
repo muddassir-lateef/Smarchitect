@@ -45,11 +45,11 @@ export const DrawingBoard = () => {
         setDisable3D(false)
 
     }
-    const { unityProvider } = useUnityContext({
-        loaderUrl: "../../public/WebGLBuild/Build/WebGLBuild.loader.js",
-        dataUrl: "../../public/WebGLBuild/Build/WebGLBuild.data",
-        frameworkUrl: "../../public/WebGLBuild/Build/WebGLBuild.framework.js",
-        codeUrl: "../../public/WebGLBuild/Build/WebGLBuild.wasm",
+    const { unityProvider, unload } = useUnityContext({
+        loaderUrl: "assets/build/MapGen3d.loader.js",
+        dataUrl: "assets/build/MapGen3d.data.unityweb",
+        frameworkUrl: "assets/build/MapGen3d.framework.js.unityweb",
+        codeUrl: "assets/build/MapGen3d.wasm.unityweb",
       });
     return (
         <Grid sx={{ display: 'flex', pt:4, pl:1 }}  >
