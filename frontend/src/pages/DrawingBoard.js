@@ -20,7 +20,7 @@ export const DrawingBoard = () => {
     const [mapName, setMapName] = React.useState("")
     return (
         
-        <Grid sx={{ display: 'flex',  pt:4, pl:1 }}  >
+        <Grid sx={{ display: 'flex', justifyContent: 'center',  pt:4, pl:1 }}  >
             <DrawingToolBox />
             <DrawingCanvas
                 testBtn={testBtn}

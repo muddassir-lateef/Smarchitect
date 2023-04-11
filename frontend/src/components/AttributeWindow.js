@@ -268,22 +268,11 @@ export const AttributeWindow = (props) => {
                 </CardContent>
             </Card>
             */}
-             <Box sx={{  display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#F57663",
-                      color: "#fff",
-                     
-          }}>
-                    <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">
-                        Save Floorplan
-                    </Typography>
-                    </Box>
 
-            <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center' ,backgroundColor: "white",
-        color: "white",
-        }} >
-
+            <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
+                <Typography variant='h5' gutterBottom width={'100%'} >
+                    Save Floor Plan
+                </Typography>
                 <Input
                     sx={{ pr: 2, pb: 3, flex: "100%" , width:'100%', }}
                     
