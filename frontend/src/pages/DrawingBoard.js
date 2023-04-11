@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Stage, Layer, Image, Transformer } from 'react-konva';
-import { Button, Card, Stack, Tooltip, Typography, Grid, CardActionArea, Toolbar, Box } from '@mui/material';
+import { Button, Typography, Grid } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
 import { AttributeWindow } from "../components/AttributeWindow"
 import { GetMap } from '../services/apiServices';
-import { Modal, Backdrop, Fade } from "@mui/material";
+import { Modal, Backdrop, Fade, Box } from "@mui/material";
+
 import { Unity, useUnityContext } from "react-unity-webgl";
 
 const style = {
@@ -20,6 +20,7 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
+
 
 export const DrawingBoard = () => {
     const dbContext = useContext(DrawingBoardContext);
@@ -51,14 +52,13 @@ export const DrawingBoard = () => {
         codeUrl: "../../public/WebGLBuild/Build/WebGLBuild.wasm",
       });
     return (
-        
-        <Grid sx={{ display: 'flex', justifyContent: 'center',  pt:4, pl:1 }}  >
+        <Grid sx={{ display: 'flex', pt:4, pl:1 }}  >
             <DrawingToolBox />
             <DrawingCanvas
                 testBtn={testBtn}
                 testBtn2={testBtn2}
                 mapName = {mapName}
-
+                enable3D = {enable3D}
                 selectedItemCoordinates={selectedItemCoordinates}
                 setSelectedItemCoordinates={setSelectedItemCoordinates}
                 scale={scale}
@@ -69,7 +69,10 @@ export const DrawingBoard = () => {
                 newId={newId}
                 setNewId={setNewId}
             />
+            
             <AttributeWindow
+                disable3D = {disable3D}
+                onVisualizeClick = {openModal}
                 selectedItemCoordinates={selectedItemCoordinates}
                 scale={scale}
                 setScale={setScale}
@@ -146,12 +149,10 @@ export const DrawingBoard = () => {
                     </Box>
                 </Fade>
             </Modal>
-            
 
         </Grid>
 
     );
 
 };
-
 

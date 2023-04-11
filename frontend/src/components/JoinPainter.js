@@ -6,7 +6,6 @@ import useImage from 'use-image';
 import { useState } from 'react';
 
 
-
 import { initial_menuItems } from "../data/MenuItems.js";
 import { CoordinateTranslator, checkJoins, checkEdgeConnections, specifyEdgeConnection, checkIds, findElement, splitBasedonID, getDistance } from "../util/join_utils.js";
 import { GetMapConnections, GetMap,  SaveMap } from '../services/apiServices';

@@ -42,7 +42,6 @@ export const DrawingCanvas = (props) => {
             style={{
                 border: '2px solid',
                 marginTop: '2px',
-                border: '2px solid red'
             }}
             ref={stageRef}
             onMouseDown={(e) => {
@@ -187,7 +186,6 @@ export const DrawingCanvas = (props) => {
                     setImageObjects={setImageObjects}
                     setSelectedItemCoordinates={setSelectedItemCoordinates}
                     exportData={exportData}
-                    
                     setImageChanged={setImageChanged}
                     ImageChanged={ImageChanged}
                 />

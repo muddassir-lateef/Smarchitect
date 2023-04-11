@@ -3,7 +3,7 @@ import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import WindowOutlinedIcon from '@mui/icons-material/WindowOutlined';
 import StairsIcon from '@mui/icons-material/Stairs';
-import { Button, Grid, Card, CardContent, Slider, Typography, Divider, Box } from '@mui/material';
+import { Button, Grid, Card, CardContent, Slider, Typography, Divider } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import Input from './Input';
@@ -11,7 +11,6 @@ import { CSVLink } from "react-csv";
 import Papa from "papaparse";
 import { VALIDATOR_REQUIRE } from '../util/validators';
 import { useForm } from "../hooks/form-hook";
-import { theme } from "../Themes/Default-theme";
 
 
 const headers = [
@@ -131,94 +130,64 @@ export const AttributeWindow = (props) => {
         props.setMap_name(formState.inputs.name.value)
     }, [formState.inputs.name.value]);
     return (
-        <Card sx={{pl:1, pr:1  }} elevation={0} >
-             <Box sx={{  display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#F57663",
-                      color: "#fff",
-                      borderRadius: "10px 10px 0 0"
-                     
-          }}>
-                    <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">
+        <Card sx={{pl:1, pr:1}} elevation={0}>
+            <Card sx={{ minWidth: 275, maxHeight: 300, p:1}}>
+                <CardContent>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Entity Attributes
                     </Typography>
-                    </Box>
-
-            <Card sx={{ minWidth: 275, maxHeight: 300, p:1 , backgroundColor: "white",
-        color: "white",}}>
-            
-                <CardContent >
-                <Box sx={{  
-            justifyContent: "center",
-            alignItems: "center",
-                      height: "100%",
-                      width: "100%",
-          }}>
-                    <Grid container sx={{ mt: 1,  }}>
-                        <Typography sx={{ fontSize: 20 ,  fontWeight : "bold" ,}} color="black">
-                            X :&nbsp;
+                    <Grid container sx={{ mt: 1 }}>
+                        <Typography sx={{ fontSize: 20 }} color="red">
+                            x:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20,  fontWeight : "bold" }} color = "black" component="div">
+                        <Typography sx={{ fontSize: 20 }} component="div">
                             {parseInt(selectedItemCoordinates.x)}
                         </Typography>
                     </Grid>
 
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20 ,  fontWeight : "bold"}} color="black">
-                            Y :&nbsp;
+                        <Typography sx={{ fontSize: 20 }} color="red">
+                            y:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20 ,  fontWeight : "bold" }}  color = "black" component="div">
+                        <Typography sx={{ fontSize: 20 }} component="div">
                             {parseInt(selectedItemCoordinates.y)}
                         </Typography>
                     </Grid>
 
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20,  fontWeight : "bold" }} color="black">
-                            Width :&nbsp;
+                        <Typography sx={{ fontSize: 20 }} color="red">
+                            Width:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20,  fontWeight : "bold" }}  color = "black" component="div">
+                        <Typography sx={{ fontSize: 20 }} component="div">
                             {intToFeetStr(parseInt(selectedItemCoordinates.w))}
                         </Typography>
                     </Grid>
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20,  fontWeight : "bold" }} color="black">
-                            Height :&nbsp;
+                        <Typography sx={{ fontSize: 20 }} color="red">
+                            Height:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20,  fontWeight : "bold" }}  color = "black" component="div">
+                        <Typography sx={{ fontSize: 20 }} component="div">
                             {intToFeetStr(parseInt(selectedItemCoordinates.h))}
                         </Typography>
                     </Grid>
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20,  fontWeight : "bold" }} color="black">
-                            Angle :&nbsp;
+                        <Typography sx={{ fontSize: 20 }} color="red">
+                            Angle:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20 ,  fontWeight : "bold"}} color = "black" component="div">
+                        <Typography sx={{ fontSize: 20 }} component="div">
                             {parseInt(selectedItemCoordinates.angle)}
                         </Typography>
                     </Grid>
-            </Box>
+
                 </CardContent>
 
             </Card>
             <Divider />
-            <Box sx={{  display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#F57663",
-                      color: "#fff",
-                      
-                     
-          }}>
-                    <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">
+            <Card sx={{ minWidth: 275, maxHeight: 300 , p:1, mt:1 }}>
+                <CardContent>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                         Scale
                     </Typography>
-                    </Box>
-
-            <Card sx={{ minWidth: 275, maxHeight: 300 , p:1, mt:1  ,backgroundColor: "white",
-        color: "white",
-        }}>
-                <CardContent>
                     <Grid container sx={{ mt: 1 }}>
                         <Slider
                             aria-label="Custom marks"
@@ -230,7 +199,6 @@ export const AttributeWindow = (props) => {
                             onChange={handleScaleChange}
                             valueLabelDisplay="auto"
                             marks={marks}
-                            sx={{ color: 'black' }}
                         />
                     </Grid>
                 </CardContent>
@@ -268,30 +236,31 @@ export const AttributeWindow = (props) => {
                 </CardContent>
             </Card>
             */}
+            <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
+                <Button sx={{
+                    mt: 1, width: '100%', backgroundColor: '#FF803A', "&:hover": {
+                        backgroundColor: "#FF803A"
+                    }
+                }} variant="contained" onClick={()=>{props.onVisualizeClick()}} disabled={props.disable3D}>
+                    Visualize in 3D
+                </Button>
+            </Card>
 
             <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
                 <Typography variant='h5' gutterBottom width={'100%'} >
                     Save Floor Plan
                 </Typography>
                 <Input
-                    sx={{ pr: 2, pb: 3, flex: "100%" , width:'100%', }}
-                    
+                    sx={{ pr: 2, pb: 3, flex: "100%" , width:'100%'}}
                     id="name"
-                    
                     label="Floorplan Name"
                     variant="standard"
                     onInput={InputHandler}
                     validators={[VALIDATOR_REQUIRE()]}
                     errorText="Floorplan name must be provided"
                 />
-                <Button sx={{ mt: 1, width:'100%',   backgroundColor: "#F57663",
-              color: "#fff",
-              "&:hover": {
-                backgroundColor: "#FFA546",
-              }, }} variant="outlined" disabled={!formState.isValid} onClick={props.createJoins}>
-                    <Typography  sx={{ fontSize: 12, fontWeight : "bold"}} color = "black" variant="h7"  align="center">
-                        Save
-                    </Typography>
+                <Button sx={{ mt: 1, width:'100%' }} variant="outlined" disabled={!formState.isValid} onClick={props.createJoins}>
+                    Save
                 </Button>
 
             </Card>
