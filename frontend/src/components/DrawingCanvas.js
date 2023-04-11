@@ -186,6 +186,7 @@ export const DrawingCanvas = (props) => {
                     setImageObjects={setImageObjects}
                     setSelectedItemCoordinates={setSelectedItemCoordinates}
                     exportData={exportData}
+                    
                     setImageChanged={setImageChanged}
                     ImageChanged={ImageChanged}
                 />

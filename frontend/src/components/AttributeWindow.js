@@ -253,6 +253,7 @@ export const AttributeWindow = (props) => {
                 <Input
                     sx={{ pr: 2, pb: 3, flex: "100%" , width:'100%'}}
                     id="name"
+                    
                     label="Floorplan Name"
                     variant="standard"
                     onInput={InputHandler}
