@@ -233,7 +233,8 @@ export const JoinPainter = (props) => {
             }
         }
         if (auth.selectedMap === ''){
-        setConnections(cons)}
+            setConnections(cons)
+        }
  
         //setConnections()
         //saving map to the database 
@@ -241,7 +242,8 @@ export const JoinPainter = (props) => {
             //labels.map((lab)=>{
              //   cons.push(lab)
             //})
-            postMap(cons)
+            console.log("Posting CONS: ", cons, "Labels: ", labels)
+            postMap(cons, labels)
             .catch(console.error);
         }
     }
@@ -327,11 +329,11 @@ export const JoinPainter = (props) => {
         }
     }, [connections])
 
-    const postMap = async (cons) => {
+    const postMap = async (cons, labels) => {
         const length = 100;  //static for the time being
         const width = 100;  //static for the time being
         const userId = auth.user.ID;
-        const response= await SaveMap(props.mapName, length, width, userId, cons)
+        const response= await SaveMap(props.mapName, length, width, userId, cons, labels)
         if (response.status === 201){
             console.log("Map Saved Successfully")
         }
