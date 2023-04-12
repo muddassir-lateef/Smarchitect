@@ -46,24 +46,30 @@ export const CoordinateTranslator = (x, y, w, h, angle, type) => {
 
         if (type == 'Wall') {
             var step = 5
-            var xt = 0
-            var yt = 0
+            var xt1 = 0
+            var yt1 = 0
+            var xt2 = 0
+            var yt2 = 0
+
             var edgeAvoidance = 5
 
-            //generating points btwn p1 and p3
             for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
-                xt = x - (i * Math.cos((angle + 270) * (Math.PI / 180)))
-                yt = y - (i * Math.sin((angle + 270) * (Math.PI / 180)))
-                coords.push([xt, yt])
-            }
 
-            //generating points btwn p2 and p4
-            for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
-                xt = coords[1][0] - (i * Math.cos((angle + 270) * (Math.PI / 180)))
-                yt = coords[1][1] - (i * Math.sin((angle + 270) * (Math.PI / 180)))
-                coords.push([xt, yt])
-            }
+                //generating points btwn p1 and p3
+                xt1 = x - (i * Math.cos((angle + 270) * (Math.PI / 180)))
+                yt1 = y - (i * Math.sin((angle + 270) * (Math.PI / 180)))                
+                coords.push([xt1, yt1])
 
+                //generating points btwn p2 and p4
+                xt2 = coords[1][0] - (i * Math.cos((angle + 270) * (Math.PI / 180)))
+                yt2 = coords[1][1] - (i * Math.sin((angle + 270) * (Math.PI / 180)))
+                coords.push([xt2, yt2])
+
+                //pushing mid points 
+                coords.push([(xt1+xt2)/2, (yt1+yt2)/2])
+
+            }
+            
         }
     }
     return coords
