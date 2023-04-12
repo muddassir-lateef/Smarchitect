@@ -3,7 +3,7 @@ import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import WindowOutlinedIcon from '@mui/icons-material/WindowOutlined';
 import StairsIcon from '@mui/icons-material/Stairs';
-import { Button, Grid, Card, CardContent, Slider, Typography, Divider } from '@mui/material';
+import { Button, Grid, Card, CardContent, Slider, Typography, Divider, Box } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import Input from './Input';
@@ -130,51 +130,62 @@ export const AttributeWindow = (props) => {
         props.setMap_name(formState.inputs.name.value)
     }, [formState.inputs.name.value]);
     return (
-        <Card sx={{pl:1, pr:1}} elevation={0}>
-            <Card sx={{ minWidth: 275, maxHeight: 300, p:1}}>
-                <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        Entity Attributes
-                    </Typography>
+        <Card sx={{pl:1, pr:1, }} elevation={0}>
+            <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F57663",
+            borderRadius: "10px 10px 0 0",
+                      color: "#fff",
+                      // Add this property for rounded top edges only,
+                      
+          }}>
+            <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">Entity Attributes</Typography>
+            </Box>
+            <Card sx={{ minWidth: 275, maxHeight: 300,
+                      color: "#fff", mb:2}}>
+                <CardContent sx={{ margin: 0 }}>
+                
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20 }} color="red">
-                            x:&nbsp;
+                        <Typography sx={{ fontSize: 15 , fontWeight : "bold"}} color="black">
+                            X:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20 }} component="div">
+                        <Typography sx={{ fontSize: 15  , fontWeight : "bold"}}  color="black" component="div">
                             {parseInt(selectedItemCoordinates.x)}
                         </Typography>
                     </Grid>
 
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20 }} color="red">
-                            y:&nbsp;
+                        <Typography sx={{ fontSize: 15  , fontWeight : "bold"}} color="black">
+                            Y:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20 }} component="div">
+                        <Typography sx={{ fontSize: 15 , fontWeight : "bold"}} component="div" color="black">
                             {parseInt(selectedItemCoordinates.y)}
                         </Typography>
                     </Grid>
 
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20 }} color="red">
+                        <Typography sx={{ fontSize: 15 , fontWeight : "bold"}} color="black">
                             Width:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20 }} component="div">
+                        <Typography sx={{ fontSize: 15 , fontWeight : "bold"}} component="div" color="black">
                             {intToFeetStr(parseInt(selectedItemCoordinates.w))}
                         </Typography>
                     </Grid>
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20 }} color="red">
+                        <Typography sx={{ fontSize: 15, fontWeight : "bold" }} color="black">
                             Height:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20 }} component="div">
+                        <Typography sx={{ fontSize: 15 , fontWeight : "bold"}} component="div" color="black">
                             {intToFeetStr(parseInt(selectedItemCoordinates.h))}
                         </Typography>
                     </Grid>
                     <Grid container sx={{ mt: 1 }}>
-                        <Typography sx={{ fontSize: 20 }} color="red">
+                        <Typography sx={{ fontSize: 15 , fontWeight : "bold"}} color="black">
                             Angle:&nbsp;
                         </Typography>
-                        <Typography sx={{ fontSize: 20 }} component="div">
+                        <Typography sx={{ fontSize: 15 , fontWeight : "bold"}} component="div" color="black">
                             {parseInt(selectedItemCoordinates.angle)}
                         </Typography>
                     </Grid>
@@ -183,13 +194,23 @@ export const AttributeWindow = (props) => {
 
             </Card>
             <Divider />
-            <Card sx={{ minWidth: 275, maxHeight: 300 , p:1, mt:1 }}>
+            <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F57663",
+            borderRadius: "10px 10px 0 0",
+                      color: "#fff",
+                      // Add this property for rounded top edges only,
+                      
+          }}>
+            <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">Scale</Typography>
+            </Box>
+            <Card sx={{ minWidth: 275, maxHeight: 300 , p:1, mb:2 }}>
                 <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        Scale
-                    </Typography>
                     <Grid container sx={{ mt: 1 }}>
                         <Slider
+                        sx={{ color: 'black' }}
                             aria-label="Custom marks"
                             defaultValue={1}
                             step={0.1}
@@ -236,7 +257,19 @@ export const AttributeWindow = (props) => {
                 </CardContent>
             </Card>
             */}
-            <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
+            <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F57663",
+            borderRadius: "10px 10px 0 0",
+                      color: "#fff",
+                      // Add this property for rounded top edges only,
+                      
+          }}>
+            <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">3D Visualization</Typography>
+            </Box>
+            <Card sx={{ minWidth: 275, maxHeight: 300, mb:2 , p:1, textAlign:'center'}} >
                 <Button sx={{
                     mt: 1, width: '100%', backgroundColor: '#FF803A', "&:hover": {
                         backgroundColor: "#FF803A"
@@ -245,11 +278,20 @@ export const AttributeWindow = (props) => {
                     Visualize in 3D
                 </Button>
             </Card>
-
+            <Box sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#F57663",
+            borderRadius: "10px 10px 0 0",
+                      color: "#fff",
+                      // Add this property for rounded top edges only,
+                      
+          }}>
+            <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">Save Floorplan</Typography>
+            </Box>
             <Card sx={{ minWidth: 275, maxHeight: 300, mt:1 , p:1, textAlign:'center'}} >
-                <Typography variant='h5' gutterBottom width={'100%'} >
-                    Save Floor Plan
-                </Typography>
+
                 <Input
                     sx={{ pr: 2, pb: 3, flex: "100%" , width:'100%'}}
                     id="name"
@@ -259,8 +301,13 @@ export const AttributeWindow = (props) => {
                     validators={[VALIDATOR_REQUIRE()]}
                     errorText="Floorplan name must be provided"
                 />
-                <Button sx={{ mt: 1, width:'100%' }} variant="outlined" disabled={!formState.isValid} onClick={props.createJoins}>
-                    Save
+                <Button sx={{
+                    mt: 1, width: '100%', backgroundColor: '#FF803A', "&:hover": {
+                        backgroundColor: "#FF803A"
+                    }}} variant="outlined" disabled={!formState.isValid} onClick={props.createJoins}>
+                     <Typography>
+                        Save
+                     </Typography>
                 </Button>
 
             </Card>
