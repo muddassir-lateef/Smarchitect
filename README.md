@@ -23,8 +23,8 @@ pip install django
 pip install dnspython
 pip install djongo
 pip install pymongo==3.12.2
-pip install djongorestframework
-pip install djongo-cors-headers
+pip install djangorestframework
+pip install django-cors-headers
 python manage.py makimigrations api
 python manage.py migrate api
 python manage.py runserver
