@@ -25,6 +25,7 @@ export const JoinPainter = (props) => {
     const { newId } = props
     const { setNewId } = props
     const {enable3D} = props
+    const {setCons} = props
 
     const { ImageObjects } = props;
     const [connections, setConnections] = React.useState([]);
@@ -322,6 +323,7 @@ export const JoinPainter = (props) => {
             
             
                 enable3D()
+                setCons(connections) //passing to parent component
         }
     }, [connections])
 

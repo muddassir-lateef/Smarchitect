@@ -14,10 +14,10 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 250,
-    bgcolor: "background.paper",
+    width: 800,
+    height: 500,
+    bgcolor: "transparent",
     borderRadius: '2%',
-    boxShadow: 24,
     p: 4,
 };
 
@@ -35,6 +35,7 @@ export const DrawingBoard = () => {
     const [mapName, setMapName] = React.useState("")
     const [modalOpen, setModalOpen] = useState(false);
     const [disable3D, setDisable3D] = useState(true)
+
     const openModal = (username) => {
         setModalOpen(true);
     };
@@ -45,6 +46,8 @@ export const DrawingBoard = () => {
         setDisable3D(false)
 
     }
+    
+    const [connections, setConnections] = useState([])
     const { unityProvider, unload } = useUnityContext({
         loaderUrl: "assets/build/MapGen3d.loader.js",
         dataUrl: "assets/build/MapGen3d.data.unityweb",
@@ -68,6 +71,8 @@ export const DrawingBoard = () => {
                 setImageObjects={setImageObjects}
                 newId={newId}
                 setNewId={setNewId}
+                setCons= {setConnections}
+                
             />
             
             <AttributeWindow
@@ -110,19 +115,10 @@ export const DrawingBoard = () => {
                 <Fade in={modalOpen}>
                     <Box sx={style}>
                         <Grid container>
-                            <Grid item>
-                                <Typography
-                                    id="transition-modal-title"
-                                    variant="h6"
-                                    component="h2"
-                                    sx={{ mb: 2 }}
-                                >
-                                    Your New Home
-                                </Typography>
-                            </Grid>
+                    
 
                             <Grid item xs={12}>
-                                <Unity unityProvider={unityProvider} />
+                                <Unity style={{width:800, height:500}} unityProvider={unityProvider} />
                             </Grid>
 
                             <Grid item xs={12}>
@@ -135,14 +131,7 @@ export const DrawingBoard = () => {
 
                                 >
 
-                                    <Button
-                                        onClick={closeModal}
-                                        variant="contained"
-                                        component="label"
-                                        sx={{ mr: 3 }}
-                                    >
-                                        Close
-                                    </Button>
+    
                                 </Box>
                             </Grid>
                         </Grid>
