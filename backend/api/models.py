@@ -9,11 +9,15 @@ class Join(models.Model):
     Y1 =  models.DecimalField(max_digits=16, decimal_places=8)
     Y2 =  models.DecimalField(max_digits=16, decimal_places=8)
 
-
+class Label(models.Model):
+    x =  models.DecimalField(max_digits=16, decimal_places=8)
+    y =  models.DecimalField(max_digits=16, decimal_places=8)
+    label =  models.CharField(max_length=500)
 
 class Floorplan(models.Model):
     name = models.CharField(max_length=500)
     joins = models.ManyToManyField(Join)
+    labels = models.ManyToManyField(Label)
     length = models.DecimalField(max_digits=16, decimal_places=8)
     width = models.DecimalField(max_digits=16, decimal_places=8)
 
