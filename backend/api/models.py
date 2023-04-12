@@ -1,4 +1,5 @@
-from django.db import models
+from djongo import models
+import uuid
 
 # Crea
 # te your models here.
@@ -10,9 +11,11 @@ class Join(models.Model):
     Y2 =  models.DecimalField(max_digits=16, decimal_places=8)
 
 class Label(models.Model):
-    x =  models.DecimalField(max_digits=16, decimal_places=8)
-    y =  models.DecimalField(max_digits=16, decimal_places=8)
-    label =  models.CharField(max_length=500)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    x = models.DecimalField(max_digits=16, decimal_places=8)
+    y = models.DecimalField(max_digits=16, decimal_places=8)
+    label = models.CharField(max_length=500)
+
 
 class Floorplan(models.Model):
     name = models.CharField(max_length=500)

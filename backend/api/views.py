@@ -80,26 +80,35 @@ def floorplanApi(request):
     db = client['smarchitectdb']
 
     if request.method=='POST':
+
+        ##
+        #Parsing Data and getting Floorplan
+        ##
+
         floorplan=JSONParser().parse(request)
         collection=db['api_joins']
         tempFloorplan = Floorplan.objects.create(name = floorplan["name"])
         print(tempFloorplan.name)
+
+        ##
+        #Creating Join Object
+        ##
+
         for i in floorplan['Joins']:
             join = Join.objects.create(X1= (i['X1']),Y1= (i['Y1']), X2= (i['X2']),Y2= (i['Y2']), type = (i['Type']))
             print("JOIN: {}".format(join))
             join.save()
             tempFloorplan.joins.add(join)
-        print("BEFORE LABELS")
+        ##
+        #Creating Label Object
+        ##
         for i in floorplan['Labels']:
             print(i)
-            print("Before creating label object")
             lab = Label.objects.create(x= (i['x']),y= (i['y']),  label = (i['label']))
             print(lab)
-            print("Aft")
             lab.save()
-            print("THIS STRING PROVES SALAR WRONG")
             tempFloorplan.labels.add(lab)
-        print("AFTER LABELS")
+    
         tempFloorplan.width = floorplan["width"]
         tempFloorplan.length = floorplan["length"]
         
@@ -148,6 +157,19 @@ def GenerateFloorPlan(request):
     return JsonResponse(generated_map, safe = False, status = 201)
         
 
+@csrf_exempt
+def testApi(request):
+    if request.method == 'POST':
+        print("Hey")
+        # Create a new Label object and save it to the database
+        floorplan = Floorplan.objects.get(id=137)
+        print(floorplan)
+        for labels in floorplan.labels.all():
+            print(labels.x)
+            print(labels.y)
+            print(labels.label)
+        
 
+        return JsonResponse("Hey", safe = False, status = 201)
 
 # Create your views here.
