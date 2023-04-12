@@ -18,6 +18,7 @@ var Joins = [];
 
 export const JoinPainter = (props) => {
 
+    const [allMaps, setAllMaps] = useState([]); 
     const auth = useContext(AuthContext)
     const { testBtn } = props
     const { testBtn2 } = props
@@ -26,6 +27,7 @@ export const JoinPainter = (props) => {
     const { setNewId } = props
     const {enable3D} = props
     const {setCons} = props
+    const {mapToDraw} = props
 
     const { ImageObjects } = props;
     const [connections, setConnections] = React.useState([]);
@@ -343,12 +345,20 @@ export const JoinPainter = (props) => {
     }
     
     React.useEffect(()=>{
-        if (auth.selectedMap !== "" && !Array.isArray(auth.selectedMap)){
+        if (auth.selectedMap !== "" && !Array.isArray(auth.selectedMap)){    //selected map isa map id 
             console.log("I will now make the map", auth.selectedMap)
             GetMap(auth.selectedMap).then(res=>{
                 console.log("Map Fetched:", res.data)
-                auth.setSelectedMap("")
                 var tempCons = []
+                if ('Labels' in res.data){
+                    console.log('Setting Labels: ', res.data.Labels)
+                    for (var i=0; i<res.data.Labels.length; i++){
+                        res.data.Labels[i].type = 'label'
+                        tempCons.push(res.data.Labels[i])
+                    } 
+                }
+                auth.setSelectedMap("")
+                
                 var tempLabels = []
                 if (Array.isArray(res.data.Joins) && res.data.Joins.length > 0){
                     for (var i=0; i<res.data.Joins.length; i++){
@@ -371,15 +381,23 @@ export const JoinPainter = (props) => {
         }
         else if (Array.isArray(auth.selectedMap) && auth.selectedMap.length > 0){
             console.log("Drawing Generated Map", auth.selectedMap)
-            setConnections(auth.selectedMap)
+            setAllMaps(auth.selectedMap)
+            setConnections(auth.selectedMap[mapToDraw])
             //makeConnections(ImageObjects, Joins)
-            makeMap(auth.selectedMap)
+            makeMap(auth.selectedMap[mapToDraw])
            // joinRefresher()
             //console.log("IMAGE OBJECTS: ", ImageObjects)
             auth.setSelectedMap("")
         }
 
     }, [])
+
+    React.useEffect(()=>{
+        if (allMaps.length > 0){
+            setConnections(allMaps[mapToDraw])
+            makeMap(allMaps[mapToDraw])
+        }
+    }, [mapToDraw])
 
     React.useEffect(()=>{
         console.log("Join refresher called, connections: ", connections)

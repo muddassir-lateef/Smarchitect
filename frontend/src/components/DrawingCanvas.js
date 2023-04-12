@@ -14,6 +14,7 @@ export const DrawingCanvas = (props) => {
     const { testBtn2 } = props
     const {enable3D} = props
     const {setCons} = props
+    const {mapToDraw} = props
 
     const { ImageObjects } = props
     const { setImageObjects } = props
@@ -190,7 +191,7 @@ export const DrawingCanvas = (props) => {
                     setImageChanged={setImageChanged}
                     ImageChanged={ImageChanged}
                 />
-                <JoinPainter setCons = {setCons} mapName={props.mapName} newId={newId} setNewId={setNewId} setImageObjects={setImageObjects} testBtn={testBtn} testBtn2={testBtn2} ImageObjects={ImageObjects} ImageChanged={ImageChanged} selectedItemCoordinates={selectedItemCoordinates} enable3D = {enable3D}/>
+                <JoinPainter mapToDraw ={mapToDraw} setCons = {setCons} mapName={props.mapName} newId={newId} setNewId={setNewId} setImageObjects={setImageObjects} testBtn={testBtn} testBtn2={testBtn2} ImageObjects={ImageObjects} ImageChanged={ImageChanged} selectedItemCoordinates={selectedItemCoordinates} enable3D = {enable3D}/>
             </Layer>
         </Stage>
 

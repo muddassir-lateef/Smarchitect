@@ -528,7 +528,7 @@ def GA(pop_size, generations_count, Nr, cat,inputG,trees):
         print("Fitness :"+str(avgFitness))
 
 
-    return pop[0][0]
+    return pop[:5]
 
 def getRoomCenters(rooms):
   room_centers = []
@@ -592,8 +592,8 @@ def GA_driver(connects):
     top=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
 
 
-
-    jsonn=geneToJsonMap(inputG,top,alltree,Roms)
-    #print(jsonn)
+    jsonn = []
+    for i in range(5):
+        jsonn.append(geneToJsonMap(inputG,top[i][0],alltree,Roms))
     return jsonn
 

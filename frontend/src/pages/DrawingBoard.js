@@ -6,6 +6,8 @@ import { DrawingCanvas } from "../components/DrawingCanvas"
 import { AttributeWindow } from "../components/AttributeWindow"
 import { GetMap } from '../services/apiServices';
 import { Modal, Backdrop, Fade, Box } from "@mui/material";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 
 import { Unity, useUnityContext } from "react-unity-webgl";
 
@@ -20,6 +22,14 @@ const style = {
     borderRadius: '2%',
     p: 4,
 };
+const paginationStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    backgroundColor: 'lightgray',
+    borderRadius: '8px',
+    padding: '16px',
+  };
 
 
 export const DrawingBoard = () => {
@@ -85,12 +95,23 @@ export const DrawingBoard = () => {
         console.log('Component mounted');
     }, [isLoaded]);
 
+    const [page, setPage] = useState(1);
+    const handleChange = (event, value) => {
+        setPage(value);
+    };
 
     return (
         <Grid sx={{ display: 'flex', pt: 4, pl: 1 }}  >
             <DrawingToolBox />
+            <Grid item>
+            <Stack spacing={2} xs ={12}>
+              {/*{  <Typography variant='h6'>Generated Map #{page}</Typography>*/}
+                <Pagination page={page} onChange={handleChange} count={5} shape="rounded" size='large' xs={12} />
+            </Stack>
+            
             <DrawingCanvas
                 testBtn={testBtn}
+                mapToDraw = {page-1}
                 testBtn2={testBtn2}
                 mapName={mapName}
                 enable3D={enable3D}
@@ -106,7 +127,7 @@ export const DrawingBoard = () => {
                 setCons={setConnections}
 
             />
-
+            </Grid>
             <AttributeWindow
                 disable3D={disable3D}
                 onVisualizeClick={openModal}
