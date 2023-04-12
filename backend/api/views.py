@@ -132,6 +132,7 @@ def floorplanApi(request):
 def singleFloorplanApi(request, fp_Id):
     print("Here")
     if request.method=='GET':
+        print("In route")
         print(fp_Id)
         tempFloorplan = Floorplan.objects.prefetch_related('joins').get(id = fp_Id)
 
@@ -139,7 +140,10 @@ def singleFloorplanApi(request, fp_Id):
         floorplanDictionary['ID'] = tempFloorplan.id
         floorplanDictionary['Name'] = tempFloorplan.name
         Joins = [{'X1': str(join.X1), 'Y1': str(join.Y1), 'X2' : str(join.X2), 'Y2' : str(join.Y2), 'Type' : join.type} for join in tempFloorplan.joins.all()]
+        labels = [{'x': str(label.x), 'y':str(label.y), 'label' : str(label.label)} for label in tempFloorplan.labels.all()]
         floorplanDictionary['Joins'] = Joins
+        floorplanDictionary['Labels'] = labels
+
         print(floorplanDictionary)
 
     return JsonResponse(floorplanDictionary, safe = False, status = 201)

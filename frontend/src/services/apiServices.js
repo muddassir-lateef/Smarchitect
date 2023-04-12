@@ -79,6 +79,7 @@ export async function GetMapConnections(mapId) {
   tempURL = tempURL + mapId;
   console.log(tempURL);
   const response = await axios.get(tempURL);
+  console.log(response.data)
   return response;
 }
 
