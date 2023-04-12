@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 import pymongo
-from api.models import Users, Join, Floorplan
+from api.models import Users, Join, Floorplan, Label
 from api.serializers import UserSerializer, JoinSerializer, FloorplanSerializer
 connectionString = "mongodb+srv://Salar:Salar123@cluster0.lu89phy.mongodb.net/?retryWrites=true&w=majority"
 from api.genetic_algo import GA_driver
@@ -86,12 +86,27 @@ def floorplanApi(request):
         print(tempFloorplan.name)
         for i in floorplan['Joins']:
             join = Join.objects.create(X1= (i['X1']),Y1= (i['Y1']), X2= (i['X2']),Y2= (i['Y2']), type = (i['Type']))
+            print("JOIN: {}".format(join))
             join.save()
             tempFloorplan.joins.add(join)
+        print("BEFORE LABELS")
+        for i in floorplan['Labels']:
+            print(i)
+            print("Before creating label object")
+            lab = Label.objects.create(x= (i['x']),y= (i['y']),  label = (i['label']))
+            print(lab)
+            print("Aft")
+            lab.save()
+            print("THIS STRING PROVES SALAR WRONG")
+            tempFloorplan.labels.add(lab)
+        print("AFTER LABELS")
         tempFloorplan.width = floorplan["width"]
         tempFloorplan.length = floorplan["length"]
+        
         tempFloorplan.save()
+        print("HEre")
         User = Users.objects.prefetch_related('floorplans').get(id = floorplan["userId"])
+        print("There")
         User.floorplans.add(tempFloorplan)
 
         return JsonResponse("Done", safe=False, status = 201)

@@ -38,7 +38,7 @@ export async function Signup(firstname, lastname, username, password) {
   return response;
 }
 
-export async function SaveMap(name, length, width, userId, Joins) {
+export async function SaveMap(name, length, width, userId, Joins, Labels) {
   let tempURL = URL + "/Floorplan";
   console.log(tempURL);
   //let loginDetails = { username, password };
@@ -49,7 +49,7 @@ export async function SaveMap(name, length, width, userId, Joins) {
     }
   }
   console.log("New Joins: ", newJoins)
-  let mapInfo = { name, length, width, userId, Joins:newJoins };
+  let mapInfo = { name, length, width, userId, Joins:newJoins, Labels };
   console.log("SENDING MAP INFO: ", mapInfo)
   const response = await axios.post(tempURL, mapInfo);
   return response;
