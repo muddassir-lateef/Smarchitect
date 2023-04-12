@@ -301,13 +301,11 @@ export const AttributeWindow = (props) => {
                     validators={[VALIDATOR_REQUIRE()]}
                     errorText="Floorplan name must be provided"
                 />
-                <Button sx={{
+                <Button  sx={{
                     mt: 1, width: '100%', backgroundColor: '#FF803A', "&:hover": {
                         backgroundColor: "#FF803A"
-                    }}} variant="outlined" disabled={!formState.isValid} onClick={props.createJoins}>
-                     <Typography>
-                        Save
-                     </Typography>
+                    }}} variant="contained" disabled={!formState.isValid} onClick={props.createJoins}>
+                     Save
                 </Button>
 
             </Card>
