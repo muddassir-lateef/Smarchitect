@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Button, Typography, Grid } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
@@ -39,29 +39,61 @@ export const DrawingBoard = () => {
     const openModal = (username) => {
         setModalOpen(true);
     };
-    const closeModal = () => {
+    async function closeModal () {
         setModalOpen(false);
+        await unload();
     };
     const enable3D = () => {
         setDisable3D(false)
 
     }
-    
+    const parseConnection = (connection) => {
+        console.log(connection)
+
+        let str = "";
+        for (let key in connection) {
+            if (typeof connection[key] === 'number') {
+                str += parseInt(connection[key]);
+            } else {
+                str += connection[key];
+            }
+            str += ",";
+        }
+        str = str.slice(0, -1); // Remove the last comma  
+        return str
+    }
+
     const [connections, setConnections] = useState([])
-    const { unityProvider, unload } = useUnityContext({
+    const { unityProvider, unload, sendMessage, loadingProgression, isLoaded } = useUnityContext({
         loaderUrl: "assets/build/MapGen3d.loader.js",
         dataUrl: "assets/build/MapGen3d.data.unityweb",
         frameworkUrl: "assets/build/MapGen3d.framework.js.unityweb",
         codeUrl: "assets/build/MapGen3d.wasm.unityweb",
-      });
+    });
+    useEffect(() => {
+        if (modalOpen == true && connections.length > 0 && isLoaded) {
+            for(var i=0;i<connections.length;i++){
+            
+          //  for (var i = 1; i < 2; i++) {
+                console.log(parseConnection(connections[i]))
+                setTimeout(sendMessage("MapGenerator", "GenerateAssetP", parseConnection(connections[i])),3000)
+                ;
+
+            }
+        }
+        // This function will run when the component mounts
+        console.log('Component mounted');
+    }, [isLoaded]);
+
+
     return (
-        <Grid sx={{ display: 'flex', pt:4, pl:1 }}  >
+        <Grid sx={{ display: 'flex', pt: 4, pl: 1 }}  >
             <DrawingToolBox />
             <DrawingCanvas
                 testBtn={testBtn}
                 testBtn2={testBtn2}
-                mapName = {mapName}
-                enable3D = {enable3D}
+                mapName={mapName}
+                enable3D={enable3D}
                 selectedItemCoordinates={selectedItemCoordinates}
                 setSelectedItemCoordinates={setSelectedItemCoordinates}
                 scale={scale}
@@ -71,13 +103,13 @@ export const DrawingBoard = () => {
                 setImageObjects={setImageObjects}
                 newId={newId}
                 setNewId={setNewId}
-                setCons= {setConnections}
-                
+                setCons={setConnections}
+
             />
-            
+
             <AttributeWindow
-                disable3D = {disable3D}
-                onVisualizeClick = {openModal}
+                disable3D={disable3D}
+                onVisualizeClick={openModal}
                 selectedItemCoordinates={selectedItemCoordinates}
                 scale={scale}
                 setScale={setScale}
@@ -85,18 +117,18 @@ export const DrawingBoard = () => {
                 setNewId={setNewId}
                 setImageObjects={setImageObjects}
                 setExportData={setExportData}
-                createJoins = {() => {
+                createJoins={() => {
                     setTestBtn(testBtn + 1)
                 }}
-                setMap_name = {(newname)=>{
-                   // console.log("Setting name to: ", newname)
+                setMap_name={(newname) => {
+                    // console.log("Setting name to: ", newname)
                     setMapName(newname)
                 }}
 
 
             />
 
-          {/*{  <Button onClick={() => {
+            {/*{  <Button onClick={() => {
                 setTestBtn(testBtn + 1)
             }}>Tester</Button>
             <Button onClick={() => {
@@ -115,10 +147,16 @@ export const DrawingBoard = () => {
                 <Fade in={modalOpen}>
                     <Box sx={style}>
                         <Grid container>
-                    
+
 
                             <Grid item xs={12}>
-                                <Unity style={{width:800, height:500}} unityProvider={unityProvider} />
+                                {!isLoaded && (
+                                    <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
+                                )}
+                                <Unity
+                                    unityProvider={unityProvider}
+                                    style={{ width: 800, height: 500, visibility: isLoaded ? "visible" : "hidden" }}
+                                />
                             </Grid>
 
                             <Grid item xs={12}>
@@ -131,7 +169,7 @@ export const DrawingBoard = () => {
 
                                 >
 
-    
+
                                 </Box>
                             </Grid>
                         </Grid>

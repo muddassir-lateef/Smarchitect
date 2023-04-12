@@ -2,7 +2,7 @@
 
 
 # Smarchitect
-2D & 3D Floor plan generator. The end goal is to take user constraints as input, and product a 2D floorplan as output with options to tweak. 3D visualization will also be provided. The frontend is being developed in React, and the backend is in Django, which will be carrying our AI Model.
+2D & 3D Floor plan generator. The end goal is to take user constraints as input, and produce a 2D floorplan as output with options to tweak. 3D visualization will also be provided. The frontend is being developed in React, and the backend is in Django, which will be carrying our AI Model.
 How to run the Application:-
 
 Pull the code from Github, open it in the IDE of your choice, navigate to the base folder "Smarchitect"
@@ -23,8 +23,8 @@ pip install django
 pip install dnspython
 pip install djongo
 pip install pymongo==3.12.2
-pip install djongorestframework
-pip install djongo-cors-headers
+pip install djangorestframework
+pip install django-cors-headers
 python manage.py makimigrations api
 python manage.py migrate api
 python manage.py runserver

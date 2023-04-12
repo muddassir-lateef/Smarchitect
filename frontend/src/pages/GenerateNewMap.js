@@ -21,38 +21,38 @@ const GenerateNewMap = () => {
     const nav = useNavigate();
     const setSelectedNode = (newNode) => {
         setNodes(prevState => [...prevState, newNode]);
-      /*  console.log("Node clicked, before update: ", nodes)
-        console.log("Node length, before update: ", nodes.length)
-         console.log("Setting node", newNode.attrs.id)
-        //  console.log("Prev Node", node)
-        if (nodes.length === 0) {    //no nodes was selected before
-            console.log("Adding node 1")
-            //layerRef.current.findOne('#' + newNode.attrs.id).shadowColor('red')
-            setNodes([newNode]);
-            return;
-        }
-        else if (nodes.length === 1) {   //node was selected before 
-            if (newNode.attrs.id == nodes[0].attrs.id) {  //same node is selected now
-                console.log("Same node selected")
-                setNodes([])
-                removeCircleHighlight();
-                return;
-            }
-            else {
-                // nodes[1] = newNode
-                console.log("Adding node 2")
-                removeCircleHighlight();
-                setNodes(prevState => [...prevState, newNode]);
-                return;
-            }
-        }
-        else if (nodes.length === 2) {   // new selection alltogether
-            console.log("clearing and adding Node 1")
-            removeCircleHighlight();
-            //layerRef.current.findOne('#' + newNode.attrs.id).shadowColor('red')
-            setNodes([newNode])
-            return;
-        }*/
+        /*  console.log("Node clicked, before update: ", nodes)
+          console.log("Node length, before update: ", nodes.length)
+           console.log("Setting node", newNode.attrs.id)
+          //  console.log("Prev Node", node)
+          if (nodes.length === 0) {    //no nodes was selected before
+              console.log("Adding node 1")
+              //layerRef.current.findOne('#' + newNode.attrs.id).shadowColor('red')
+              setNodes([newNode]);
+              return;
+          }
+          else if (nodes.length === 1) {   //node was selected before 
+              if (newNode.attrs.id == nodes[0].attrs.id) {  //same node is selected now
+                  console.log("Same node selected")
+                  setNodes([])
+                  removeCircleHighlight();
+                  return;
+              }
+              else {
+                  // nodes[1] = newNode
+                  console.log("Adding node 2")
+                  removeCircleHighlight();
+                  setNodes(prevState => [...prevState, newNode]);
+                  return;
+              }
+          }
+          else if (nodes.length === 2) {   // new selection alltogether
+              console.log("clearing and adding Node 1")
+              removeCircleHighlight();
+              //layerRef.current.findOne('#' + newNode.attrs.id).shadowColor('red')
+              setNodes([newNode])
+              return;
+          }*/
 
     }
 
@@ -77,10 +77,10 @@ const GenerateNewMap = () => {
 
     const addCircleHighlight = () => {
         //for (var i = 0; i < nodes.length; i++) {
-           // console.log("Highlighted: ", nodes[i].attrs.id)
-           if (nodes.length % 2 === 1)
-            layerRef.current.findOne('#' + nodes[nodes.length-1].attrs.id).shadowColor('red')
-       // }
+        // console.log("Highlighted: ", nodes[i].attrs.id)
+        if (nodes.length % 2 === 1)
+            layerRef.current.findOne('#' + nodes[nodes.length - 1].attrs.id).shadowColor('red')
+        // }
     }
     const removeExtraCircleHighlights = () => {
         for (var i = 0; i < targets.length; i++) {
@@ -95,7 +95,7 @@ const GenerateNewMap = () => {
         addCircleHighlight();
         removeExtraCircleHighlights();
         // console.log("SELECT STATUS: ", isNodeSelected)
-        if ( nodes.length > 1 && nodes.length % 2 === 0){
+        if (nodes.length > 1 && nodes.length % 2 === 0) {
             console.log("Adding connection")
             removeCircleHighlight();
             var newCons = makeConnection(targets, connectors, nodes[nodes.length - 2].attrs.id, nodes[nodes.length - 1].attrs.id)
@@ -129,9 +129,9 @@ const GenerateNewMap = () => {
         removeCircleHighlight();
         setNodes([])
         const stage = layerRef.current.parent;
-        for (var i=0; i<bedrooms; i++){
-        //console.log(layerRef.current)
-           // console.log("GEnerate Target called, i: ", i)
+        for (var i = 0; i < bedrooms; i++) {
+            //console.log(layerRef.current)
+            // console.log("GEnerate Target called, i: ", i)
             var tag = 'bedroom-' + i;
             const tars = generateTarget(targets, stage, i, tag)
             setTargets(tars)
@@ -139,44 +139,44 @@ const GenerateNewMap = () => {
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
         }
 
-        for (var i=0; i<bathrooms; i++){
+        for (var i = 0; i < bathrooms; i++) {
             var tag = 'bathroom-' + i;
-            const tars = generateTarget(targets, stage, i + bedrooms, tag) 
+            const tars = generateTarget(targets, stage, i + bedrooms, tag)
             setTargets(tars)
             console.log("Targetsss: ", tars)
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
         }
-        for (var i=0; i<carporch; i++){
+        for (var i = 0; i < carporch; i++) {
             var tag = 'carporch-' + i;
-            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms, tag) 
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms, tag)
             setTargets(tars)
             console.log("Targetsss: ", tars)
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
         }
-        for (var i=0; i<drawingrooms; i++){
+        for (var i = 0; i < drawingrooms; i++) {
             var tag = 'drawingroom-' + i;
-            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch, tag) 
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch, tag)
             setTargets(tars)
             console.log("Targetsss: ", tars)
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
         }
-        for (var i=0; i<gardens; i++){
+        for (var i = 0; i < gardens; i++) {
             var tag = 'garden-' + i;
-            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms, tag) 
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms, tag)
             setTargets(tars)
             console.log("Targetsss: ", tars)
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
         }
-        for (var i=0; i<kitchens; i++){
+        for (var i = 0; i < kitchens; i++) {
             var tag = 'kitchen-' + i;
-            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms + gardens, tag) 
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms + gardens, tag)
             setTargets(tars)
             console.log("Targetsss: ", tars)
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
         }
-        for (var i=0; i<livingrooms; i++){
+        for (var i = 0; i < livingrooms; i++) {
             var tag = 'livingroom-' + i;
-            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms + gardens + kitchens, tag) 
+            const tars = generateTarget(targets, stage, i + bedrooms + bathrooms + carporch + drawingrooms + gardens + kitchens, tag)
             setTargets(tars)
             console.log("Targetsss: ", tars)
             drawNodes(connectors, [tars[tars.length - 1]], layerRef.current, setSelectedNode)
@@ -184,57 +184,57 @@ const GenerateNewMap = () => {
 
     }
 
-const generateBtnClicked = () => {
-    console.log("Hello")
-    GenerateMap(connectors).then((res) => {
-        console.log("Generated Map: ", res.data)
-        auth.setSelectedMap(res.data)
-        nav('/')
-    })
-}
+    const generateBtnClicked = () => {
+        console.log("Hello")
+        GenerateMap(connectors).then((res) => {
+            console.log("Generated Map: ", res.data)
+            auth.setSelectedMap(res.data)
+            nav('/')
+        })
+    }
 
     return (
-        <Grid container sx={{pt:5}}>
+        <Grid container sx={{ pt: 5 }}>
             {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}
-            <Grid item xs={4} sx = {{}}><ConstraintsForm submitClicked = {submitClicked} onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
-            <Grid item xs={4} sx={{pb:1}}>
-            <Stage
-                width={700}
-                height={1000}
-                style={{ width: '700px', height: '680px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
-                //style={{
-                 //   border: '2px solid',
-                 //   marginTop: '2px',
-                //}}
-                onDragMove={() => { updateObjects(targets, connectors, layerRef.current) }}
+            <Grid item xs={4} sx={{}}><ConstraintsForm submitClicked={submitClicked} onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
+            <Grid item xs={4} sx={{ pb: 1 }}>
+                <Stage
+                    width={700}
+                    height={1000}
+                    style={{ width: '700px', height: '680px', marginLeft: '5px', marginTop: '2px', border: '2px solid red' }}
+                    //style={{
+                    //   border: '2px solid',
+                    //   marginTop: '2px',
+                    //}}
+                    onDragMove={() => { updateObjects(targets, connectors, layerRef.current) }}
 
-            >
-                <Layer ref={layerRef}>
+                >
+                    <Layer ref={layerRef}>
 
-                </Layer>
-            </Stage>
-            <Grid item xs = {8} sx = {{pt:2}}>
-            <Button
-  variant="contained"
-  size="large"
-  onClick={generateBtnClicked}
-  justifyContent="flex-end"
-  sx={{
-    mt: 3,
-    mb: 2,
-      height: '60px',
-    borderRadius: '50px',
-    padding: '12px 24px',
-    backgroundColor: "#F57663",
-              color: "#fff",
-              "&:hover": {
-                backgroundColor: "#FFA546",
-              },
-  }}
->
-  Generate Map
-</Button>
-            </Grid>
+                    </Layer>
+                </Stage>
+                <Grid item xs={8} sx={{ pt: 2 }}>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        onClick={generateBtnClicked}
+                        justifyContent="flex-end"
+                        sx={{
+                            mt: 3,
+                            mb: 2,
+                            height: '60px',
+                            borderRadius: '50px',
+                            padding: '12px 24px',
+                            backgroundColor: "#F57663",
+                            color: "#fff",
+                            "&:hover": {
+                                backgroundColor: "#FFA546",
+                            },
+                        }}
+                    >
+                        Generate Map
+                    </Button>
+                </Grid>
             </Grid>
         </Grid>
     )
