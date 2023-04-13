@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 import pymongo
-from api.models import Users, Join, Floorplan, Label
+from api.models import Users, Join, Floorplan, Label, Rooms
 from api.serializers import UserSerializer, JoinSerializer, FloorplanSerializer
 connectionString = "mongodb+srv://Salar:Salar123@cluster0.lu89phy.mongodb.net/?retryWrites=true&w=majority"
 from api.genetic_algo import GA_driver
@@ -181,7 +181,9 @@ def roomApi(request):
     if request.method == 'POST':
         print("Hey")
         # Create a new Label object and save it to the database
-        room= Floorplan.objects.create()
+        room= Rooms.objects.create(x1=10,x2=11,x3=12,x4=13,y1=2,y2=2,y3=3,y4=4, type="Good")
         print(room)
+        room.save()
+        print(room.x1)
         return JsonResponse("Hey", safe = False, status = 201)
 # Create your views here.
