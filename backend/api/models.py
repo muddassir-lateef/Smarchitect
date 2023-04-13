@@ -12,8 +12,8 @@ class Join(models.Model):
 
 class Label(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    x1 = models.DecimalField(max_digits=16, decimal_places=8)
-    y1 = models.DecimalField(max_digits=16, decimal_places=8)
+    x = models.DecimalField(max_digits=16, decimal_places=8)
+    y = models.DecimalField(max_digits=16, decimal_places=8)
     label = models.CharField(max_length=500)
 
 class Rooms(models.Model):
