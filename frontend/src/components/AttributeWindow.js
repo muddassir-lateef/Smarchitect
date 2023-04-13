@@ -12,6 +12,8 @@ import Papa from "papaparse";
 import { VALIDATOR_REQUIRE } from '../util/validators';
 import { useForm } from "../hooks/form-hook";
 import Alert from "@mui/material/Alert";
+import { SaveMap } from '../services/apiServices';
+import { AuthContext } from '../context/AuthContext';
 
 
 const headers = [
@@ -56,6 +58,7 @@ export const AttributeWindow = (props) => {
     const [statusFlag, setStatusFlag] = useState(0)
     const { selectedItemCoordinates } = props
     const dbContext = useContext(DrawingBoardContext);
+    const auth = useContext(AuthContext)
     const { setScale } = props
     const { scale } = props
     const { setExportData } = props
@@ -64,6 +67,10 @@ export const AttributeWindow = (props) => {
     const { setNewId } = props
     const { setImageObjects } = props
     const [parsedInputData, setParsedInputData] = useState("");
+    const {connections} = props
+    const {labels} = props
+    const {mapName} = props
+
     const [formState, InputHandler] = useForm(
         {
           name: {
@@ -77,6 +84,18 @@ export const AttributeWindow = (props) => {
     const handleScaleChange = (event, newValue) => {
         setScale(newValue);
     };
+    const postMap = async () => {
+        const length = 100;  //static for the time being
+        const width = 100;  //static for the time being
+        const userId = auth.user.ID;
+        const response = await SaveMap(mapName, length, width, userId, connections, labels)
+        if (response.status === 201) {
+            console.log("Map Saved Successfully")
+        }
+        else {
+            console.log("Map was NOT saved")
+        }
+    }
 
     const StatusAlert = () => {
         if(statusFlag == 0)
@@ -323,7 +342,7 @@ export const AttributeWindow = (props) => {
                 <Button  sx={{
                     mt: 1, width: '100%', backgroundColor: '#FF803A', "&:hover": {
                         backgroundColor: "#FF803A"
-                    }}} variant="contained" disabled={!formState.isValid} onClick={props.createJoins}>
+                    }}} variant="contained" disabled={!formState.isValid} onClick={postMap}>
                      Save
                 </Button>
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { AuthContext } from '../context/AuthContext';
 import { Button, Typography, Grid } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
@@ -11,6 +12,7 @@ import Pagination from '@mui/material/Pagination';
 import Alert from "@mui/material/Alert";
 import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
+import { SaveMap } from '../services/apiServices';
 
 import { Unity, useUnityContext } from "react-unity-webgl";
 
@@ -102,6 +104,7 @@ export const DrawingBoard = () => {
     }
 
     const [connections, setConnections] = useState([])
+    const [labels, setLabels] = useState([])
     const { unityProvider, unload, sendMessage, loadingProgression, isLoaded } = useUnityContext({
         loaderUrl: "assets/build/MapGen3d.loader.js",
         dataUrl: "assets/build/MapGen3d.data.unityweb",
@@ -123,10 +126,12 @@ export const DrawingBoard = () => {
         console.log('Component mounted');
     }, [isLoaded]);
 
+    const auth = useContext(AuthContext)
     const [page, setPage] = useState(1);
     const handleChange = (event, value) => {
         setPage(value);
     };
+    
 
     return (
         <Grid sx={{ display: 'flex', pt: 4, pl: 1 }}  >
@@ -154,7 +159,7 @@ export const DrawingBoard = () => {
                 newId={newId}
                 setNewId={setNewId}
                 setCons={setConnections}
-
+                setLabs = {setLabels}
             />
             </Grid>
             <AttributeWindow
@@ -174,7 +179,9 @@ export const DrawingBoard = () => {
                     // console.log("Setting name to: ", newname)
                     setMapName(newname)
                 }}
-
+                connections = {connections}
+                labels = {labels}
+                mapName = {mapName}
 
             />
 
@@ -207,20 +214,6 @@ export const DrawingBoard = () => {
                                     unityProvider={unityProvider}
                                     style={{ width: 800, height: 500, visibility: isLoaded ? "visible" : "hidden" }}
                                 />
-                            </Grid>
-
-                            <Grid item xs={12}>
-                                <Box
-                                    sx={{
-                                        width: "100%",
-                                        display: "flex",
-                                        justifyContent: "space-between",
-                                    }}
-
-                                >
-
-
-                                </Box>
                             </Grid>
                         </Grid>
                     </Box>

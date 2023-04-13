@@ -27,6 +27,7 @@ export const JoinPainter = (props) => {
     const { setNewId } = props
     const { enable3D } = props
     const { setCons } = props
+    const {setLabs} = props
     const { mapToDraw } = props
 
     const { ImageObjects } = props;
@@ -245,8 +246,8 @@ export const JoinPainter = (props) => {
             //   cons.push(lab)
             //})
             console.log("Posting CONS: ", cons, "Labels: ", labels)
-            postMap(cons, labels)
-                .catch(console.error);
+            ///postMap(cons, labels)
+              //  .catch(console.error);
         }
     }
     const makeMap = (connections) => {
@@ -337,21 +338,11 @@ export const JoinPainter = (props) => {
 
             enable3D()
             setCons(connections) //passing to parent component
+            setLabs(labels)
         }
     }, [connections])
 
-    const postMap = async (cons, labels) => {
-        const length = 100;  //static for the time being
-        const width = 100;  //static for the time being
-        const userId = auth.user.ID;
-        const response = await SaveMap(props.mapName, length, width, userId, cons, labels)
-        if (response.status === 201) {
-            console.log("Map Saved Successfully")
-        }
-        else {
-            console.log("Map was NOT saved")
-        }
-    }
+    
 
     React.useEffect(() => {
         if (auth.selectedMap !== "" && !Array.isArray(auth.selectedMap)) {    //selected map isa map id 
