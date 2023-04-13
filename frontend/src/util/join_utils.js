@@ -10,14 +10,13 @@
 export const CoordinateTranslator = (x, y, w, h, angle, type) => {
 
     var coords = []
+    
+    //p1
+    coords.push([x, y])
 
-    if (type != "Door") {
-        //p1
-        coords.push([x, y])
+    //p2
+    coords.push([x + (w * Math.cos(angle * (Math.PI / 180))), y + (w * Math.sin(angle * (Math.PI / 180)))])
 
-        //p2
-        coords.push([x + (w * Math.cos(angle * (Math.PI / 180))), y + (w * Math.sin(angle * (Math.PI / 180)))])
-    }
 
     //p3
     var x3 = x - (h * Math.cos((angle + 270) * (Math.PI / 180)))
@@ -26,7 +25,17 @@ export const CoordinateTranslator = (x, y, w, h, angle, type) => {
 
     //p4
     coords.push([x3 + (w * Math.cos((angle) * (Math.PI / 180))), y3 + (w * Math.sin((angle) * (Math.PI / 180)))])
+    if(type=="Door")
+    {
+        var p1=[(coords[0][0] + coords[2][0]) / 2, (coords[0][1] + coords[2][1]) / 2]
+        // midpoint of p2 and p4
+        var p2=[(coords[1][0] + coords[3][0]) / 2, (coords[1][1] + coords[3][1]) / 2]
 
+        coords=[]
+        coords.push(p1)
+        coords.push(p2)
+
+    }
     if (type != "Door") {
 
         if (type != "Connector") {
@@ -44,7 +53,7 @@ export const CoordinateTranslator = (x, y, w, h, angle, type) => {
         coords.push([(coords[2][0] + coords[3][0]) / 2, (coords[2][1] + coords[3][1]) / 2])
 
 
-        if (type == 'Wall') {
+        if (type == 'Wall' ) {
             var step = 5
             var xt1 = 0
             var yt1 = 0

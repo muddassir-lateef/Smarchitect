@@ -330,7 +330,7 @@ def fitness(inputG,gene,trees):
     rooms=GenerateRooms(GenCoord(inputG["width"],inputG["height"]),tree)
     rooms_dict=RoomtoDict(rooms)
     for connection in inputG["connections"]:
-        if(CheckAjdacent(rooms_dict[connection[0]],rooms_dict[connection[2]],10)):
+        if(CheckAjdacent(rooms_dict[connection[0]],rooms_dict[connection[2]],30)):
             score+=30 
 
     for room in rooms:
@@ -547,13 +547,110 @@ def getRoomCenters(rooms):
 def geneToJsonMap(inputG,gene,trees,Rooms):
     tree=genTree(gene,Rooms,trees)
     rooms=GenerateRooms(GenCoord(inputG["width"],inputG["height"]),tree)
+    rooms_dict=RoomtoDict(rooms)
+    doors=[]
+    for connection in inputG["connections"]:
+        adjacent=getAjdacentWall(rooms_dict[connection[0]],rooms_dict[connection[2]],30)
+        if(adjacent[0]):
+            doors.append(generateDoor(adjacent[1]))
     lines=roomsToLines(rooms)
     nlines=NormalizeLines(lines.copy())
     jsonlines=linestoJson(nlines)
+    jsonlines=InsertDoorConnections(jsonlines,doors)
     room_centers = getRoomCenters(rooms)
     for center in room_centers: 
-      jsonlines.append(center)
+        jsonlines.append(center)
     return jsonlines
+
+
+def getAjdacentWall(room1,room2,threshold):
+    lines=roomsToLines([room1,room2])
+    for line1 in lines:
+        for line2 in lines:
+            if(line1[2]!= line2[2]):
+                x=get_colinear([line1[0][0],line1[0][1],line1[1][0],line1[1][1]],[line2[0][0],line2[0][1],line2[1][0],line2[1][1]])
+                if(x[0]>=threshold):
+                    return True,[[x[1],x[2]],[x[3],x[4]]]
+    return False,0
+def get_colinear(set1, set2):
+    x1, y1, x2, y2 = set1
+    x3, y3, x4, y4 = set2
+    if(x2 == x1 and x3 == x4):
+        if(x1 == x3):
+            line1_start = min(y1,y2)
+            line1_end = max(y1,y2)
+            line2_start = min(y3,y4)
+            line2_end = max(y3,y4)
+            overlap_start = max(line1_start, line2_start)
+            overlap_end = min(line1_end, line2_end)
+            overlap_distance = overlap_end - overlap_start
+
+            return overlap_distance,x1,overlap_start,x1,overlap_end,"y"
+
+    if(y2 == y1 and y3 == y4):
+        if(y2 == y3):
+            line1_start = min(x1, x2)
+            line1_end = max(x1, x2)
+            line2_start = min(x3, x4)
+            line2_end = max(x3, x4)
+            overlap_start = max(line1_start, line2_start)
+            overlap_end = min(line1_end, line2_end)
+            overlap_distance = overlap_end - overlap_start
+
+            return overlap_distance,overlap_start,y1,overlap_end,y1,"x"
+
+    return -1,-1
+def generateDoor(line):
+    doorLen=30
+    midpoint=0
+    if(line[0][0]==line[1][0]):
+        midpoint=(line[0][1]+line[1][1])/2
+        return [[line[0][0],midpoint+doorLen/2],[line[0][0],midpoint-doorLen/2]]
+    if(line[0][1]==line[1][1]):
+        midpoint=(line[0][0]+line[1][0])/2
+        return [[midpoint+doorLen/2,line[0][1]],[midpoint-doorLen/2,line[0][1]]]
+    
+def checkInclusion(connection,door):
+    x1=connection["x1"]
+    y1=connection["y1"]
+    x2=connection["x2"]
+    y2=connection["y2"]
+
+    x=check_colinear([x1,y1,x2,y2],[door[0][0],door[0][1],door[1][0],door[1][1]])
+    
+    
+    if(x[0]>0):
+        if(x[1]=='y'):
+            if(x[0]>=abs(door[0][1]-door[1][1])):
+                line1=[[x1,min(y1,y2)],[x1,min(door[0][1],door[1][1])] ]
+                line2=[[x1,min(door[0][1],door[1][1])],[x1,max(door[0][1],door[1][1])] ]
+                line3=[[x1,max(door[0][1],door[1][1])],[x1,max(y1,y2)] ]
+                return True,line1,line2,line3
+        elif(x[1]=='x'):
+            if(x[0]>=abs(door[0][0]-door[1][0])):
+                line1=[[min(x1,x2),y1],[min(door[0][0],door[1][0]),y1] ]
+                line2=[[min(door[0][0],door[1][0]),y1],[max(door[0][0],door[1][0]),y1] ]
+                line3=[[max(door[0][0],door[1][0]),y1],[max(x1,x2),y1] ]
+
+                return True,line1,line2,line3
+    return [False]        
+def InsertDoorConnections(connections,doors):
+    for door in doors:
+        added=False
+        newLines=[]
+        connectionR=[]
+        for connection in connections:
+            if(not added):
+                x=checkInclusion(connection,door)
+                if(x[0]):
+                    added=True
+                    newLines=[x[1],x[2],x[3]]
+                    connectionR=connection
+        connections.remove(connectionR)
+        connections.append({"x1":newLines[0][0][0],"y1":newLines[0][0][1],"x2":newLines[0][1][0],"y2":newLines[0][1][1],"type":"Wall"})
+        connections.append({"x1":newLines[1][0][0],"y1":newLines[1][0][1],"x2":newLines[1][1][0],"y2":newLines[1][1][1],"type":"Door"})
+        connections.append({"x1":newLines[2][0][0],"y1":newLines[2][0][1],"x2":newLines[2][1][0],"y2":newLines[2][1][1],"type":"Wall"})
+    return connections
 
 def GA_driver(connects):
 

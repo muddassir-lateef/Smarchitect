@@ -8,7 +8,7 @@ import { useState } from 'react';
 
 import { initial_menuItems } from "../data/MenuItems.js";
 import { CoordinateTranslator, checkJoins, checkEdgeConnections, specifyEdgeConnection, checkIds, findElement, splitBasedonID, getDistance } from "../util/join_utils.js";
-import { GetMapConnections, GetMap,  SaveMap } from '../services/apiServices';
+import { GetMapConnections, GetMap, SaveMap } from '../services/apiServices';
 import { AuthContext } from '../context/AuthContext';
 //Noted Bug
 // joining 3 images at a point leads to incorrect connections
@@ -18,16 +18,16 @@ var Joins = [];
 
 export const JoinPainter = (props) => {
 
-    const [allMaps, setAllMaps] = useState([]); 
+    const [allMaps, setAllMaps] = useState([]);
     const auth = useContext(AuthContext)
     const { testBtn } = props
     const { testBtn2 } = props
     const { setImageObjects } = props
     const { newId } = props
     const { setNewId } = props
-    const {enable3D} = props
-    const {setCons} = props
-    const {mapToDraw} = props
+    const { enable3D } = props
+    const { setCons } = props
+    const { mapToDraw } = props
 
     const { ImageObjects } = props;
     const [connections, setConnections] = React.useState([]);
@@ -39,7 +39,7 @@ export const JoinPainter = (props) => {
     const [labels, setLabels] = React.useState([])
 
     const dbContext = useContext(DrawingBoardContext);
-    
+
 
 
     const makeJoins = (xx, yy, id1, id2, obj1, obj2) => {
@@ -153,8 +153,8 @@ export const JoinPainter = (props) => {
 
 
         }
-      //  console.log(Joins)
-       // console.log(connections)
+        //  console.log(Joins)
+        // console.log(connections)
 
     }
     const joinRefresher = () => {
@@ -179,7 +179,7 @@ export const JoinPainter = (props) => {
 
         var cons = []
         for (var i = 0; i < ImageObjects.length; i++) {
-           // console.log(ImageObjects[i])
+            // console.log(ImageObjects[i])
             var edgeNo = -1
             var inJoin = false
             var points = [[0, 0], [0, 0]]
@@ -234,19 +234,19 @@ export const JoinPainter = (props) => {
 
             }
         }
-        if (auth.selectedMap === ''){
+        if (auth.selectedMap === '') {
             setConnections(cons)
         }
- 
+
         //setConnections()
         //saving map to the database 
-        if (props.mapName !== ""){
+        if (props.mapName !== "") {
             //labels.map((lab)=>{
-             //   cons.push(lab)
+            //   cons.push(lab)
             //})
             console.log("Posting CONS: ", cons, "Labels: ", labels)
             postMap(cons, labels)
-            .catch(console.error);
+                .catch(console.error);
         }
     }
     const makeMap = (connections) => {
@@ -257,7 +257,7 @@ export const JoinPainter = (props) => {
         var ids = '1'
         var temp_labels = []
         for (var i = 0; i < connections.length; i++) {
-            if (connections[i].type != 'label'){
+            if (connections[i].type != 'label') {
                 ids = String(parseInt(ids, 10) + 1)
 
                 var dist1 = getDistance(0, 0, connections[i].x1, connections[i].y1)
@@ -272,7 +272,6 @@ export const JoinPainter = (props) => {
                     connections[i].y2 = tempy
                 }
 
-
                 var rot = (Math.atan((connections[i].y2 - connections[i].y1) / Math.abs(connections[i].x2 - connections[i].x1)) * (180 / Math.PI)) - 90
                 var alt = connections[i].type
                 var element = findElement(initial_menuItems, "alt", alt)
@@ -281,15 +280,25 @@ export const JoinPainter = (props) => {
                 var url = element.url
                 var width = element.width
                 var height = getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2)
+                var newx=connections[i].x1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180)))
+                var newy=connections[i].y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180)))
                 //var coords1 = CoordinateTranslator(ImageObjects[i].x, ImageObjects[i].y, ImageObjects[i].width, ImageObjects[i].height, ImageObjects[i].rotation, "Connector")
+                if(connections[i].type=='Door'){
+                    rot=rot+90
+                    width= getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2);
+                    height=element.height
+                    newx=connections[i].x1 + ((height / 2) * Math.cos((rot-90) * (Math.PI / 180)))
+                    newy=connections[i].y1 + ((height / 2) * Math.sin((rot-90) * (Math.PI / 180)))
+                }
+
 
                 imgs.push(
 
                     {
                         alt: alt,
                         url: url,
-                        x: connections[i].x1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180))),
-                        y: connections[i].y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180))),
+                        x: newx,
+                        y: newy,
                         width: width,
                         height: height,
                         id: ids,
@@ -301,7 +310,7 @@ export const JoinPainter = (props) => {
 
                 )
             }
-            else if (connections[i].type == 'label'){
+            else if (connections[i].type == 'label') {
                 //setLabels(prevList => [...prevList, connections[i]])
                 temp_labels.push(connections[i])
             }
@@ -313,7 +322,7 @@ export const JoinPainter = (props) => {
         setNewId(ids)
 
         setImageObjects(imgs)
-       // console.log("IMAGES: ", imgs)
+        // console.log("IMAGES: ", imgs)
 
     }
     React.useEffect(() => {
@@ -321,13 +330,13 @@ export const JoinPainter = (props) => {
 
     }, [ImageChanged])
 
-    React.useEffect(()=>{
-        if (connections.length > 0){
+    React.useEffect(() => {
+        if (connections.length > 0) {
             console.log("Enabling 3D")
-            
-            
-                enable3D()
-                setCons(connections) //passing to parent component
+
+
+            enable3D()
+            setCons(connections) //passing to parent component
         }
     }, [connections])
 
@@ -335,71 +344,71 @@ export const JoinPainter = (props) => {
         const length = 100;  //static for the time being
         const width = 100;  //static for the time being
         const userId = auth.user.ID;
-        const response= await SaveMap(props.mapName, length, width, userId, cons, labels)
-        if (response.status === 201){
+        const response = await SaveMap(props.mapName, length, width, userId, cons, labels)
+        if (response.status === 201) {
             console.log("Map Saved Successfully")
         }
         else {
             console.log("Map was NOT saved")
         }
     }
-    
-    React.useEffect(()=>{
-        if (auth.selectedMap !== "" && !Array.isArray(auth.selectedMap)){    //selected map isa map id 
+
+    React.useEffect(() => {
+        if (auth.selectedMap !== "" && !Array.isArray(auth.selectedMap)) {    //selected map isa map id 
             console.log("I will now make the map", auth.selectedMap)
-            GetMap(auth.selectedMap).then(res=>{
+            GetMap(auth.selectedMap).then(res => {
                 console.log("Map Fetched:", res.data)
                 var tempCons = []
-                if ('Labels' in res.data){
+                if ('Labels' in res.data) {
                     console.log('Setting Labels: ', res.data.Labels)
-                    for (var i=0; i<res.data.Labels.length; i++){
+                    for (var i = 0; i < res.data.Labels.length; i++) {
                         res.data.Labels[i].type = 'label'
                         tempCons.push(res.data.Labels[i])
-                    } 
+                    }
                 }
                 auth.setSelectedMap("")
-                
+
                 var tempLabels = []
-                if (Array.isArray(res.data.Joins) && res.data.Joins.length > 0){
-                    for (var i=0; i<res.data.Joins.length; i++){
-                        tempCons.push({x1:res.data.Joins[i].X1, y1: res.data.Joins[i].Y1, x2:res.data.Joins[i].X2, y2: res.data.Joins[i].Y2, type: res.data.Joins[i].Type})
+                if (Array.isArray(res.data.Joins) && res.data.Joins.length > 0) {
+                    for (var i = 0; i < res.data.Joins.length; i++) {
+                        tempCons.push({ x1: res.data.Joins[i].X1, y1: res.data.Joins[i].Y1, x2: res.data.Joins[i].X2, y2: res.data.Joins[i].Y2, type: res.data.Joins[i].Type })
                         /*if (res.data.Joins[i].type == 'label')
                             tempLabels.push(res.data.Joins[i])
                         }*/
                     }
                     console.log("Temp Cons: ", tempCons)
                     setConnections(tempCons)
-                    
+
                     //makeConnections(ImageObjects, Joins)
                     console.log("This should not be printed")
                     makeMap(tempCons)
-                    
+
                 }
-                
-               // makeMap(tempCons)
-            }).catch(err=>console.log("Error: ",err))
+
+                // makeMap(tempCons)
+            }).catch(err => console.log("Error: ", err))
         }
-        else if (Array.isArray(auth.selectedMap) && auth.selectedMap.length > 0){
+        else if (Array.isArray(auth.selectedMap) && auth.selectedMap.length > 0) {
             console.log("Drawing Generated Map", auth.selectedMap)
             setAllMaps(auth.selectedMap)
             setConnections(auth.selectedMap[mapToDraw])
             //makeConnections(ImageObjects, Joins)
             makeMap(auth.selectedMap[mapToDraw])
-           // joinRefresher()
+            // joinRefresher()
             //console.log("IMAGE OBJECTS: ", ImageObjects)
             auth.setSelectedMap("")
         }
 
     }, [])
 
-    React.useEffect(()=>{
-        if (allMaps.length > 0){
+    React.useEffect(() => {
+        if (allMaps.length > 0) {
             setConnections(allMaps[mapToDraw])
             makeMap(allMaps[mapToDraw])
         }
     }, [mapToDraw])
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         console.log("Join refresher called, connections: ", connections)
         joinRefresher()
         makeConnections(ImageObjects, Joins)
@@ -409,7 +418,7 @@ export const JoinPainter = (props) => {
 
         joinRefresher()
 
-       // makeConnections(ImageObjects, Joins)
+        // makeConnections(ImageObjects, Joins)
 
         console.log(connections)
 
@@ -446,18 +455,18 @@ export const JoinPainter = (props) => {
             }
             {
                 labels.length > 0 &&
-                labels.map((lab)=>{
-                    return(<>
+                labels.map((lab) => {
+                    return (<>
                         <Rect
-                        x={lab.x + 18}
-                        y={lab.y}
-                        width={lab.label.length * 7}
-                        height={20}
-                        fill="#FFFFFF"
-                        opacity={0.9}
-                      />
-                        <Text text={lab.label.charAt(0).toUpperCase() + lab.label.slice(1)} x={lab.x + 20} y={lab.y}/>
-                        </>
+                            x={lab.x + 18}
+                            y={lab.y}
+                            width={lab.label.length * 7}
+                            height={20}
+                            fill="#FFFFFF"
+                            opacity={0.9}
+                        />
+                        <Text text={lab.label.charAt(0).toUpperCase() + lab.label.slice(1)} x={lab.x + 20} y={lab.y} />
+                    </>
                     );
                 })
             }
