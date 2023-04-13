@@ -176,4 +176,12 @@ def testApi(request):
 
         return JsonResponse("Hey", safe = False, status = 201)
 
+@csrf_exempt
+def roomApi(request):
+    if request.method == 'POST':
+        print("Hey")
+        # Create a new Label object and save it to the database
+        room= Floorplan.objects.create()
+        print(room)
+        return JsonResponse("Hey", safe = False, status = 201)
 # Create your views here.

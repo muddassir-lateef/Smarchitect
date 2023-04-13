@@ -12,17 +12,30 @@ class Join(models.Model):
 
 class Label(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    x = models.DecimalField(max_digits=16, decimal_places=8)
-    y = models.DecimalField(max_digits=16, decimal_places=8)
+    x1 = models.DecimalField(max_digits=16, decimal_places=8)
+    y1 = models.DecimalField(max_digits=16, decimal_places=8)
     label = models.CharField(max_length=500)
 
-
+class Rooms(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    x1 = models.DecimalField(max_digits=16, decimal_places=8)
+    y1 = models.DecimalField(max_digits=16, decimal_places=8)
+    x2 = models.DecimalField(max_digits=16, decimal_places=8)
+    y2 = models.DecimalField(max_digits=16, decimal_places=8)
+    x3 = models.DecimalField(max_digits=16, decimal_places=8)
+    y3 = models.DecimalField(max_digits=16, decimal_places=8)
+    x4 = models.DecimalField(max_digits=16, decimal_places=8)
+    y4 = models.DecimalField(max_digits=16, decimal_places=8)
+    type = models.CharField(max_length=500)
 class Floorplan(models.Model):
     name = models.CharField(max_length=500)
     joins = models.ManyToManyField(Join)
     labels = models.ManyToManyField(Label)
     length = models.DecimalField(max_digits=16, decimal_places=8)
     width = models.DecimalField(max_digits=16, decimal_places=8)
+    rooms = models.ManyToManyField(Rooms)
+
+
 
 
 class Users(models.Model):
