@@ -8,6 +8,7 @@ import { GenerateMap } from '../services/apiServices';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { theme } from "../Themes/Default-theme";
+import { DrawingBoardContext } from "../context/DrawingBoardContext";
 
 const GenerateNewMap = () => {
     const stageW = 900
@@ -19,6 +20,7 @@ const GenerateNewMap = () => {
     const [submitClicked, setSubmitClicked] = useState(false)
     const auth = useContext(AuthContext)
     const nav = useNavigate();
+    const dbContext = useContext(DrawingBoardContext);
     const setSelectedNode = (newNode) => {
         setNodes(prevState => [...prevState, newNode]);
         /*  console.log("Node clicked, before update: ", nodes)
@@ -189,10 +191,14 @@ const GenerateNewMap = () => {
         GenerateMap(connectors).then((res) => {
             console.log("Generated Map: ", res.data)
             auth.setSelectedMap(res.data)
+            dbContext.setShowPagination(true)
             nav('/')
         })
     }
-
+    useEffect(()=>{
+        dbContext.setShowPagination(false)  //setting pagination to false on load 
+    }, [])
+    
     return (
         <Grid container sx={{ pt: 5 }}>
             {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}

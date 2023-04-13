@@ -104,11 +104,12 @@ export const DrawingBoard = () => {
         <Grid sx={{ display: 'flex', pt: 4, pl: 1 }}  >
             <DrawingToolBox />
             <Grid item>
-            <Stack spacing={2} xs ={12}>
-              {/*{  <Typography variant='h6'>Generated Map #{page}</Typography>*/}
-                <Pagination page={page} onChange={handleChange} count={5} shape="rounded" size='large' xs={12} />
-            </Stack>
-            
+                { dbContext.showPagination &&
+                <Stack spacing={2} xs ={12}>
+                {/*{  <Typography variant='h6'>Generated Map #{page}</Typography>*/}
+                    <Pagination page={page} onChange={handleChange} count={5} shape="rounded" size='large' xs={12} />
+                </Stack>
+                }
             <DrawingCanvas
                 testBtn={testBtn}
                 mapToDraw = {page-1}

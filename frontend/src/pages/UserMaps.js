@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { GetUserMaps } from "../services/apiServices";
 import {
     Button,
@@ -22,6 +23,7 @@ import HouseIcon from '@mui/icons-material/House';
 const UserMaps = () => {
     const [fps, setFps] = useState(0)
     const auth = useContext(AuthContext)
+    const dbContext = useContext(DrawingBoardContext)
     const nav = useNavigate();
     const [searchedMap, setSearchedMap] = useState("");
     const [mapOptions, setMapOptions] = useState([])
@@ -44,6 +46,10 @@ const UserMaps = () => {
         .catch(err=>console.log("ERROR: ", err))
 
 
+    }, [])
+
+    useEffect(()=>{
+      dbContext.setShowPagination(false)  //setting pagination to false on load 
     }, [])
 
     const textChange = (value) => {

@@ -26,6 +26,7 @@ function App() {
   const [imgSource, setImgSource] = useState("");
   const [user, setUser] = useState("");
   const [selectedMap, setSelectedMap] = useState("");
+  const [showPag, setShowPag] = useState(false)
   const login = useCallback(() => {
     setIsLoggedIn(true);
   }, []);
@@ -43,6 +44,9 @@ function App() {
   }, []);
   const selectMap = useCallback((map_id) => {
     setSelectedMap(map_id);
+  }, []);
+  const setShow_Pagination = useCallback((s) => {
+    setShowPag(s);
   }, []);
   let routes = loggedIn ? LoggedInRoutes() : LoggedOutRoutes();
 
@@ -73,6 +77,8 @@ function App() {
           setSelectedSource: setSelectedSource,
           selectedImgInstance: selectedShape,
           setSelectedImgInstance: setSelectedShape,
+          showPagination: showPag,
+          setShowPagination: setShow_Pagination
 
 
         }}
