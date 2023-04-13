@@ -323,7 +323,16 @@ def getPercentageArea(w,h,cords):
     largeArea = w * h
     percentage = smallarea/largeArea * 100
     return percentage
+def getProp(room):
+    line1=[room[0],room[1]]
+    line2=[room[0],room[2]]
+    x1=math.dist (line1[0],line1[1])
+    x2=math.dist (line2[0],line2[1])
 
+    if(x1>=x2):
+        return x2/x1
+    else:
+        return x1/x2
 def fitness(inputG,gene,trees):
     score=0
     tree=genTree(gene,inputG["rooms"],trees)
@@ -339,7 +348,15 @@ def fitness(inputG,gene,trees):
 
         deviation=abs((pArea-expected)/expected)
         if(deviation<=1):
-            score+=(20*(1-deviation))      
+            score+=(10*(1-deviation))      
+    for room in rooms:
+        propor=getProp(room)
+        expected=inputG["proportions"][room[4].split('-')[0]]
+
+        deviation=abs((propor-expected)/expected)
+        if(deviation<=1):
+            score+=(20*(1-deviation)) 
+
     return score
 
 
@@ -671,12 +688,12 @@ def GA_driver(connects):
         "drawingroom":10
     },
     "proportions":{
-        "livingroom":1,
+        "livingroom":0.8,
         "kitchen":0.6,
         "bedroom":0.8,
-        "bathroom":0.2,
+        "bathroom":0.7,
         "carporch":0.5,
-        "garden":0.6,
+        "garden":0.3,
         "drawingroom":0.8
     }
 
@@ -684,7 +701,7 @@ def GA_driver(connects):
     alltree=allPossibleFBT(2*(len(Roms))-1) #2l-1
     print(len(alltree))
 
-    generations = 100
+    generations = 200
     pop_size = 10
     top=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
 
