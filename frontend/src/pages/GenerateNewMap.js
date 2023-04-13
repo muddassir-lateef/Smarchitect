@@ -189,9 +189,11 @@ const GenerateNewMap = () => {
     const generateBtnClicked = () => {
         console.log("Hello")
         GenerateMap(connectors).then((res) => {
-            console.log("Generated Map: ", res.data)
-            auth.setSelectedMap(res.data)
+            console.log("Generated Map: ", res.data.maps)
+            auth.setSelectedMap(res.data.maps)
+            auth.setSelectedRooms(res.data.room)
             dbContext.setShowPagination(true)
+            console.log("Rooms:",res.data.room)
             nav('/')
         })
     }

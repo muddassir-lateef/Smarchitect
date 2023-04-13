@@ -577,7 +577,7 @@ def geneToJsonMap(inputG,gene,trees,Rooms):
     room_centers = getRoomCenters(rooms)
     for center in room_centers: 
         jsonlines.append(center)
-    return jsonlines
+    return jsonlines,rooms
 
 
 def getAjdacentWall(room1,room2,threshold):
@@ -707,7 +707,11 @@ def GA_driver(connects):
 
 
     jsonn = []
+    rooms=[]
     for i in range(5):
-        jsonn.append(geneToJsonMap(inputG,top[i][0],alltree,Roms))
-    return jsonn
+        jsn,rm=geneToJsonMap(inputG,top[i][0],alltree,Roms)
+        jsonn.append(jsn)
+        rooms.append(rm)
+    print(rooms)
+    return {"maps":jsonn ,"room":rooms}
 
