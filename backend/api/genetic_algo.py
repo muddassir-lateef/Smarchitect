@@ -15,6 +15,11 @@ import factoradic
 import math
 import numpy.random as npr
 
+DOOR_LENGTH=50
+ADJACENCY_REWARD=50
+PERCENTAGE_REWARD=30
+PROPORTION_REWARD=20
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
          self.val = val
@@ -339,8 +344,8 @@ def fitness(inputG,gene,trees):
     rooms=GenerateRooms(GenCoord(inputG["width"],inputG["height"]),tree)
     rooms_dict=RoomtoDict(rooms)
     for connection in inputG["connections"]:
-        if(CheckAjdacent(rooms_dict[connection[0]],rooms_dict[connection[2]],30)):
-            score+=30 
+        if(CheckAjdacent(rooms_dict[connection[0]],rooms_dict[connection[2]],DOOR_LENGTH)):
+            score+=ADJACENCY_REWARD 
 
     for room in rooms:
         pArea=getPercentageArea(inputG["width"],inputG["height"],room)
@@ -348,14 +353,14 @@ def fitness(inputG,gene,trees):
 
         deviation=abs((pArea-expected)/expected)
         if(deviation<=1):
-            score+=(10*(1-deviation))      
+            score+=(PERCENTAGE_REWARD*(1-deviation))      
     for room in rooms:
         propor=getProp(room)
         expected=inputG["proportions"][room[4].split('-')[0]]
 
         deviation=abs((propor-expected)/expected)
         if(deviation<=1):
-            score+=(20*(1-deviation)) 
+            score+=(PROPORTION_REWARD*(1-deviation)) 
 
     return score
 
@@ -567,7 +572,7 @@ def geneToJsonMap(inputG,gene,trees,Rooms):
     rooms_dict=RoomtoDict(rooms)
     doors=[]
     for connection in inputG["connections"]:
-        adjacent=getAjdacentWall(rooms_dict[connection[0]],rooms_dict[connection[2]],30)
+        adjacent=getAjdacentWall(rooms_dict[connection[0]],rooms_dict[connection[2]],DOOR_LENGTH)
         if(adjacent[0]):
             doors.append(generateDoor(adjacent[1]))
     lines=roomsToLines(rooms)
@@ -618,7 +623,7 @@ def get_colinear(set1, set2):
 
     return -1,-1
 def generateDoor(line):
-    doorLen=30
+    doorLen=DOOR_LENGTH
     midpoint=0
     if(line[0][0]==line[1][0]):
         midpoint=(line[0][1]+line[1][1])/2
