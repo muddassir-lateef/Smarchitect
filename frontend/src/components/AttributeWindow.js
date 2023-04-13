@@ -11,6 +11,7 @@ import { CSVLink } from "react-csv";
 import Papa from "papaparse";
 import { VALIDATOR_REQUIRE } from '../util/validators';
 import { useForm } from "../hooks/form-hook";
+import Alert from "@mui/material/Alert";
 
 
 const headers = [
@@ -27,6 +28,8 @@ const headers = [
 
 
 ];
+
+
 
 
 const marks = [
@@ -50,6 +53,7 @@ const marks = [
 
 ];
 export const AttributeWindow = (props) => {
+    const [statusFlag, setStatusFlag] = useState(0)
     const { selectedItemCoordinates } = props
     const dbContext = useContext(DrawingBoardContext);
     const { setScale } = props
@@ -74,6 +78,21 @@ export const AttributeWindow = (props) => {
         setScale(newValue);
     };
 
+    const StatusAlert = () => {
+        if(statusFlag == 0)
+        {
+            
+        }
+        if(statusFlag === 1)
+        {
+          return(<Alert severity="success">Floorplan Saved Succesfully!</Alert>)
+        }
+        if(statusFlag === 2)
+        {
+          return(<Alert severity="error">Floorplan Not Saved!</Alert>)
+        }
+
+      } 
 
     React.useEffect(() => {
         if (parsedInputData !== null) {
@@ -311,7 +330,7 @@ export const AttributeWindow = (props) => {
             </Card>
 
 
-
+            <StatusAlert/>
         </Card>
 
     );

@@ -3,10 +3,13 @@ import { Button, Typography, Grid } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
+import Snackbar from '@mui/material/Snackbar';
 import { AttributeWindow } from "../components/AttributeWindow"
 import { GetMap } from '../services/apiServices';
 import { Modal, Backdrop, Fade, Box } from "@mui/material";
 import Pagination from '@mui/material/Pagination';
+import Alert from "@mui/material/Alert";
+import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
 
 import { Unity, useUnityContext } from "react-unity-webgl";
@@ -39,12 +42,37 @@ export const DrawingBoard = () => {
     const [exportData, setExportData] = React.useState([]);
     const [ImageObjects, setImageObjects] = React.useState([]);
     const [newId, setNewId] = React.useState('1');
-
+    const [open, setOpen] = React.useState(false);
     const [testBtn, setTestBtn] = React.useState(1)
     const [testBtn2, setTestBtn2] = React.useState(1)
     const [mapName, setMapName] = React.useState("")
     const [modalOpen, setModalOpen] = useState(false);
     const [disable3D, setDisable3D] = useState(true)
+    const [statusFlag, setStatusFlag] = useState(0)
+
+    const StatusAlert = () => {
+        if(statusFlag == 0)
+        {
+            
+        }
+        if(statusFlag === 1)
+        {
+          return(<Alert severity="success">This is a success alert — check it out!</Alert>)
+        }
+        if(statusFlag === 2)
+        {
+          return(<Alert severity="error">Class of this Year already Exists!</Alert>)
+        }
+        if(statusFlag === 3)
+        {
+          return(<Alert severity="error"> Invalid Class Year</Alert>)
+        }
+        if(statusFlag === 4)
+        {
+          return(<Alert severity="error"> Class Year must be greater than 0</Alert>)
+        }
+      } 
+
 
     const openModal = (username) => {
         setModalOpen(true);
@@ -197,7 +225,7 @@ export const DrawingBoard = () => {
                     </Box>
                 </Fade>
             </Modal>
-
+                                    
         </Grid>
 
     );
