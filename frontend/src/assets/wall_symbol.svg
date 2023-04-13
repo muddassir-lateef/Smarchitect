@@ -1,12 +1,1 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
- "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="83.000000pt" height="520.000000pt" viewBox="0 0 83.000000 520.000000"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,520.000000) scale(0.100000,-0.100000)"
-fill="#000000" stroke="none">
-<path d="M0 2595 l0 -2595 415 0 415 0 0 2595 0 2595 -415 0 -415 0 0 -2595z"/>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="150" zoomAndPan="magnify" viewBox="0 0 112.5 750" height="1000" preserveAspectRatio="xMidYMid meet" version="1.0"><defs><clipPath id="fecac610e9"><path d="M 6.347656 1.660156 L 101.484375 1.660156 L 101.484375 748.339844 L 6.347656 748.339844 Z M 6.347656 1.660156 " clip-rule="nonzero"/></clipPath><clipPath id="a8ebc2ffb4"><path d="M 6.347656 26.609375 C 6.347656 12.828125 27.59375 1.65625 53.800781 1.65625 C 80.007812 1.65625 101.253906 12.828125 101.253906 26.609375 L 101.253906 726.699219 C 101.253906 740.480469 80.007812 751.65625 53.800781 751.65625 C 27.59375 751.65625 6.347656 740.480469 6.347656 726.699219 L 6.347656 26.609375 " clip-rule="nonzero"/></clipPath><clipPath id="33afbbf06c"><path d="M 18 12.828125 L 90 12.828125 L 90 740.40625 L 18 740.40625 Z M 18 12.828125 " clip-rule="nonzero"/></clipPath><clipPath id="e337242ecf"><path d="M 18 34.304688 C 18 22.484375 34.027344 12.90625 53.800781 12.90625 C 73.574219 12.90625 89.601562 22.484375 89.601562 34.304688 L 89.601562 719.003906 C 89.601562 730.824219 73.574219 740.40625 53.800781 740.40625 C 34.027344 740.40625 18 730.824219 18 719.003906 L 18 34.304688 " clip-rule="nonzero"/></clipPath></defs><g clip-path="url(#fecac610e9)"><g clip-path="url(#a8ebc2ffb4)"><path fill="#919191" d="M 6.347656 751.65625 L 6.347656 1.476562 L 101.484375 1.476562 L 101.484375 751.65625 Z M 6.347656 751.65625 " fill-opacity="1" fill-rule="nonzero"/></g></g><g clip-path="url(#33afbbf06c)"><g clip-path="url(#e337242ecf)"><path fill="#d9d9d9" d="M 18 740.40625 L 18 12.828125 L 90.222656 12.828125 L 90.222656 740.40625 Z M 18 740.40625 " fill-opacity="1" fill-rule="nonzero"/></g></g></svg>
