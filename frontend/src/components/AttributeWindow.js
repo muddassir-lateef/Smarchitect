@@ -88,8 +88,8 @@ export const AttributeWindow = (props) => {
     };
     const postMap = async () => {
         setStatusFlag(3)
-        const length = 100;  //static for the time being
-        const width = 100;  //static for the time being
+        const length = dbContext.mapDim.h;  
+        const width = dbContext.mapDim.w; 
         const userId = auth.user.ID;
         const response = await SaveMap(mapName, length, width, userId, connections, labels)
         if (response.status === 201) {

@@ -143,6 +143,8 @@ def singleFloorplanApi(request, fp_Id):
         labels = [{'x': str(label.x), 'y':str(label.y), 'label' : str(label.label)} for label in tempFloorplan.labels.all()]
         floorplanDictionary['Joins'] = Joins
         floorplanDictionary['Labels'] = labels
+        floorplanDictionary['length'] = float(tempFloorplan.length.to_decimal())
+        floorplanDictionary['width'] = float(tempFloorplan.width.to_decimal())
 
         print(floorplanDictionary)
 
@@ -153,9 +155,17 @@ def singleFloorplanApi(request, fp_Id):
 def GenerateFloorPlan(request):
     print("Here")
     if request.method=='PATCH':
-        graphEdges = JSONParser().parse(request)
+        req = JSONParser().parse(request)
+        graphEdges = req['connectors']
+        width = 500
+        height = 500
+        width = req['w']
+        height = req['h']
+        print("REQ: {}".format(graphEdges))
+        print("W: {}".format(width))
+        print("H: {}".format(height))
         print(graphEdges)
-        generated_map = GA_driver(graphEdges)
+        generated_map = GA_driver(graphEdges, width, height)
         print(generated_map)
         
     return JsonResponse(generated_map, safe = False, status = 201)
