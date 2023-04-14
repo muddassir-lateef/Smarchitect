@@ -51,7 +51,7 @@ export async function SaveMap(name, length, width, userId, Joins, Labels) {
     }
   }
   console.log("New Joins: ", newJoins)
-  let mapInfo = { name, length, width, userId, Joins:newJoins, Labels };
+  let mapInfo = { name, length:500, width:500, userId, Joins:newJoins, Labels };
   console.log("SENDING MAP INFO: ", mapInfo)
   const response = await axios.post(tempURL, mapInfo);
   return response;
