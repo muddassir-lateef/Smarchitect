@@ -669,13 +669,13 @@ def InsertDoorConnections(connections,doors):
         connections.append({"x1":newLines[2][0][0],"y1":newLines[2][0][1],"x2":newLines[2][1][0],"y2":newLines[2][1][1],"type":"Wall"})
     return connections
 
-def GA_driver(connects):
+def GA_driver(connects, width, height):
 
     Roms=getRooms(connects)
     conns=getConnectionList(connects)
     inputG={
-    "width":500,
-    "height":500,
+    "width":width*10,
+    "height":height*10,
     "connections":conns,
     "rooms":Roms,
     "percents":{

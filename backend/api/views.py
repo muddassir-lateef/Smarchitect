@@ -153,9 +153,17 @@ def singleFloorplanApi(request, fp_Id):
 def GenerateFloorPlan(request):
     print("Here")
     if request.method=='PATCH':
-        graphEdges = JSONParser().parse(request)
+        req = JSONParser().parse(request)
+        graphEdges = req['connectors']
+        width = 500
+        height = 500
+        width = req['w']
+        height = req['h']
+        print("REQ: {}".format(graphEdges))
+        print("W: {}".format(width))
+        print("H: {}".format(height))
         print(graphEdges)
-        generated_map = GA_driver(graphEdges)
+        generated_map = GA_driver(graphEdges, width, height)
         print(generated_map)
         
     return JsonResponse(generated_map, safe = False, status = 201)

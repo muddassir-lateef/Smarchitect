@@ -21,6 +21,7 @@ const GenerateNewMap = () => {
     const auth = useContext(AuthContext)
     const nav = useNavigate();
     const dbContext = useContext(DrawingBoardContext);
+    const [plotDim, setPlotDim] = useState({x:100, y:100})
     const setSelectedNode = (newNode) => {
         setNodes(prevState => [...prevState, newNode]);
         /*  console.log("Node clicked, before update: ", nodes)
@@ -123,7 +124,7 @@ const GenerateNewMap = () => {
         var livingrooms = parseInt(formInputs.livingrooms.value);
         var plot_x = parseInt(formInputs.plot_X_Dimension.value);
         var plot_y = parseInt(formInputs.plot_Y_Dimension.value);
-
+        setPlotDim({x: plot_x, y: plot_y});
 
 
 
@@ -188,7 +189,7 @@ const GenerateNewMap = () => {
 
     const generateBtnClicked = () => {
         console.log("Hello")
-        GenerateMap(connectors).then((res) => {
+        GenerateMap(connectors, plotDim.x, plotDim.y).then((res) => {
             console.log("Generated Map: ", res.data)
             auth.setSelectedMap(res.data)
             dbContext.setShowPagination(true)
@@ -198,7 +199,7 @@ const GenerateNewMap = () => {
     useEffect(()=>{
         dbContext.setShowPagination(false)  //setting pagination to false on load 
     }, [])
-    
+
     return (
         <Grid container sx={{ pt: 5 }}>
             {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}
