@@ -679,8 +679,8 @@ def GA_driver(connects, width, height):
     Roms=getRooms(connects)
     conns=getConnectionList(connects)
     inputG={
-    "width":width*10,
-    "height":height*10,
+    "width":width,
+    "height":height,
     "connections":conns,
     "rooms":Roms,
     "percents":{
