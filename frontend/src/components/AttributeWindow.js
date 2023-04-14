@@ -70,6 +70,7 @@ export const AttributeWindow = (props) => {
     const {connections} = props
     const {labels} = props
     const {mapName} = props
+    const [isLoading, setIsLoading] = useState(false);
 
     const [formState, InputHandler] = useForm(
         {
@@ -80,22 +81,28 @@ export const AttributeWindow = (props) => {
         },
         false
       );
+        
 
     const handleScaleChange = (event, newValue) => {
         setScale(newValue);
     };
     const postMap = async () => {
+        setStatusFlag(3)
         const length = 100;  //static for the time being
         const width = 100;  //static for the time being
         const userId = auth.user.ID;
         const response = await SaveMap(mapName, length, width, userId, connections, labels)
         if (response.status === 201) {
             console.log("Map Saved Successfully")
+            setStatusFlag(1)
         }
         else {
             console.log("Map was NOT saved")
+            setStatusFlag(2)
         }
     }
+
+  
 
     const StatusAlert = () => {
         if(statusFlag == 0)
@@ -109,6 +116,10 @@ export const AttributeWindow = (props) => {
         if(statusFlag === 2)
         {
           return(<Alert severity="error">Floorplan Not Saved!</Alert>)
+        }
+        if(statusFlag === 3)
+        {
+          return(<Alert severity="warning">Saving Floorplan!</Alert>)
         }
 
       } 
@@ -339,6 +350,7 @@ export const AttributeWindow = (props) => {
                     validators={[VALIDATOR_REQUIRE()]}
                     errorText="Floorplan name must be provided"
                 />
+                <StatusAlert/>
                 <Button  sx={{
                     mt: 1, width: '100%', backgroundColor: '#FF803A', "&:hover": {
                         backgroundColor: "#FF803A"
@@ -349,7 +361,7 @@ export const AttributeWindow = (props) => {
             </Card>
 
 
-            <StatusAlert/>
+            
         </Card>
 
     );

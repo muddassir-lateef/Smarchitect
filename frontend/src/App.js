@@ -26,6 +26,7 @@ function App() {
   const [imgSource, setImgSource] = useState("");
   const [user, setUser] = useState("");
   const [selectedMap, setSelectedMap] = useState("");
+  const [selectedRooms, setSelectedRooms] = useState([]);
   const [showPag, setShowPag] = useState(false)
   const login = useCallback(() => {
     setIsLoggedIn(true);
@@ -45,6 +46,9 @@ function App() {
   const selectMap = useCallback((map_id) => {
     setSelectedMap(map_id);
   }, []);
+  const selectRooms = useCallback((rooms) => {
+    setSelectedRooms(rooms);
+  }, []);
   const setShow_Pagination = useCallback((s) => {
     setShowPag(s);
   }, []);
@@ -63,7 +67,10 @@ function App() {
         user: user,
         setUser: setCurrentUser,
         selectedMap: selectedMap,
-        setSelectedMap:selectMap
+        selectedRooms: selectedRooms,
+
+        setSelectedMap:selectMap,
+        setSelectedRooms:selectRooms
       }}
     >
       <DrawingBoardContext.Provider

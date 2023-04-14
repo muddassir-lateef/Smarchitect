@@ -17,11 +17,11 @@ export const initial_menuItems = [
     {
         alt: "Door",
         url: DoorSymbol,
-        width: 70,
-        height: 50,
+        width:15,
+        height: 100,
         rotation: 0,
         keepRatio: true,
-        enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+        enabledAnchors: ['top-center', 'bottom-center'],
     },
     {
         alt: "Window",

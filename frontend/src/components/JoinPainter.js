@@ -284,13 +284,13 @@ export const JoinPainter = (props) => {
                 var newx=connections[i].x1 - ((width / 2) * Math.cos((rot) * (Math.PI / 180)))
                 var newy=connections[i].y1 - ((width / 2) * Math.sin((rot) * (Math.PI / 180)))
                 //var coords1 = CoordinateTranslator(ImageObjects[i].x, ImageObjects[i].y, ImageObjects[i].width, ImageObjects[i].height, ImageObjects[i].rotation, "Connector")
-                if(connections[i].type=='Door'){
-                    rot=rot+90
-                    width= getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2);
-                    height=element.height
-                    newx=connections[i].x1 + ((height / 2) * Math.cos((rot-90) * (Math.PI / 180)))
-                    newy=connections[i].y1 + ((height / 2) * Math.sin((rot-90) * (Math.PI / 180)))
-                }
+//                if(connections[i].type=='Door'){
+  //                  rot=rot+90
+    //                width= getDistance(connections[i].x1, connections[i].y1, connections[i].x2, connections[i].y2);
+      //              height=element.height
+        //            newx=connections[i].x1 + ((height / 2) * Math.cos((rot-90) * (Math.PI / 180)))
+          //          newy=connections[i].y1 + ((height / 2) * Math.sin((rot-90) * (Math.PI / 180)))
+            //    }
 
 
                 imgs.push(

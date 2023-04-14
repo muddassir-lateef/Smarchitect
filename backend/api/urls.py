@@ -7,7 +7,8 @@ from .views import (
     userAPI,
     floorplanApi,
     singleFloorplanApi,
-    testApi
+    testApi,
+    roomApi
 
 )
 
@@ -18,5 +19,6 @@ urlpatterns = [
     url(r'^Floorplan$', views.floorplanApi),
     url(r'^getFloorplan/(?P<fp_Id>\d+)/$', views.singleFloorplanApi),
     url(r'^GenerateFloorPlan$', views.GenerateFloorPlan),
-    url(r'^TestApi',views.testApi )
+    url(r'^TestApi',views.testApi ),
+    url(r'^RoomApi',views.roomApi )
 ]

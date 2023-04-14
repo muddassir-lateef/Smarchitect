@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Typography, Card, Grid, Box, Button } from "@mui/material";
+import { Typography, Card, Grid, Box, Button, Modal, TextField } from "@mui/material";
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import Avatar from "@mui/material/Avatar";
 import SendIcon from "@mui/icons-material/Send";
@@ -11,7 +11,15 @@ import { theme } from "../Themes/Default-theme";
 
 
 const ConstraintsForm = (props) => {
-
+  const [open, setOpen] = React.useState(false);
+  const handleModalOpen = () => {
+    setOpen(true);
+  };
+  const handleModalClose = () => {
+    setOpen(false);
+  };
+  
+    
   const [formState, InputHandler] = useForm(
     {
       bedrooms: {
@@ -57,6 +65,62 @@ const ConstraintsForm = (props) => {
     },
     false
   );
+
+  const [formStateGA, InputHandlerGA] = useForm(
+    {
+      bedrooms: {
+        value: 0,
+        isValid: false,
+      },
+      bathrooms: {
+        value: 0,
+        isValid: false,
+      },
+      livingrooms: {
+        value: 0,
+        isValid: false,
+      },
+      kitchens: {
+        value: 0,
+        isValid: false,
+      },
+      carporch: {
+        value: 0,
+        isValid: false,
+      },
+      drawingrooms: {
+        value: 0,
+        isValid: false,
+      },
+      coveredarea: {
+        value: 0,
+        isValid: false,
+      },
+      gardens: {
+        value: 0,
+        isValid: false,
+      },
+      plot_Y_Dimension: {
+        value: 0,
+        isValid: false,
+      },
+      plot_X_Dimension: {
+        value: 0,
+        isValid: false,
+      },
+    },
+  );
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Text 1: ", text1);
+    console.log("Text 2: ", text2);
+    props.onClose();
+  };
+
+  const [text1, setText1] = useState("");
+  const [text2, setText2] = useState("");
 
 
 
@@ -212,7 +276,169 @@ const ConstraintsForm = (props) => {
             }}
           >
           </Box>
-          <Grid container display="flex" justifyContent="center" >
+          <Grid container display="flex" justifyContent= "center">
+          <Button
+  onClick={handleModalOpen}
+  variant="contained"
+  endIcon={<SendIcon />}
+  sx={{
+    mt: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F57663",
+    color: "#fff",
+    "&:hover": {
+      backgroundColor: "#FFA546",
+    },
+  }}
+>
+  Modal
+</Button>
+          </Grid>
+          
+
+
+          <Grid container  justifyContent="center" >
+            <Modal open={open} onClose={handleModalClose} style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+
+          <Box
+          sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          backgroundColor: "#fff",
+          border: "2px solid #000",
+          boxShadow: 24,
+          p: 4,
+          maxWidth: 400,
+          width: "100%",
+        }}
+      >
+        <div style={{ backgroundColor: 'white', padding: '20px' }}>
+        <Typography variant="h5" align="center">
+          Adjust the Floorplan Ratios
+        </Typography>
+        <Typography variant="body1" align="center">
+          Default values are already provided.
+        </Typography>
+      </div>
+        <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+          <Input
+             sx={{
+ 
+            }}
+            id="drawingrooms"
+            label="Drawing Rooms"
+            variant="standard"
+            onInput={InputHandlerGA}
+            validators={[VALIDATOR_MINLENGTH(1)]}
+            errorText="Drawing rooms is a required field"
+          />
+      </Box>
+      </Modal >
             <Button 
               onClick={()=>props.onSubmit(formState.inputs)}
               variant="contained"

@@ -191,8 +191,10 @@ const GenerateNewMap = () => {
         console.log("Hello")
         GenerateMap(connectors, plotDim.x, plotDim.y).then((res) => {
             console.log("Generated Map: ", res.data)
-            auth.setSelectedMap(res.data)
+            auth.setSelectedMap(res.data.maps)
+            auth.setSelectedRooms(res.data.room)
             dbContext.setShowPagination(true)
+            console.log("Rooms:",res.data.room)
             nav('/')
         })
     }

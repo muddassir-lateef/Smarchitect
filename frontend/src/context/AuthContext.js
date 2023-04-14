@@ -12,4 +12,8 @@ export const AuthContext = createContext({
     logout: () => { },
     setSelectedMap: ()=> {},
     selectedMap: "",
+    setSelectedRooms: ()=> {},
+    selectedRooms: [],
+
+    
 });
