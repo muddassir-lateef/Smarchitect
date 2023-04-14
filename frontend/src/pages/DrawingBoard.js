@@ -21,8 +21,8 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 800,
-    height: 500,
+    width: 1000,
+    height: 700,
     bgcolor: "transparent",
     borderRadius: '2%',
     p: 4,
@@ -203,6 +203,9 @@ export const DrawingBoard = () => {
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
+                    sx: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)' // Set backdrop color to black with 50% opacity
+                    }
                 }}
             >
                 <Fade in={modalOpen}>
@@ -216,7 +219,7 @@ export const DrawingBoard = () => {
                                 )}
                                 <Unity
                                     unityProvider={unityProvider}
-                                    style={{ width: 800, height: 500, visibility: isLoaded ? "visible" : "hidden" }}
+                                    style={{ width: 1000, height: 700, visibility: isLoaded ? "visible" : "hidden" }}
                                 />
                             </Grid>
                         </Grid>
