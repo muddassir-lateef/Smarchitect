@@ -28,6 +28,7 @@ function App() {
   const [selectedMap, setSelectedMap] = useState("");
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [showPag, setShowPag] = useState(false)
+  const [mapDimensions, setMapDimensions] = useState({w:100, h:100})
   const login = useCallback(() => {
     setIsLoggedIn(true);
   }, []);
@@ -51,6 +52,9 @@ function App() {
   }, []);
   const setShow_Pagination = useCallback((s) => {
     setShowPag(s);
+  }, []);
+  const setMap_Dimensions = useCallback((w, h) => {
+    setMapDimensions({w, h});
   }, []);
   let routes = loggedIn ? LoggedInRoutes() : LoggedOutRoutes();
 
@@ -85,8 +89,9 @@ function App() {
           selectedImgInstance: selectedShape,
           setSelectedImgInstance: setSelectedShape,
           showPagination: showPag,
-          setShowPagination: setShow_Pagination
-
+          setShowPagination: setShow_Pagination,
+          mapDim: mapDimensions,
+          setMapDim: setMap_Dimensions,
 
         }}
       >

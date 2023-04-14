@@ -143,6 +143,8 @@ def singleFloorplanApi(request, fp_Id):
         labels = [{'x': str(label.x), 'y':str(label.y), 'label' : str(label.label)} for label in tempFloorplan.labels.all()]
         floorplanDictionary['Joins'] = Joins
         floorplanDictionary['Labels'] = labels
+        floorplanDictionary['length'] = float(tempFloorplan.length.to_decimal())
+        floorplanDictionary['width'] = float(tempFloorplan.width.to_decimal())
 
         print(floorplanDictionary)
 

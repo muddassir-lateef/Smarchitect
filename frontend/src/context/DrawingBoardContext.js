@@ -16,6 +16,9 @@ export const DrawingBoardContext = createContext({
     setSelectedImgInstance: () => { },
 
     showPagination: false,
-    setShowPagination: ()=>{}
+    setShowPagination: ()=>{},
+
+    mapDim : {w:100, h:100},
+    setMapDim: ()=>{},
 
 });

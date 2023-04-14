@@ -131,6 +131,10 @@ export const DrawingBoard = () => {
     const handleChange = (event, value) => {
         setPage(value);
     };
+
+    useEffect(()=>{
+        console.log("MAP DIMENSIONS: ", dbContext.mapDim)
+    }, [])
     
 
     return (

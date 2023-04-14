@@ -349,6 +349,7 @@ export const JoinPainter = (props) => {
             console.log("I will now make the map", auth.selectedMap)
             GetMap(auth.selectedMap).then(res => {
                 console.log("Map Fetched:", res.data)
+                dbContext.setMapDim(res.data.width, res.data.length)
                 var tempCons = []
                 if ('Labels' in res.data) {
                     console.log('Setting Labels: ', res.data.Labels)

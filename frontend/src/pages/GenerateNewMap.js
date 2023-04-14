@@ -125,7 +125,7 @@ const GenerateNewMap = () => {
         var plot_x = parseInt(formInputs.plot_X_Dimension.value);
         var plot_y = parseInt(formInputs.plot_Y_Dimension.value);
         setPlotDim({x: plot_x, y: plot_y});
-
+        dbContext.setMapDim(plot_x,  plot_y);
 
 
 
