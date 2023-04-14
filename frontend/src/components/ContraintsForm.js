@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Typography, Card, Grid, Box, Button, Modal, TextField } from "@mui/material";
+import { Typography, Card, Grid, Box, Button, Modal, TextField, Hidden } from "@mui/material";
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import Avatar from "@mui/material/Avatar";
 import SendIcon from "@mui/icons-material/Send";
@@ -277,23 +277,7 @@ const ConstraintsForm = (props) => {
           >
           </Box>
           <Grid container display="flex" justifyContent= "center">
-          <Button
-  onClick={handleModalOpen}
-  variant="contained"
-  endIcon={<SendIcon />}
-  sx={{
-    mt: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F57663",
-    color: "#fff",
-    "&:hover": {
-      backgroundColor: "#FFA546",
-    },
-  }}
->
-  Modal
-</Button>
+
           </Grid>
           
 
