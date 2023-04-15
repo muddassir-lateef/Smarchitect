@@ -84,6 +84,12 @@ export const DrawingBoard = () => {
     });
     useEffect(() => {
         if (modalOpen == true && connections.length > 0 && isLoaded) {
+            var floor=""
+            floor+=parseInt(dbContext.mapDim.w)
+            floor+=","            
+            floor+=parseInt(dbContext.mapDim.h)
+            setTimeout(sendMessage("MapGenerator", "GenerateFloorP", floor, 3000));
+
             for (var i = 0; i < connections.length; i++) {
 
                 //  for (var i = 1; i < 2; i++) {
