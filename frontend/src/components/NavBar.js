@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { theme } from "../Themes/Default-theme";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
-import SmarchitectIcon from "../assets/Smarchitect.png";
+import SmarchitectIcon from "../assets/logo/logo.svg";
 //import { AuthContext } from '../../src/context/AuthContext';
 const StyledToolbar = styled(Toolbar)({
   backgroundColor: theme.palette.primary.main,

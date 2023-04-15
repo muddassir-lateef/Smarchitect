@@ -1,7 +1,7 @@
-import DoorSymbol from "../assets/door_symbol.svg";
-import WallSymbol from "../assets/wall_symbol.svg";
-import WindowSymbol from "../assets/window_symbol.svg";
-import StairsSymbol from "../assets/stairs_symbol.svg";
+import DoorSymbol from "../assets/FloorPlanSymbols/door_symbol.svg";
+import WallSymbol from "../assets/FloorPlanSymbols/wall_symbol.svg";
+import WindowSymbol from "../assets/FloorPlanSymbols/window_symbol.svg";
+import StairsSymbol from "../assets/FloorPlanSymbols/stairs_symbol.svg";
 
 export const initial_menuItems = [
     //eligible anchors: ['top-left', 'top-center', 'top-right', 'middle-right', 'middle-left', 'bottom-left', 'bottom-center', 'bottom-right']

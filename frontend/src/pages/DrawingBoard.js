@@ -106,10 +106,10 @@ export const DrawingBoard = () => {
     const [connections, setConnections] = useState([])
     const [labels, setLabels] = useState([])
     const { unityProvider, unload, sendMessage, loadingProgression, isLoaded } = useUnityContext({
-        loaderUrl: "assets/build/MapGen3d.loader.js",
-        dataUrl: "assets/build/MapGen3d.data.unityweb",
-        frameworkUrl: "assets/build/MapGen3d.framework.js.unityweb",
-        codeUrl: "assets/build/MapGen3d.wasm.unityweb",
+        loaderUrl: "assets/UnityBuild/MapGen3d.loader.js",
+        dataUrl: "assets/UnityBuild/MapGen3d.data.unityweb",
+        frameworkUrl: "assets/UnityBuild/MapGen3d.framework.js.unityweb",
+        codeUrl: "assets/UnityBuild/MapGen3d.wasm.unityweb",
     });
     useEffect(() => {
         if (modalOpen == true && connections.length > 0 && isLoaded) {

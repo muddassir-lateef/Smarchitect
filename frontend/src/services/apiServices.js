@@ -28,7 +28,7 @@ const response = await axios.patch(tempURL, loginDetails);
 return response;
 }
 
-export async function Signup(firstname, lastname, username, password) {
+export async function register(firstname, lastname, username, password) {
   console.log("Here")
   let tempURL = URL + "/Users";
   console.log(tempURL);
