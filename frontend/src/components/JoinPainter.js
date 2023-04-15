@@ -4,6 +4,7 @@ import { Modal } from '@mui/material';
 import { Circle, Text, Rect } from 'react-konva';
 import useImage from 'use-image';
 import { useState } from 'react';
+import { useTheme } from '@mui/material/styles';
 
 
 import { initial_menuItems } from "../data/MenuItems.js";
@@ -17,7 +18,7 @@ import { AuthContext } from '../context/AuthContext';
 var Joins = [];
 
 export const JoinPainter = (props) => {
-
+    const theme = useTheme();
     const [allMaps, setAllMaps] = useState([]);
     const auth = useContext(AuthContext)
     const { testBtn } = props
@@ -432,14 +433,14 @@ export const JoinPainter = (props) => {
                             <Circle
                                 x={circ.x}
                                 y={circ.y}
-                                radius={10}
-                                fill="red"
+                                radius={theme.custom.joins.outerRadius}
+                                fill={theme.custom.joins.outerColor}
                             />
                             <Circle
                                 x={circ.x}
                                 y={circ.y}
-                                radius={7}
-                                fill="white"
+                                radius={theme.custom.joins.innerRadius}
+                                fill={theme.custom.joins.innerColor}
                             />
                         </>
                     );

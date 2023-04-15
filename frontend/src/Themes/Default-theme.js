@@ -12,6 +12,17 @@ export const theme = createTheme({
     },
     otherColor: {
       main: "#999"
-    }
+    },
+
+
   },
+  custom:{
+    joins: {
+      outerColor: "#F57663",
+      innerColor:"white",
+      outerRadius:9,
+      innerRadius:4
+    }
+  }
 })
+
