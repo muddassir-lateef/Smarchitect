@@ -39,9 +39,9 @@ export const CoordinateTranslator = (x, y, w, h, angle, type) => {
 
         if (type != "Connector") {
             // midpoint of p1 and p3
-            coords.push([(coords[0][0] + coords[2][0]) / 2, (coords[0][1] + coords[2][1]) / 2])
+           // coords.push([(coords[0][0] + coords[2][0]) / 2, (coords[0][1] + coords[2][1]) / 2])
             // midpoint of p2 and p4
-            coords.push([(coords[1][0] + coords[3][0]) / 2, (coords[1][1] + coords[3][1]) / 2])
+            //coords.push([(coords[1][0] + coords[3][0]) / 2, (coords[1][1] + coords[3][1]) / 2])
 
 
         }
@@ -59,19 +59,19 @@ export const CoordinateTranslator = (x, y, w, h, angle, type) => {
             var xt2 = 0
             var yt2 = 0
 
-            var edgeAvoidance = 5
+            var edgeAvoidance = 2
 
             for (var i = edgeAvoidance * step; i < h - edgeAvoidance * step; i += step) {
 
                 //generating points btwn p1 and p3
                 xt1 = x - (i * Math.cos((angle + 270) * (Math.PI / 180)))
                 yt1 = y - (i * Math.sin((angle + 270) * (Math.PI / 180)))                
-                coords.push([xt1, yt1])
+              //  coords.push([xt1, yt1])
 
                 //generating points btwn p2 and p4
                 xt2 = coords[1][0] - (i * Math.cos((angle + 270) * (Math.PI / 180)))
                 yt2 = coords[1][1] - (i * Math.sin((angle + 270) * (Math.PI / 180)))
-                coords.push([xt2, yt2])
+              //  coords.push([xt2, yt2])
 
                 //pushing mid points 
                 coords.push([(xt1+xt2)/2, (yt1+yt2)/2])
@@ -79,6 +79,13 @@ export const CoordinateTranslator = (x, y, w, h, angle, type) => {
             }
             
         }
+    }
+    if( type=="Wall")
+    {   
+        coords.shift()
+        coords.shift()
+        coords.shift()
+        coords.shift()
     }
     return coords
 
