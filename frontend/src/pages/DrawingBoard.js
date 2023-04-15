@@ -1,18 +1,14 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { Button, Typography, Grid } from '@mui/material';
+import {  Grid } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
-import Snackbar from '@mui/material/Snackbar';
 import { AttributeWindow } from "../components/AttributeWindow"
-import { GetMap } from '../services/apiServices';
 import { Modal, Backdrop, Fade, Box } from "@mui/material";
 import Pagination from '@mui/material/Pagination';
 import Alert from "@mui/material/Alert";
-import AlertTitle from '@mui/material/AlertTitle';
 import Stack from '@mui/material/Stack';
-import { SaveMap } from '../services/apiServices';
 
 import { Unity, useUnityContext } from "react-unity-webgl";
 
@@ -34,7 +30,7 @@ const paginationStyle = {
     backgroundColor: 'lightgray',
     borderRadius: '8px',
     padding: '16px',
-  };
+};
 
 
 export const DrawingBoard = () => {
@@ -44,42 +40,17 @@ export const DrawingBoard = () => {
     const [exportData, setExportData] = React.useState([]);
     const [ImageObjects, setImageObjects] = React.useState([]);
     const [newId, setNewId] = React.useState('1');
-    const [open, setOpen] = React.useState(false);
     const [testBtn, setTestBtn] = React.useState(1)
     const [testBtn2, setTestBtn2] = React.useState(1)
     const [mapName, setMapName] = React.useState("")
     const [modalOpen, setModalOpen] = useState(false);
     const [disable3D, setDisable3D] = useState(true)
-    const [statusFlag, setStatusFlag] = useState(0)
-
-    const StatusAlert = () => {
-        if(statusFlag == 0)
-        {
-            
-        }
-        if(statusFlag === 1)
-        {
-          return(<Alert severity="success">This is a success alert — check it out!</Alert>)
-        }
-        if(statusFlag === 2)
-        {
-          return(<Alert severity="error">Class of this Year already Exists!</Alert>)
-        }
-        if(statusFlag === 3)
-        {
-          return(<Alert severity="error"> Invalid Class Year</Alert>)
-        }
-        if(statusFlag === 4)
-        {
-          return(<Alert severity="error"> Class Year must be greater than 0</Alert>)
-        }
-      } 
 
 
     const openModal = (username) => {
         setModalOpen(true);
     };
-    async function closeModal () {
+    async function closeModal() {
         setModalOpen(false);
         await unload();
     };
@@ -113,12 +84,12 @@ export const DrawingBoard = () => {
     });
     useEffect(() => {
         if (modalOpen == true && connections.length > 0 && isLoaded) {
-            for(var i=0;i<connections.length;i++){
-            
-          //  for (var i = 1; i < 2; i++) {
+            for (var i = 0; i < connections.length; i++) {
+
+                //  for (var i = 1; i < 2; i++) {
                 console.log(parseConnection(connections[i]))
-                setTimeout(sendMessage("MapGenerator", "GenerateAssetP", parseConnection(connections[i])),3000)
-                ;
+                setTimeout(sendMessage("MapGenerator", "GenerateAssetP", parseConnection(connections[i])), 3000)
+                    ;
 
             }
         }
@@ -132,39 +103,39 @@ export const DrawingBoard = () => {
         setPage(value);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("MAP DIMENSIONS: ", dbContext.mapDim)
     }, [])
-    
+
 
     return (
         <Grid sx={{ display: 'flex', pt: 4, pl: 1 }}  >
             <DrawingToolBox />
             <Grid item>
-                { dbContext.showPagination &&
-                <Stack spacing={2} xs ={12}>
-                {/*{  <Typography variant='h6'>Generated Map #{page}</Typography>*/}
-                    <Pagination page={page} onChange={handleChange} count={5} shape="rounded" size='large' xs={12} />
-                </Stack>
+                {dbContext.showPagination &&
+                    <Stack spacing={2} xs={12}>
+                        {/*{  <Typography variant='h6'>Generated Map #{page}</Typography>*/}
+                        <Pagination page={page} onChange={handleChange} count={5} shape="rounded" size='large' xs={12} />
+                    </Stack>
                 }
-            <DrawingCanvas
-                testBtn={testBtn}
-                mapToDraw = {page-1}
-                testBtn2={testBtn2}
-                mapName={mapName}
-                enable3D={enable3D}
-                selectedItemCoordinates={selectedItemCoordinates}
-                setSelectedItemCoordinates={setSelectedItemCoordinates}
-                scale={scale}
-                exportData={exportData}
-                setExportData={setExportData}
-                ImageObjects={ImageObjects}
-                setImageObjects={setImageObjects}
-                newId={newId}
-                setNewId={setNewId}
-                setCons={setConnections}
-                setLabs = {setLabels}
-            />
+                <DrawingCanvas
+                    testBtn={testBtn}
+                    mapToDraw={page - 1}
+                    testBtn2={testBtn2}
+                    mapName={mapName}
+                    enable3D={enable3D}
+                    selectedItemCoordinates={selectedItemCoordinates}
+                    setSelectedItemCoordinates={setSelectedItemCoordinates}
+                    scale={scale}
+                    exportData={exportData}
+                    setExportData={setExportData}
+                    ImageObjects={ImageObjects}
+                    setImageObjects={setImageObjects}
+                    newId={newId}
+                    setNewId={setNewId}
+                    setCons={setConnections}
+                    setLabs={setLabels}
+                />
             </Grid>
             <AttributeWindow
                 disable3D={disable3D}
@@ -183,9 +154,9 @@ export const DrawingBoard = () => {
                     // console.log("Setting name to: ", newname)
                     setMapName(newname)
                 }}
-                connections = {connections}
-                labels = {labels}
-                mapName = {mapName}
+                connections={connections}
+                labels={labels}
+                mapName={mapName}
 
             />
 
@@ -226,7 +197,7 @@ export const DrawingBoard = () => {
                     </Box>
                 </Fade>
             </Modal>
-                                    
+
         </Grid>
 
     );

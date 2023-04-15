@@ -7,12 +7,11 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { register } from '../services/apiServices';
 import { AuthContext } from '../context/AuthContext';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-const theme = createTheme();
+import {theme} from '../Themes/Default-theme';
 
 export default function SignUp() {
     const nav = useNavigate()
@@ -34,7 +33,6 @@ export default function SignUp() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <Box
@@ -113,6 +111,5 @@ export default function SignUp() {
                 </Box>
 
             </Container>
-        </ThemeProvider>
     );
 }

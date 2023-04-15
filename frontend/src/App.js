@@ -4,10 +4,10 @@ import { AuthContext } from "./context/AuthContext";
 import { DrawingBoardContext } from "./context/DrawingBoardContext";
 
 import { BrowserRouter as Router } from "react-router-dom";
-import { Box, Grid, Toolbar } from "@mui/material";
+import { Box, Grid, ThemeProvider, Toolbar } from "@mui/material";
 import { LoggedInRoutes, LoggedOutRoutes } from "./routes/AllRoutes";
 import NavigationUI from './components/NavigationUI'
-
+import {theme} from "./Themes/Default-theme"
 
 function App() {
   const [selectedTool, selectTool] = useState("")
@@ -28,7 +28,7 @@ function App() {
   const [selectedMap, setSelectedMap] = useState("");
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [showPag, setShowPag] = useState(false)
-  const [mapDimensions, setMapDimensions] = useState({w:100, h:100})
+  const [mapDimensions, setMapDimensions] = useState({ w: 100, h: 100 })
   const login = useCallback(() => {
     setIsLoggedIn(true);
   }, []);
@@ -54,11 +54,12 @@ function App() {
     setShowPag(s);
   }, []);
   const setMap_Dimensions = useCallback((w, h) => {
-    setMapDimensions({w, h});
+    setMapDimensions({ w, h });
   }, []);
   let routes = loggedIn ? LoggedInRoutes() : LoggedOutRoutes();
 
   return (
+    <ThemeProvider  theme={theme}>
     <AuthContext.Provider
       value={{
         isLogged: loggedIn,
@@ -109,7 +110,7 @@ function App() {
         </Router>
       </DrawingBoardContext.Provider>
     </AuthContext.Provider>
-
+  </ThemeProvider >
   );
 }
 
