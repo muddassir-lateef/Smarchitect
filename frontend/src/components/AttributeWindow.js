@@ -119,7 +119,7 @@ export const AttributeWindow = (props) => {
         }
         if(statusFlag === 3)
         {
-          return(<Alert severity="warning">Saving Floorplan!</Alert>)
+          return(<Alert severity="warning">Saving Floorplan...</Alert>)
         }
 
       } 

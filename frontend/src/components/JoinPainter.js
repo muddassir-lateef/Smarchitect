@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
-import { Modal } from '@mui/material';
+import { Button, Modal } from '@mui/material';
 import { Circle, Text, Rect } from 'react-konva';
 import useImage from 'use-image';
 import { useState } from 'react';
@@ -39,6 +39,7 @@ export const JoinPainter = (props) => {
     const { selectedItemCoordinates } = props
     const [newJoinId, setNewJoinId] = React.useState('1');
     const [labels, setLabels] = React.useState([])
+    const [textList, setTextList] = React.useState([])
 
     const dbContext = useContext(DrawingBoardContext);
 
@@ -424,8 +425,22 @@ export const JoinPainter = (props) => {
 
 
 
+
     return (
         <>
+            <Rect 
+                x ={20}
+                y={20}
+                width = {50}
+                height = {20}
+                fill={'red'}
+                stroke={'black'}
+                strokeWidth={2}
+                onClick = {()=>{
+                    console.log("Add Label clicked")
+                }}>
+                
+            </Rect>
             {
                 Joins.map((circ, i) => {
                     return (
@@ -448,21 +463,22 @@ export const JoinPainter = (props) => {
             }
             {
                 labels.length > 0 &&
-                labels.map((lab) => {
+                labels.map((lab, index) => {
                     return (<>
                         <Rect
-                            x={lab.x + 18}
+                            x={lab.x - 20}
                             y={lab.y}
                             width={lab.label.length * 7}
                             height={20}
                             fill="#FFFFFF"
                             opacity={0.9}
                         />
-                        <Text text={lab.label.charAt(0).toUpperCase() + lab.label.slice(1)} x={lab.x + 20} y={lab.y} />
+                        <Text text={lab.label.charAt(0).toUpperCase() + lab.label.slice(1)} x={lab.x - 20} y={lab.y} />
                     </>
                     );
                 })
             }
+            
 
         </>
 
