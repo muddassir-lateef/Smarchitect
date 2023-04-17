@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { Button, Modal } from '@mui/material';
 import { Circle, Text, Rect } from 'react-konva';
@@ -357,7 +357,9 @@ export const JoinPainter = (props) => {
                     console.log('Setting Labels: ', res.data.Labels)
                     for (var i = 0; i < res.data.Labels.length; i++) {
                         res.data.Labels[i].type = 'label'
-                        tempCons.push(res.data.Labels[i])
+                        var tempObj = res.data.Labels[i]
+                        tempObj['id'] = i   //assign id
+                        tempCons.push(tempObj)
                     }
                 }
                 auth.setSelectedMap("")
@@ -374,7 +376,7 @@ export const JoinPainter = (props) => {
                     setConnections(tempCons)
 
                     //makeConnections(ImageObjects, Joins)
-                    console.log("This should not be printed")
+                    //console.log("This should not be printed")
                     makeMap(tempCons)
 
                 }
@@ -423,8 +425,14 @@ export const JoinPainter = (props) => {
         makeMap(connections)
     }, [auth.selectedMap])
 
+    const handleLabelChange = (id, newLabel) => {
+        setLabels(prevLabels =>
+            prevLabels.map(lab => (lab.id === id ? { ...lab, label: newLabel } : lab))
+        );
+      };
 
-
+  
+      useEffect(()=>{console.log("Labels Changed, new: ", labels)},[labels])
 
     return (
         <>
@@ -466,6 +474,7 @@ export const JoinPainter = (props) => {
                 labels.map((lab, index) => {
                     return (<>
                         <Rect
+                            key={lab.id}
                             x={lab.x - 20}
                             y={lab.y}
                             width={lab.label.length * 7}
@@ -473,7 +482,12 @@ export const JoinPainter = (props) => {
                             fill="#FFFFFF"
                             opacity={0.9}
                         />
-                        <Text text={lab.label.charAt(0).toUpperCase() + lab.label.slice(1)} x={lab.x - 20} y={lab.y} />
+                        <Text text={lab.label.charAt(0).toUpperCase() + lab.label.slice(1)} x={lab.x - 20} y={lab.y} onDblClick={() => {
+              const newText = window.prompt('Update Label', lab.label);
+              if (newText) {
+                handleLabelChange(lab.id, newText);
+              }
+            }} />
                     </>
                     );
                 })
