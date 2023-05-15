@@ -436,7 +436,7 @@ export const JoinPainter = (props) => {
 
     return (
         <>
-            <Rect 
+          { /* <Rect 
                 x ={20}
                 y={20}
                 width = {50}
@@ -448,7 +448,7 @@ export const JoinPainter = (props) => {
                     console.log("Add Label clicked")
                 }}>
                 
-            </Rect>
+            </Rect>}*/}
             {
                 Joins.map((circ, i) => {
                     return (
