@@ -52,22 +52,15 @@ export const DrawingToolBox = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#F57663",
-                      color: "#fff",
-                      borderRadius: "10px 10px 0 0" // Add this property for rounded top edges only
           }}>
             <Typography sx={{ fontSize: 20, fontWeight : "bold"}} color = "black" variant="h7" padding={2} align="center">Entities</Typography>
             </Box>
             <Stack spacing={2} padding={2}  >
-                <Tooltip title="Wall Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
-        color: "#000000",
-        "&:hover": {
-          backgroundColor: theme.palette.primary.main,
-        }, }}>
+                <Tooltip title="Wall Tool" enterDelay={500} placement="right" >
 
                     <Button
                         variant={(
-                            dbContext.selectedTool == 'Wall' ? "outlined" : "text"
+                            dbContext.selectedTool == 'Wall' ? "contained" : "text"
                         )}
                         value="Wall"
                         onClick={handleToolButton}
@@ -75,15 +68,11 @@ export const DrawingToolBox = () => {
                         <LinearScaleIcon />
                     </Button>
                 </Tooltip>
-                <Tooltip title="Door Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
-        color: "#000000",
-        "&:hover": {
-          backgroundColor: theme.palette.primary.main,
-        }, }}>
+                <Tooltip title="Door Tool" enterDelay={500} placement="right" >
 
                     <Button
                         variant={(
-                            dbContext.selectedTool == 'Door' ? "outlined" : "text"
+                            dbContext.selectedTool == 'Door' ? "contained" : "text"
                         )}
                         value="Door"
                         onClick={handleToolButton}
@@ -92,15 +81,11 @@ export const DrawingToolBox = () => {
                     </Button>
                 </Tooltip>
 
-                <Tooltip title="Window Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
-        color: "#000000",
-        "&:hover": {
-          backgroundColor: theme.palette.primary.main,
-        }, }}>
+                <Tooltip title="Window Tool" enterDelay={500} placement="right" >
 
                     <Button
                         variant={(
-                            dbContext.selectedTool == 'Window' ? "outlined" : "text"
+                            dbContext.selectedTool == 'Window' ? "contained" : "text"
                         )}
                         value="Window"
                         onClick={handleToolButton}
@@ -109,15 +94,11 @@ export const DrawingToolBox = () => {
                     </Button>
                 </Tooltip>
 
-                <Tooltip title="Stairs Tool" enterDelay={500} placement="right" sx = {{ backgroundColor: "#F57663",
-        color: "#000000",
-        "&:hover": {
-          backgroundColor: theme.palette.primary.main,
-        }, }}>
+                <Tooltip title="Stairs Tool" enterDelay={500} placement="right" >
 
                     <Button
                         variant={(
-                            dbContext.selectedTool == 'Stairs' ? "outlined" : "text"
+                            dbContext.selectedTool == 'Stairs' ? "contained" : "text"
                         )}
                         value="Stairs"
                         onClick={handleToolButton}
