@@ -25,6 +25,8 @@ To run the Django backend, all the necessary library code lines are included in 
 * pip install pymongo==3.12.2
 * pip install djangorestframework
 * pip install django-cors-headers
+* pip install certifi
 * python manage.py makimigrations api
 * python manage.py migrate api
 * python manage.py runserver
+
