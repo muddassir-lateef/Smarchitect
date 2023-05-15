@@ -96,7 +96,7 @@ function App() {
           }}
         >
           <Router >
-              <Grid item container direction="column" sx={{height: '10%' ,backgroundColor:theme.custom.palette.background}}>
+              <Grid item container direction="column" sx={{height: '10%' }}>
 
                 {loggedIn &&
                   <NavigationUI />

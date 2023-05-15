@@ -26,7 +26,7 @@ export const theme = createTheme({
     canvas: {
       width: 800,
       height:800,
-      bgColor:"white",
+      bgColor:"#F4F5FA",
       bRadius:10
     },
     palette:{
