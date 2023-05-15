@@ -22,7 +22,18 @@ export const theme = createTheme({
       innerColor:"white",
       outerRadius:9,
       innerRadius:4
-    }
+    },
+    canvas: {
+      width: 800,
+      height:800,
+      bgColor:"white",
+      bRadius:10
+    },
+    palette:{
+        background:"#F4F5FA"
+      
+    }    
+
   }
 })
 

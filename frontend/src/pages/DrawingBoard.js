@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import {  Grid } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { DrawingToolBox } from "../components/DrawingToolBox"
 import { DrawingCanvas } from "../components/DrawingCanvas"
@@ -34,6 +34,7 @@ const paginationStyle = {
 
 
 export const DrawingBoard = () => {
+
     const dbContext = useContext(DrawingBoardContext);
     const [selectedItemCoordinates, setSelectedItemCoordinates] = React.useState({ x: 0, y: 0, w: 0, h: 0, angle: 0 })
     const [scale, setScale] = React.useState(1)
@@ -84,10 +85,10 @@ export const DrawingBoard = () => {
     });
     useEffect(() => {
         if (modalOpen == true && connections.length > 0 && isLoaded) {
-            var floor=""
-            floor+=parseInt(dbContext.mapDim.w)
-            floor+=","            
-            floor+=parseInt(dbContext.mapDim.h)
+            var floor = ""
+            floor += parseInt(dbContext.mapDim.w)
+            floor += ","
+            floor += parseInt(dbContext.mapDim.h)
             setTimeout(sendMessage("MapGenerator", "GenerateFloorP", floor, 3000));
 
             for (var i = 0; i < connections.length; i++) {
@@ -116,32 +117,33 @@ export const DrawingBoard = () => {
 
     return (
         <Grid sx={{ display: 'flex', pt: 4, pl: 1 }}  >
-            <DrawingToolBox />
-            <Grid item>
+                <DrawingToolBox />
+
+            <Grid item sx={{ padding: 2 }}>
                 {dbContext.showPagination &&
                     <Stack spacing={2} xs={12}>
                         {/*{  <Typography variant='h6'>Generated Map #{page}</Typography>*/}
                         <Pagination page={page} onChange={handleChange} count={5} shape="rounded" size='large' xs={12} />
                     </Stack>
                 }
-                <DrawingCanvas
-                    testBtn={testBtn}
-                    mapToDraw={page - 1}
-                    testBtn2={testBtn2}
-                    mapName={mapName}
-                    enable3D={enable3D}
-                    selectedItemCoordinates={selectedItemCoordinates}
-                    setSelectedItemCoordinates={setSelectedItemCoordinates}
-                    scale={scale}
-                    exportData={exportData}
-                    setExportData={setExportData}
-                    ImageObjects={ImageObjects}
-                    setImageObjects={setImageObjects}
-                    newId={newId}
-                    setNewId={setNewId}
-                    setCons={setConnections}
-                    setLabs={setLabels}
-                />
+                    <DrawingCanvas
+                        testBtn={testBtn}
+                        mapToDraw={page - 1}
+                        testBtn2={testBtn2}
+                        mapName={mapName}
+                        enable3D={enable3D}
+                        selectedItemCoordinates={selectedItemCoordinates}
+                        setSelectedItemCoordinates={setSelectedItemCoordinates}
+                        scale={scale}
+                        exportData={exportData}
+                        setExportData={setExportData}
+                        ImageObjects={ImageObjects}
+                        setImageObjects={setImageObjects}
+                        newId={newId}
+                        setNewId={setNewId}
+                        setCons={setConnections}
+                        setLabs={setLabels}
+                    />
             </Grid>
             <AttributeWindow
                 disable3D={disable3D}

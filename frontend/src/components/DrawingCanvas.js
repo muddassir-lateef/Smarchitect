@@ -3,12 +3,14 @@ import { DrawingBoardContext } from "../context/DrawingBoardContext";
 import { Stage, Layer, Image, Transformer } from 'react-konva';
 import { ImagePainter } from './ImagePainter'
 import { JoinPainter } from './JoinPainter'
-
+import { useTheme } from '@mui/material';
 import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from '../util/snapping_util';
 
 export const DrawingCanvas = (props) => {
-    const stageW = 800
-    const stageH = 800
+    const theme = useTheme();
+//800 x 800
+    const stageW = theme.custom.canvas.width
+    const stageH = theme.custom.canvas.height
 
     const { testBtn } = props
     const { testBtn2 } = props
@@ -43,8 +45,10 @@ export const DrawingCanvas = (props) => {
     return (
         <Stage
             style={{
-                border: '2px solid',
+                borderRadius :theme.custom.canvas.bRadius,
+                backgroundColor:theme.custom.canvas.bgColor, 
                 marginTop: '2px',
+                
             }}
             ref={stageRef}
             onMouseDown={(e) => {
