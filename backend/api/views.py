@@ -1,5 +1,4 @@
 import json
-import certifi
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -13,7 +12,7 @@ from api.genetic_algo import GA_driver
 
 @csrf_exempt
 def userAPI(request,id=0):
-    client = pymongo.MongoClient(connectionString, tlsCAFile=certifi.where())
+    client = pymongo.MongoClient(connectionString)
     db = client['smarchitectdb']
 
 

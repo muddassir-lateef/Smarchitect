@@ -50,7 +50,8 @@ CORS_ORIGIN_WHITELIST = [
     "https://example.com",
     "https://sub.example.com",
     "http://localhost:3000",
-    "http://127.0.0.1:9000"
+    "http://127.0.0.1:9000",
+    "http://ec2-3-6-39-17.ap-south-1.compute.amazonaws.com:3000"
 ]
 
 MIDDLEWARE = [
