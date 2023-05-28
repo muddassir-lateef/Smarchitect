@@ -8,16 +8,16 @@ import { getLineGuideStops, getObjectSnappingEdges, getGuides, drawGuides } from
 
 export const DrawingCanvas = (props) => {
     const theme = useTheme();
-//800 x 800
+    //800 x 800
     const stageW = theme.custom.canvas.width
     const stageH = theme.custom.canvas.height
 
     const { testBtn } = props
     const { testBtn2 } = props
-    const {enable3D} = props
-    const {setCons} = props
-    const {setLabs} = props
-    const {mapToDraw} = props
+    const { enable3D } = props
+    const { setCons } = props
+    const { setLabs } = props
+    const { mapToDraw } = props
 
     const { ImageObjects } = props
     const { setImageObjects } = props
@@ -45,10 +45,10 @@ export const DrawingCanvas = (props) => {
     return (
         <Stage
             style={{
-                borderRadius :theme.custom.canvas.bRadius,
-                backgroundColor:theme.custom.canvas.bgColor, 
+                borderRadius: theme.custom.canvas.bRadius,
+                backgroundColor: theme.custom.canvas.bgColor,
                 marginTop: '2px',
-                
+
             }}
             ref={stageRef}
             onMouseDown={(e) => {
@@ -196,7 +196,7 @@ export const DrawingCanvas = (props) => {
                     setImageChanged={setImageChanged}
                     ImageChanged={ImageChanged}
                 />
-                <JoinPainter mapToDraw ={mapToDraw} setCons = {setCons} setLabs={setLabs} mapName={props.mapName} newId={newId} setNewId={setNewId} setImageObjects={setImageObjects} testBtn={testBtn} testBtn2={testBtn2} ImageObjects={ImageObjects} ImageChanged={ImageChanged} selectedItemCoordinates={selectedItemCoordinates} enable3D = {enable3D}/>
+                <JoinPainter mapToDraw={mapToDraw} setCons={setCons} setLabs={setLabs} mapName={props.mapName} newId={newId} setNewId={setNewId} setImageObjects={setImageObjects} testBtn={testBtn} testBtn2={testBtn2} ImageObjects={ImageObjects} ImageChanged={ImageChanged} selectedItemCoordinates={selectedItemCoordinates} enable3D={enable3D} />
             </Layer>
         </Stage>
 

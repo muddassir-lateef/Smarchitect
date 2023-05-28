@@ -24,7 +24,7 @@ export const theme = createTheme({
       innerRadius:4
     },
     canvas: {
-      width: 800,
+      width: 1300,
       height:800,
       bgColor:"#F4F5FA",
       bRadius:10
