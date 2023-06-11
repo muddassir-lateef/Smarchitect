@@ -18,123 +18,57 @@ import { AuthContext } from '../context/AuthContext';
 
 var Joins = [];
 
+function getOverlapDistanceV(line1, line2, variance) {
 
-
-function distanceBetweenParallelLines(segment1, segment2, tolerance) {
-    // Extract the endpoint coordinates of the first line segment
-    const [x1, y1] = segment1[0];
-    const [x2, y2] = segment1[1];
-    // Extract the endpoint coordinates of the second line segment
-    const [x3, y3] = segment2[0];
-    const [x4, y4] = segment2[1];
-
-
-    if (x1 - x2 < tolerance && x3 - x4 < tolerance) {
-        return Math.abs(x1 - x3);
-    }
-    // Calculate the slope of the first line
-    const slope1 = (y2 - y1) / (x2 - x1);
-
-
-    // Calculate the slope of the second line
-    const slope2 = (y4 - y3) / (x4 - x3);
-
-    // Calculate the distance between the lines
-    const distance = Math.abs(y3 - y1 - slope1 * (x3 - x1)) / Math.sqrt(1 + slope1 * slope1);
-
-    return distance;
-
-
-
-}
-
-function getOverlapDistanceV(line1, line2, variance, aVar) {
 
     for (var i = 0; i < 2; i++) {
         for (var j = 0; j < 2; j++) {
             line1[i][j] = Math.round(line1[i][j] * 10) / 10
         }
-
     }
 
     for (var i = 0; i < 2; i++) {
         for (var j = 0; j < 2; j++) {
             line2[i][j] = Math.round(line2[i][j] * 10) / 10
         }
-
     }
-    var oD = getOverlapDistance(line1, line2, aVar)
 
-    if (oD > 0) {
+    for (var n = 0; n < 2; n++) {
+        for (var i = 0; i < 2; i++) {
+            for (var j = 0; j < 2; j++) {
+                for (var k = 0; k < 2; k++) {
+                    for (var l = 0; l < 2; l++) {
+                        if (line1[i][j] != line2[k][l] && Math.abs(line1[i][j] - line2[k][l]) < variance) {
 
+                            if (line1[i][j] > line2[k][l]) {
+                                line1[i][j] = line2[k][l]
+                            }
+                            else {
+                                line2[k][l] = line1[i][j]
 
-        return oD
+                            }
 
-    }
-    else if (oD == -1) {
-
-        return 0
-    }
-    else {
-
-
-        var dist = distanceBetweenParallelLines(line1, line2, aVar)
-
-        if (dist == 0 || dist > variance) {
-
-            return 0
+                        }
+                    }
+                }
+            }
         }
-        var ang = getAngleWithXAxis(line1, aVar)
-        var ang1 = 180 - 90 - ang
-        var ang2 = 90 - ang1
-        var ang3 = 180 - 90 - ang2
-
-
-        var cosine = Math.cos(ang3 * (Math.PI / 180))
-        var sine = Math.sin(ang3 * (Math.PI / 180))
-
-        var x = dist * cosine
-        var y = dist * sine
-
-
-        x = Math.round(x * 10) / 10
-        y = Math.round(y * 10) / 10
-
-
-        var ln1 = [[line1[0][0] + x, line1[0][1] - y], [line1[1][0] + x, line1[1][1] - y]]
-        oD = getOverlapDistance(ln1, line2, aVar)
-        if (oD > 0) {
-            return oD
-
-        }
-        ln1 = [[line1[0][0] - x, line1[0][1] + y], [line1[1][0] - x, line1[1][1] + y]]
-        oD = getOverlapDistance(ln1, line2, aVar)
-        if (oD > 0) {
-            return oD
-
-        }
-
-
-
-
-
-
     }
 
 
-
-
-
-    return 0
+    var oD = getOverlapDistance(line1, line2)
+    return oD
 
 }
-function areLinesParallel(point1, point2, point3, point4, tolerance) {
+
+
+function areLinesParallel(point1, point2, point3, point4) {
+
+
     // Check if both line segments are vertical
 
 
-    if (Math.abs(point1[0] - point2[0]) < tolerance && Math.abs(point3[0] - point4[0]) < tolerance) {
-
-
+    if (point1[0] == point2[0] && point3[0] == point4[0]) {
         return true;
     }
 
@@ -147,16 +81,19 @@ function areLinesParallel(point1, point2, point3, point4, tolerance) {
         slope2 = (point4[1] - point3[1]) / (point4[0] - point3[0]);
     }
 
+
     // Check if the slopes are equal (within a small tolerance)
 
-    if (Math.abs(Math.abs(slope1) - Math.abs(slope2)) < tolerance){
+    if (slope1 == slope2) {
+
         return true;
+
     } else {
         return false;
     }
 }
 
-function getOverlapDistance(line1, line2, aVar) {
+function getOverlapDistance(line1, line2) {
 
 
 
@@ -171,9 +108,9 @@ function getOverlapDistance(line1, line2, aVar) {
 
 
     // Check if the line segments are parallel
-    if (!areLinesParallel([x1, y1], [x2, y2], [x3, y3], [x4, y4], aVar)) {
+    if (!areLinesParallel([x1, y1], [x2, y2], [x3, y3], [x4, y4])) {
 
-        return -1; // Line segments are not parallel, no overlap
+        return 0; // Line segments are not parallel, no overlap
     }
 
     // Calculate max_start and min_end
@@ -190,8 +127,8 @@ function getOverlapDistance(line1, line2, aVar) {
     var overlap_distancey = min_endy - max_starty;
 
 
+    if (!areLinesParallel([x1, y1], [x2, y2], [max_startx, max_starty], [min_endx, min_endy])) {
 
-    if (!areLinesParallel([x1, y1], [x2, y2], [max_startx, max_starty], [min_endx, min_endy], aVar)) {
 
         return 0; // Line segments are not parallel, no overlap
 
@@ -208,27 +145,10 @@ function getOverlapDistance(line1, line2, aVar) {
 
     return 0;
 }
-function getAngleWithXAxis(points, tolerance) {
-    // Extracting the coordinates from the points array
-    const [x1, y1] = points[0];
-    const [x2, y2] = points[1];
-    if (Math.abs(x2 - x1) < tolerance) {
-        return 90
-
-    }
-    // Calculating the angle in radians
-    const angleInRadians = Math.atan2(y2 - y1, x2 - x1);
-
-    // Converting the angle to degrees
-    const angleInDegrees = (angleInRadians * 180) / Math.PI;
-
-    return angleInDegrees;
-}
 
 function ID2Rooms(id2j, cycle) {
-    var corners=[]
-    for (var i=0;i<cycle.length;i++)
-    {
+    var corners = []
+    for (var i = 0; i < cycle.length; i++) {
         corners.push(id2j[cycle[i]]);
     }
 
@@ -280,7 +200,7 @@ export const DetectRooms = (nJoins, Joins, connections) => {
             console.log("🚀 ~ file: roomDetectutils.js:257 ~ DetectRooms ~ l2:", l2)
 
 
-            var oDist = getOverlapDistanceV(l1, l2, 6,15)
+            var oDist = getOverlapDistanceV([...l1], [...l2], 5)
             console.log("🚀 ~ file: roomDetectutils.js:261 ~ DetectRooms ~ oDist:", oDist)
 
             if (oDist > 0 && oDist <= getDistance(l1[0][0], l1[0][1], l1[1][0], l1[1][1])) {
@@ -318,7 +238,7 @@ export const DetectRooms = (nJoins, Joins, connections) => {
 
                             var l2 = [iD2Join[onPairs[k][0]], iD2Join[onPairs[k][1]]]
 
-                            var odist = getOverlapDistanceV(l1, l2, 6, 15)
+                            var odist = getOverlapDistanceV([...l1], [...l2], 5)
 
 
                             if (odist > 0) {
@@ -337,7 +257,7 @@ export const DetectRooms = (nJoins, Joins, connections) => {
                 }
 
             }
-            
+
         }
         console.log("🚀 ~ file: roomDetectutils.js:309 ~ DetectRooms ~ onPairs:", onPairs)
 
