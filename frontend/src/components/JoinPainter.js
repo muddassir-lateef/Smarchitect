@@ -318,6 +318,7 @@ export const JoinPainter = (props) => {
             }
 
         }
+        //console.log("SETTING LABELS HEREE: ", temp_labels)
         setLabels(temp_labels)
         ids = String(parseInt(ids, 10) + 1)
 

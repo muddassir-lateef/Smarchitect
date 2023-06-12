@@ -558,12 +558,14 @@ def getRoomCenters(rooms):
     # Extract the coordinates for the opposite corners of the rectangle
     x1, y1 = room[0]
     x2, y2 = room[1]
-    y2 = room[2][1]
+    
+    x3, y3 = room[2]
+    x4, y4 = room[3]
     
     # Calculate the midpoint between the two corners
     center_x = ((x1 + x2) / 2) 
-    center_y = (y1 + y2) / 2
-    room_centers.append({'x' : center_x, 'y': center_y, 'type': 'label', 'label':room[4]})
+    center_y = (y1 + y3) / 2
+    room_centers.append({'x' : center_x, 'y': center_y, 'type': 'label', 'label':room[4], 'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2, 'x3': x3, 'y3': y3, 'x4': x4, 'y4': y4})
   return room_centers
 
 
