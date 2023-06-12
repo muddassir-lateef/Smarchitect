@@ -368,7 +368,7 @@ def fitness(inputG,gene,trees):
 
 def validate_repair_gene(gene, Nr, cat):
   if (len(gene) < 4):
-    print("Gene length too small")
+    #print("Gene length too small")
     return gene
 
   for i in range (len(gene)):
@@ -499,12 +499,12 @@ def checkDuplicate(chr,pop):
     return False
 
 def GA(pop_size, generations_count, Nr, cat,inputG,trees):
-    print("Population: ")
+    #print("Population: ")
     pop = gen_population(pop_size, Nr, cat)
-    print(pop)
+    #print(pop)
     
     for i in range (generations_count):
-        print("Generation "+str(i+1)+":")
+        #print("Generation "+str(i+1)+":")
         noOfCrossover=int(len(pop)*0.5)
         noOfMutations=int(len(pop)*2.5)
         for n in range(noOfCrossover):
@@ -547,7 +547,7 @@ def GA(pop_size, generations_count, Nr, cat,inputG,trees):
         for chrom in pop:
             avgFitness+=chrom[1]
         avgFitness=avgFitness/len(pop)
-        print("Fitness :"+str(avgFitness))
+        #print("Fitness :"+str(avgFitness))
 
 
     return pop[:5]
@@ -675,7 +675,7 @@ def InsertDoorConnections(connections,doors):
         connections.append({"x1":newLines[2][0][0],"y1":newLines[2][0][1],"x2":newLines[2][1][0],"y2":newLines[2][1][1],"type":"Wall"})
     return connections
 
-def GA_driver(connects, width, height):
+def GA_driver(connects, width, height,  kitchen_p, living_p, drawing_p, car_p, bath_p, bed_p, gar_p, kitchen_per, living_per, drawing_per, car_per, bath_per, bed_per, gar_per):
 
     Roms=getRooms(connects)
     conns=getConnectionList(connects)
@@ -685,22 +685,22 @@ def GA_driver(connects, width, height):
     "connections":conns,
     "rooms":Roms,
     "percents":{
-        "livingroom":40,
-        "kitchen":10,
-        "bedroom":15,
-        "bathroom":5,
-        "carporch":30,
-        "garden":10,
-        "drawingroom":10
+        "livingroom":float(living_per),
+        "kitchen":float(kitchen_per),
+        "bedroom":float(bed_per),
+        "bathroom":float(bath_per),
+        "carporch":float(car_per),
+        "garden":float(gar_per),
+        "drawingroom":float(drawing_per)
     },
     "proportions":{
-        "livingroom":0.8,
-        "kitchen":0.6,
-        "bedroom":0.8,
-        "bathroom":0.7,
-        "carporch":0.5,
-        "garden":0.3,
-        "drawingroom":0.8
+        "livingroom":float(living_p),
+        "kitchen":float(kitchen_p),
+        "bedroom":float(bed_p),
+        "bathroom":float(bath_p),
+        "carporch":float(car_p),
+        "garden":float(gar_p),
+        "drawingroom":float(drawing_per)
     }
 
     }
@@ -740,6 +740,6 @@ def GA_driver(connects, width, height):
     jsn,rm=geneToJsonMap(inputG,top5[0][0],alltree,Roms)
     jsonn.append(jsn)
     rooms.append(rm)
-    print(rooms)
+    #print(rooms)
     return {"maps":jsonn ,"room":rooms}
 

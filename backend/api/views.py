@@ -161,11 +161,32 @@ def GenerateFloorPlan(request):
         height = 500
         width = req['w']
         height = req['h']
-        print("REQ: {}".format(graphEdges))
-        print("W: {}".format(width))
-        print("H: {}".format(height))
-        print(graphEdges)
-        generated_map = GA_driver(graphEdges, width, height)
+        kitchen_p = req['living_p']
+        living_p = req['kitchen_p']
+        drawing_p = req['drawing_p']
+        car_p = req['car_p']
+        bath_p = req['bath_p']
+        bed_p = req['bed_p']
+        gar_p = req['gar_p']
+        kitchen_per = req['kitchen_per']
+        living_per = req['living_per']
+        drawing_per = req['drawing_per']
+        car_per = req['car_per']
+        bath_per = req['bath_per']
+        bed_per = req['bed_per']
+        gar_per = req['gar_per']
+        #print("REQ: {}".format(graphEdges))
+        #print("W: {}".format(width))
+        #print("H: {}".format(height))
+        print("K: {}".format(kitchen_p))
+        print("L: {}".format(living_p))
+        print("D: {}".format(drawing_p))
+        print("Ba: {}".format(bath_p))
+        print("Be: {}".format(bed_p))
+        print("G: {}".format(gar_p))
+        print("C: {}".format(car_p))
+        #print(graphEdges)
+        generated_map = GA_driver(graphEdges, width, height,  kitchen_p, living_p, drawing_p, car_p, bath_p, bed_p, gar_p, kitchen_per, living_per, drawing_per, car_per, bath_per, bed_per, gar_per)
         print(generated_map)
         
     return JsonResponse(generated_map, safe = False, status = 201)

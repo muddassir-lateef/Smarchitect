@@ -213,7 +213,7 @@ const GenerateNewMap = () => {
 
     const generateBtnClicked = () => {
         console.log(kp,gp,lp)
-        GenerateMap(connectors, plotDim.x, plotDim.y, lp, kp, bedp, bathp, cp, gp, dp, lper, kper, bedper, bathper, cper, gper, dper).then((res) => {
+        GenerateMap(connectors, plotDim.x, plotDim.y, lp, kp, dp, cp, bathp, bedp, gp, lper, kper, dper, cper, bathper, bedper, gper).then((res) => {
             console.log("Generated Map: ", res.data)
             auth.setSelectedMap(res.data.maps)
             auth.setSelectedRooms(res.data.room)
