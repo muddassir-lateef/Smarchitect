@@ -90,7 +90,7 @@ export const DrawingBoard = () => {
             floor += ","
             floor += parseInt(dbContext.mapDim.h)
             setTimeout(sendMessage("MapGenerator", "GenerateFloorP", floor, 3000));
-
+            console.log(labels)
             for (var i = 0; i < connections.length; i++) {
 
                 //  for (var i = 1; i < 2; i++) {
