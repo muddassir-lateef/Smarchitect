@@ -85,10 +85,10 @@ export async function GetMapConnections(mapId) {
   return response;
 }
 
-export async function GenerateMap(connectors, w, h) {
+export async function GenerateMap(connectors, w, h, kitchen_p, living_p, drawing_p, car_p, bath_p, bed_p,gar_p, kitchen_per, living_per, drawing_per, car_per, bath_per, bed_per, gar_per) {
   let tempURL = URL + "GenerateFloorPlan";
   console.log(tempURL);
   console.log("Connectors: ", connectors)
-  const response = await axios.patch(tempURL, {connectors, w, h});
+  const response = await axios.patch(tempURL, {connectors, w, h, kitchen_p, living_p, drawing_p, car_p, bath_p, bed_p, gar_p, kitchen_per, living_per, drawing_per, car_per, bath_per, bed_per, gar_per});
   return response;
 }
