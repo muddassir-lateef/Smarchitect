@@ -709,15 +709,37 @@ def GA_driver(connects, width, height):
 
     generations = 200
     pop_size = 10
-    top=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
-
+    
+    
+    top1=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
+    top2=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
+    top3=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
+    top4=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
+    top5=GA(pop_size, generations, len(Roms), len(alltree)-1,inputG,alltree)
+    
 
     jsonn = []
     rooms=[]
-    for i in range(5):
-        jsn,rm=geneToJsonMap(inputG,top[i][0],alltree,Roms)
-        jsonn.append(jsn)
-        rooms.append(rm)
+   # for i in range(5):
+    jsn,rm=geneToJsonMap(inputG,top1[0][0],alltree,Roms)
+    jsonn.append(jsn)
+    rooms.append(rm)
+    
+    jsn,rm=geneToJsonMap(inputG,top2[0][0],alltree,Roms)
+    jsonn.append(jsn)
+    rooms.append(rm)
+    
+    jsn,rm=geneToJsonMap(inputG,top3[0][0],alltree,Roms)
+    jsonn.append(jsn)
+    rooms.append(rm)
+    
+    jsn,rm=geneToJsonMap(inputG,top4[0][0],alltree,Roms)
+    jsonn.append(jsn)
+    rooms.append(rm)
+    
+    jsn,rm=geneToJsonMap(inputG,top5[0][0],alltree,Roms)
+    jsonn.append(jsn)
+    rooms.append(rm)
     print(rooms)
     return {"maps":jsonn ,"room":rooms}
 
