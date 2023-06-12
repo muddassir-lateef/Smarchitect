@@ -168,8 +168,8 @@ def GenerateFloorPlan(request):
         bath_p = req['bath_p']
         bed_p = req['bed_p']
         gar_p = req['gar_p']
-        kitchen_per = req['kitchen_per']
-        living_per = req['living_per']
+        kitchen_per = req['living_per']
+        living_per = req['kitchen_per']
         drawing_per = req['drawing_per']
         car_per = req['car_per']
         bath_per = req['bath_per']
@@ -178,8 +178,8 @@ def GenerateFloorPlan(request):
         #print("REQ: {}".format(graphEdges))
         #print("W: {}".format(width))
         #print("H: {}".format(height))
-        print("K: {}".format(kitchen_p))
-        print("L: {}".format(living_p))
+        print("K: {}".format(kitchen_per))
+        print("L: {}".format(living_per))
         print("D: {}".format(drawing_p))
         print("Ba: {}".format(bath_p))
         print("Be: {}".format(bed_p))
