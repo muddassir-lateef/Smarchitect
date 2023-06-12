@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Grid, Button } from '@mui/material';
+import { Grid, Button, Typography, Modal, Box, Backdrop, Fade, TextField, Input } from '@mui/material';
 import { Stage, Layer } from 'react-konva';
 import { generateTarget, drawNodes, updateObjects, makeConnection } from '../util/map_graph_util';
 import { UpdateUser } from '../services/apiServices';
@@ -19,9 +19,28 @@ const GenerateNewMap = () => {
     const [nodes, setNodes] = useState([])    //list with max size 2
     const [submitClicked, setSubmitClicked] = useState(false)
     const auth = useContext(AuthContext)
+    const [open,setOpen] = useState(false)
     const nav = useNavigate();
     const dbContext = useContext(DrawingBoardContext);
+
     const [plotDim, setPlotDim] = useState({x:100, y:100})
+    const [kp, setKp] = useState(0.6)
+    const [lp, setLp] = useState(0.8)
+    const [bedp, setBedp] = useState(0.8)
+    const [bathp, setBathp] = useState(0.7)
+    const [cp, setCp] = useState(0.5)
+    const [gp, setGp] = useState(0.3)
+    const [dp, setDp] = useState(0.8)
+
+    const [kper, setKper] = useState(10)
+    const [lper, setLper] = useState(40)
+    const [bedper, setBedper] = useState(15)
+    const [bathper, setBathper] = useState(5)
+    const [cper, setCper] = useState(30)
+    const [gper, setGper] = useState(10)
+    const [dper, setDper] = useState(10)
+
+    
     const setSelectedNode = (newNode) => {
         setNodes(prevState => [...prevState, newNode]);
         /*  console.log("Node clicked, before update: ", nodes)
@@ -91,7 +110,12 @@ const GenerateNewMap = () => {
                 layerRef.current.findOne('#' + targets[i].id).shadowColor('black')
         }
     }
-
+    const handleClose = () => {
+        setOpen(false)
+    }
+    const handleOpen = () => {
+        setOpen(true)
+    }
 
     useEffect(() => {
         console.log("NODES SET: ", nodes)
@@ -188,8 +212,8 @@ const GenerateNewMap = () => {
     }
 
     const generateBtnClicked = () => {
-        console.log("Hello")
-        GenerateMap(connectors, plotDim.x, plotDim.y).then((res) => {
+        console.log(kp,gp,lp)
+        GenerateMap(connectors, plotDim.x, plotDim.y, lp, kp, bedp, bathp, cp, gp, dp, lper, kper, bedper, bathper, cper, gper, dper).then((res) => {
             console.log("Generated Map: ", res.data)
             auth.setSelectedMap(res.data.maps)
             auth.setSelectedRooms(res.data.room)
@@ -201,10 +225,197 @@ const GenerateNewMap = () => {
     useEffect(()=>{
         dbContext.setShowPagination(false)  //setting pagination to false on load 
     }, [])
-
+    const style = {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 600,
+        bgcolor: "background.paper",
+        border: "2px solid #000",
+        boxShadow: 24,
+        p: 4,
+      };
+      
     return (
         <Grid container sx={{ pt: 5 }}>
             {/*<Grid item xs={12}><Button sx={{w:'100%'}} variant="contained"  onClick={handleNewNodeClick}>Add Node</Button></Grid>*/}
+            <Grid item xs={11}>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <Box sx={style}>
+                <Grid container xs = { 12 }>
+                    <Grid item xs = { 6 }>
+  
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+                sx={{mb:2}}
+              >
+                Enter the Propotions
+              </Typography>
+              <TextField sx = {{
+                pb : 2
+              }}
+          id="outlined-helperText"
+          label="Livingroom Proportions"
+          defaultValue={lp}
+          onChange = {(event) => {setLp(event.target.value)}}
+        />
+              <TextField sx = {{
+                pb : 2
+              }}
+          id="outlined-helperText"
+          label="Kitchen Proportions"
+          defaultValue={kp}
+          onChange = {(event) => {setKp(event.target.value)}}
+        
+                />
+        <TextField sx = {{
+                pb : 2
+              }}
+          id="outlined-helperText"
+          label="Bedroom Proportions"
+          defaultValue={bedp}
+          onChange = {(event) => {setBedp(event.target.value)}}
+        />
+        <TextField sx = {{
+                pb : 2
+              }}
+          id="outlined-helperText"
+          label="Bathroom Proportions"
+          defaultValue={bathp}
+          onChange = {(event) => {setBathp(event.target.value)}}
+        />
+        <TextField sx = {{
+                pb : 2
+              }}
+          id="outlined-helperText"
+          label="Carpoarch Proportion"
+          defaultValue={cp}
+          onChange = {(event) => {setCp(event.target.value)}}
+        />
+        <TextField sx = {{
+                pb : 2
+              }}
+          id="outlined-helperText"
+          label="Garden Proportion"
+          defaultValue={gp}
+          onChange = {(event) => {setGp(event.target.value)}}
+        />
+        <TextField sx = {{
+                pb : 2
+              }}
+          id="outlined-helperText"
+          label="Drawing Room Proportion"
+          defaultValue={dp}
+          onChange = {(event) => {setDp(event.target.value)}}
+        />
+                              
+                              </Grid>
+                              <Grid item xs = { 6 }>
+  
+  <Typography
+    id="transition-modal-title"
+    variant="h6"
+    component="h2"
+    sx={{mb:2}}
+  >
+    Enter the Percentages
+  </Typography>
+  <TextField sx = {{
+    pb : 2
+  }}
+id="outlined-helperText"
+label="Livingroom Percentages"
+defaultValue={lper}
+onChange = {(event) => {setLper(event.target.value)}}
+/>
+  <TextField sx = {{
+    pb : 2
+  }}
+id="outlined-helperText"
+label="Kitchen Percentages"
+defaultValue={kper}
+onChange = {(event) => {setKper(event.target.value)}}
+
+/>
+<TextField sx = {{
+    pb : 2
+  }}
+id="outlined-helperText"
+label="Bedroom Percentages"
+defaultValue={bedper}
+onChange = {(event) => {setBedper(event.target.value)}}
+/>
+<TextField sx = {{
+    pb : 2
+  }}
+id="outlined-helperText"
+label="Bathroom Percentages"
+defaultValue={bathper}
+onChange = {(event) => {setBathper(event.target.value)}}
+
+/>
+<TextField sx = {{
+    pb : 2
+  }}
+id="outlined-helperText"
+label="Carpoarch Percentages"
+defaultValue={cper}
+onChange = {(event) => {setCper(event.target.value)}}
+
+/>
+<TextField sx = {{
+    pb : 2
+  }}
+id="outlined-helperText"
+label="Garden Percentages"
+defaultValue={gper}
+onChange = {(event) => {setGper(event.target.value)}}
+
+/>
+<TextField sx = {{
+    pb : 2
+  }}
+id="outlined-helperText"
+label="Drawing Room Percentages"
+defaultValue={dper}
+onChange = {(event) => {setDper(event.target.value)}}
+/>
+                  
+                  </Grid>
+        </Grid>
+              <Box sx={{ width:'100%', display: 'flex', justifyContent: 'space-between' }}>
+                <Button
+                variant="outlined" color="error"
+                  onClick={handleClose}
+                  
+                >
+                  Go Back
+                </Button>
+                <Button variant="contained"
+                  component="label"
+                  sx={{mr:3}}
+                  onClick= { generateBtnClicked} >
+                  Generate
+                </Button>
+              </Box>
+            </Box>
+          </Fade>
+        </Modal>
+      </Grid>
             <Grid item xs={4} sx={{}}><ConstraintsForm submitClicked={submitClicked} onSubmit={onSubmitFormHandler}></ConstraintsForm></Grid>
             <Grid item xs={4} sx={{ pb: 1 }}>
                 <Stage
@@ -226,7 +437,7 @@ const GenerateNewMap = () => {
                     <Button
                         variant="contained"
                         size="large"
-                        onClick={generateBtnClicked}
+                        onClick={handleOpen}
                         justifyContent="flex-end"
                         sx={{
                             mt: 3,
