@@ -60,7 +60,7 @@ export const DrawingBoard = () => {
 
     }
     const parseConnection = (connection) => {
-        console.log(connection)
+
 
         let str = "";
         for (let key in connection) {
@@ -84,13 +84,20 @@ export const DrawingBoard = () => {
         codeUrl: "assets/UnityBuild/MapGen3d.wasm.unityweb",
     });
     useEffect(() => {
+
+        console.log(labels)
+        var labelled = false
+        if (labels.length > 0  && "x1" in labels[0]) {
+            labelled = true
+        }
+
         if (modalOpen == true && connections.length > 0 && isLoaded) {
             var floor = ""
             floor += parseInt(dbContext.mapDim.w)
             floor += ","
             floor += parseInt(dbContext.mapDim.h)
             setTimeout(sendMessage("MapGenerator", "GenerateFloorP", floor, 3000));
-            console.log(labels)
+
             for (var i = 0; i < connections.length; i++) {
 
                 //  for (var i = 1; i < 2; i++) {
@@ -99,6 +106,17 @@ export const DrawingBoard = () => {
                     ;
 
             }
+            if (labelled) {
+                for (var i = 0; i < labels.length; i++) {
+                    //  for (var i = 1; i < 2; i++) {
+
+                    console.log("GeneratePropsP(\"",parseConnection(labels[i]),"\")")
+                        setTimeout(sendMessage("MapGenerator", "GeneratePropsP", parseConnection(labels[i])), 3000)
+                        ;
+
+                }
+            }
+
         }
         // This function will run when the component mounts
         console.log('Component mounted');
@@ -117,7 +135,7 @@ export const DrawingBoard = () => {
 
     return (
         <Grid sx={{ display: 'flex', pt: 4, pl: 1 }}  >
-                <DrawingToolBox />
+            <DrawingToolBox />
 
             <Grid item sx={{ padding: 2 }}>
                 {dbContext.showPagination &&
@@ -126,24 +144,24 @@ export const DrawingBoard = () => {
                         <Pagination page={page} onChange={handleChange} count={5} shape="rounded" size='large' xs={12} />
                     </Stack>
                 }
-                    <DrawingCanvas
-                        testBtn={testBtn}
-                        mapToDraw={page - 1}
-                        testBtn2={testBtn2}
-                        mapName={mapName}
-                        enable3D={enable3D}
-                        selectedItemCoordinates={selectedItemCoordinates}
-                        setSelectedItemCoordinates={setSelectedItemCoordinates}
-                        scale={scale}
-                        exportData={exportData}
-                        setExportData={setExportData}
-                        ImageObjects={ImageObjects}
-                        setImageObjects={setImageObjects}
-                        newId={newId}
-                        setNewId={setNewId}
-                        setCons={setConnections}
-                        setLabs={setLabels}
-                    />
+                <DrawingCanvas
+                    testBtn={testBtn}
+                    mapToDraw={page - 1}
+                    testBtn2={testBtn2}
+                    mapName={mapName}
+                    enable3D={enable3D}
+                    selectedItemCoordinates={selectedItemCoordinates}
+                    setSelectedItemCoordinates={setSelectedItemCoordinates}
+                    scale={scale}
+                    exportData={exportData}
+                    setExportData={setExportData}
+                    ImageObjects={ImageObjects}
+                    setImageObjects={setImageObjects}
+                    newId={newId}
+                    setNewId={setNewId}
+                    setCons={setConnections}
+                    setLabs={setLabels}
+                />
             </Grid>
             <AttributeWindow
                 disable3D={disable3D}
