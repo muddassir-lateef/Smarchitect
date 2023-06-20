@@ -165,6 +165,7 @@ The above tools and utilites together allow to modify the map seamlessly.
 To visualize the floor plan in unity , just click on the  "Visualize in 3D" button.
 You can then rotate the floor plan  by dragging mouse on the unity window. Clicking otuside the window closes the 3D visualization.
 ![3D](https://github.com/muddassir-lateef/Smarchitect/assets/41304748/fbe30357-ee3a-4206-a55d-9421e64215b0)
+
 This gif is smaller in dimensions due to size limitations.
 
 ## Storage and Retrieval of Floor plan
